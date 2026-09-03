@@ -134,10 +134,6 @@ body {
 
     padding: 10px 8px 12px;
 
-    /*
-       保留真正的水平滑軸
-       不再 scrollbar-width:none
-    */
     scrollbar-width: thin;
     scrollbar-color: #9aa0a6 #e5e7eb;
 
@@ -145,8 +141,6 @@ body {
 
     white-space: nowrap;
 }
-
-/* Chrome / Edge / Safari */
 
 .tabs::-webkit-scrollbar {
     height: 7px;
@@ -788,7 +782,8 @@ body {
 
     <div class="route">
         Taiwan → Manchester → Edinburgh → Highlands → Skye
-        → Edinburgh → Manchester → Belfast → Dublin
+        → Loch Ness → Glasgow → Manchester Airport
+        → Nottingham → Manchester Airport → Belfast → Dublin
         → Doha → Bangkok → Taipei
     </div>
 
@@ -824,10 +819,19 @@ body {
     <div class="route-city">🏔️ Skye</div>
     <div class="arrow">→</div>
 
-    <div class="route-city">🇬🇧 Edinburgh</div>
+    <div class="route-city">🌊 Loch Ness</div>
     <div class="arrow">→</div>
 
-    <div class="route-city">🇬🇧 Manchester</div>
+    <div class="route-city">🏙️ Glasgow</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">✈️ Manchester Airport</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">⚽ Nottingham</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🇬🇧 Manchester Airport</div>
     <div class="arrow">→</div>
 
     <div class="route-city">🇬🇧 Belfast</div>
@@ -1093,19 +1097,19 @@ body {
 
 <tr>
 <td>10/17</td>
-<td>Skye</td>
-<td>🏔️ Skye 自駕</td>
+<td>Skye → Loch Ness → Glasgow</td>
+<td>🏔️ Highlands 自駕</td>
 </tr>
 
 <tr>
 <td>10/18</td>
-<td>Skye → Edinburgh</td>
-<td>🚗 回 Edinburgh＋還車</td>
+<td>Glasgow → Manchester Airport → Nottingham → Manchester Airport</td>
+<td>⚽ 足球賽</td>
 </tr>
 
 <tr>
 <td>10/19</td>
-<td>Edinburgh → Manchester → Belfast</td>
+<td>Manchester Airport → Belfast</td>
 <td>✈️ U290</td>
 </tr>
 
@@ -1191,13 +1195,19 @@ body {
     </li>
 
     <li>
-        ⚽ Arsenal vs Lille：
-        <b>有票才執行 London 快閃</b>
+        🏔️ 10/17：
+        <b>Skye → Loch Ness → Glasgow</b>
+    </li>
+
+    <li>
+        ⚽ 10/18：
+        <b>Glasgow → Manchester Airport → Nottingham 足球賽
+        → Manchester Airport 住宿</b>
     </li>
 
     <li>
         ✈️ 10/19：
-        Edinburgh 回 Manchester 後搭 U290 前往 Belfast
+        <b>Manchester Airport → Belfast</b>
     </li>
 
 </ul>
@@ -1857,25 +1867,6 @@ body {
     後面 Highlands＋Skye 已有大量自然景觀，不是必排。
 </div>
 
-
-<div class="card">
-
-<h3>⚽ London 快閃備案</h3>
-
-<div class="note note-blue">
-
-    如果 Arsenal vs Lille 票券確定且價格可接受：
-
-    <br><br>
-
-    Edinburgh → London
-    → 20:00 Arsenal 比賽
-    → 10/14 早班機回 Edinburgh
-
-</div>
-
-</div>
-
 </section>
 
 
@@ -2040,10 +2031,10 @@ body {
 
     <div class="date">10/17（六）</div>
 
-    <h2>🏔️ Skye</h2>
+    <h2>🏔️ Skye → Loch Ness → Glasgow</h2>
 
     <div class="route">
-        Skye 自駕 Day 2
+        Highlands Road Trip Day 4
     </div>
 
 </div>
@@ -2053,11 +2044,84 @@ body {
 
 <h3>🚗 行程</h3>
 
-<ul>
-    <li>Skye 自駕</li>
-    <li>景點待細排</li>
-    <li>最後一晚 Skye</li>
-</ul>
+<div class="timeline">
+
+<div class="timeline-item">
+
+    <div class="time">上午</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Skye 出發
+        </div>
+        <div class="event-detail">
+            開始離開 Isle of Skye，往東行駛
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">下午</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Loch Ness
+        </div>
+        <div class="event-detail">
+            沿途停留 Loch Ness／Urquhart Castle 一帶
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">傍晚</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Loch Ness → Glasgow
+        </div>
+        <div class="event-detail">
+            繼續南下前往 Glasgow
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Glasgow 住宿
+        </div>
+        <div class="event-detail">
+            Highlands 自駕進入最後階段
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="note note-yellow">
+
+    🟡 這天車程較長，重點是順利從 Skye 移動到 Glasgow；
+    Loch Ness 以沿途停留為主，不宜排太滿。
 
 </div>
 
@@ -2074,10 +2138,10 @@ body {
 
     <div class="date">10/18（日）</div>
 
-    <h2>🚗 Skye → Edinburgh</h2>
+    <h2>⚽ Glasgow → Manchester Airport → Nottingham</h2>
 
     <div class="route">
-        Highlands Road Trip 結束
+        足球賽日 × Manchester Airport 住宿
     </div>
 
 </div>
@@ -2085,27 +2149,93 @@ body {
 
 <div class="card">
 
-<h3>🚗 行程</h3>
+<h3>🚗＋🚆 行程</h3>
 
-<ul>
+<div class="timeline">
 
-    <li>Skye 出發</li>
+<div class="timeline-item">
 
-    <li>返回 Edinburgh</li>
+    <div class="time">上午</div>
+    <div class="timeline-dot"></div>
 
-    <li>
-        <b>歸還租車</b>
-        <span class="badge pending">待確認</span>
-    </li>
+    <div class="event">
+        <div class="event-title">
+            Glasgow 出發
+        </div>
+        <div class="event-detail">
+            前往 Manchester Airport
+        </div>
+    </div>
 
-    <li>Edinburgh 住宿</li>
-
-</ul>
+</div>
 
 
-<div class="note note-yellow">
+<div class="timeline-item">
 
-    🟡 是否改在 Glasgow 還車待確認。
+    <div class="time">中午</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Manchester Airport
+        </div>
+        <div class="event-detail">
+            放行李／入住機場飯店
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">下午</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Manchester Airport → Nottingham
+        </div>
+        <div class="event-detail">
+            搭火車前往 Nottingham 看足球賽
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            ⚽ Nottingham 足球賽
+        </div>
+        <div class="event-detail">
+            比賽結束後返回 Manchester Airport
+        </div>
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">深夜</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+        <div class="event-title">
+            Manchester Airport 住宿
+        </div>
+        <div class="event-detail">
+            隔天直接前往航廈搭乘 U290
+        </div>
+    </div>
+
+</div>
 
 </div>
 
@@ -2114,10 +2244,23 @@ body {
 
 <div class="note note-red">
 
-    ⚠️ 重要：
-    隔天 10/19 早上 08:40 要從 Manchester 飛 Belfast，
-    因此 10/18 晚上回 Edinburgh 後，
-    必須確保 10/19 一早能順利到 MAN。
+    ⚠️ <b>這天是整趟行程中最硬的一天之一。</b><br><br>
+
+    Glasgow → Manchester Airport → Nottingham 足球賽
+    → Manchester Airport 住宿。<br><br>
+
+    隔天 10/19 08:40 還有 U290，
+    因此比賽結束後務必預留足夠時間返回 MAN。
+
+</div>
+
+
+<div class="note note-blue">
+
+    🧳 <b>重點：</b>
+    10/18 先把大行李放在 Manchester Airport 飯店，
+    去 Nottingham 看完球再回機場住宿，
+    避免隔天一早從市區趕機場。
 
 </div>
 
@@ -2134,7 +2277,7 @@ body {
 
     <div class="date">10/19（一）</div>
 
-    <h2>✈️ Edinburgh → Manchester → Belfast</h2>
+    <h2>✈️ Manchester Airport → Belfast</h2>
 
     <div class="route">
         早班機前往 Northern Ireland
@@ -2188,12 +2331,12 @@ body {
     <div class="event">
 
         <div class="event-title">
-            Edinburgh → Manchester
-            <span class="badge warning">需早起</span>
+            Manchester Airport
+            <span class="badge confirmed">機場住宿</span>
         </div>
 
         <div class="event-detail">
-            目標：抵達 MAN 搭乘 08:40 航班
+            從機場飯店直接前往航廈
         </div>
 
     </div>
@@ -2273,10 +2416,10 @@ body {
 </div>
 
 
-<div class="note note-red">
+<div class="note note-green">
 
-    ⚠️ 這天真正的關鍵不是 Edinburgh → Belfast，
-    而是要先想辦法從 Edinburgh 在早上抵達 Manchester Airport。
+    🛏️ 10/18 已住在 Manchester Airport，
+    因此 10/19 早上不需要從 Edinburgh 趕往 MAN。
 
 </div>
 
@@ -2722,10 +2865,6 @@ body {
 
 function showTab(id, button) {
 
-    /*
-       隱藏所有內容
-    */
-
     const contents =
         document.querySelectorAll(".tab-content");
 
@@ -2733,10 +2872,6 @@ function showTab(id, button) {
         content.classList.remove("active");
     });
 
-
-    /*
-       移除所有 active tab
-    */
 
     const tabs =
         document.querySelectorAll(".tab");
@@ -2746,10 +2881,6 @@ function showTab(id, button) {
     });
 
 
-    /*
-       顯示指定內容
-    */
-
     const target =
         document.getElementById(id);
 
@@ -2758,16 +2889,8 @@ function showTab(id, button) {
     }
 
 
-    /*
-       設定目前 tab
-    */
-
     button.classList.add("active");
 
-
-    /*
-       自動把目前 tab 滾到可視範圍
-    */
 
     button.scrollIntoView({
         behavior: "smooth",
@@ -2775,10 +2898,6 @@ function showTab(id, button) {
         inline: "center"
     });
 
-
-    /*
-       回到頁面內容上方
-    */
 
     window.scrollTo({
         top: 0,
@@ -2840,8 +2959,7 @@ document.addEventListener("keydown", function(event) {
 
 
 /* ==================================================
-   滑鼠 Shift + 滾輪
-   可以直接左右滑日期 Tab
+   滑鼠滾輪左右滑日期 Tab
 ================================================== */
 
 const tabsContainer =
