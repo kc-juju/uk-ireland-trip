@@ -1,160 +1,1554 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2026 英國／愛爾蘭蜜月行程</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2026 英國・愛爾蘭蜜月</title>
+
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;line-height:1.65;max-width:1100px;margin:auto;padding:24px;background:#f5f6f8;color:#222}
-h1{margin-bottom:4px} h2{margin-top:32px;border-bottom:2px solid #ddd;padding-bottom:6px}
-.card{background:white;border-radius:14px;padding:18px 22px;margin:14px 0;box-shadow:0 2px 10px #0000000d}
-.date{font-weight:700;font-size:1.1em}.tag{display:inline-block;padding:2px 9px;border-radius:999px;background:#eee;margin-left:8px;font-size:.85em}
-table{width:100%;border-collapse:collapse;background:white}.small{font-size:.92em;color:#666}
-th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}th{background:#f0f1f3}
-ul{margin-top:6px}.must{font-weight:700}
-@media(max-width:700px){body{padding:12px}table{font-size:.9em}}
+:root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #202124;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #263238;
+    --accent-light: #eceff1;
+    --green: #2e7d32;
+    --yellow: #a16207;
+    --red: #b91c1c;
+    --blue: #1565c0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+    line-height: 1.65;
+}
+
+/* =========================
+   Header
+========================= */
+
+.hero {
+    background: linear-gradient(135deg, #263238, #455a64);
+    color: white;
+    padding: 42px 20px 36px;
+}
+
+.hero-inner {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 1px;
+}
+
+.hero p {
+    margin: 8px 0 0;
+    opacity: .82;
+}
+
+.trip-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.summary-pill {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: .9rem;
+}
+
+/* =========================
+   Main
+========================= */
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px 16px 60px;
+}
+
+/* =========================
+   Tabs
+========================= */
+
+.tabs-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(244,245,247,.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.tabs {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    overflow-x: auto;
+    gap: 7px;
+    padding: 10px 4px;
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 0 0 auto;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 13px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .9rem;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.tab:hover {
+    background: var(--accent-light);
+}
+
+.tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* =========================
+   Tab Content
+========================= */
+
+.tab-content {
+    display: none;
+    animation: fade .25s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   Day Header
+========================= */
+
+.day-header {
+    margin: 25px 0 18px;
+}
+
+.day-header .date {
+    font-size: .95rem;
+    color: var(--muted);
+}
+
+.day-header h2 {
+    margin: 3px 0;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.day-header .route {
+    color: var(--muted);
+}
+
+/* =========================
+   Cards
+========================= */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 3px 12px rgba(0,0,0,.04);
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 15px;
+}
+
+@media (max-width: 700px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   Timeline
+========================= */
+
+.timeline {
+    position: relative;
+    margin-top: 10px;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 74px;
+    top: 26px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+.time {
+    font-weight: 700;
+    color: var(--accent);
+    text-align: right;
+    padding-top: 2px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 69px;
+    top: 7px;
+    width: 11px;
+    height: 11px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+.event {
+    padding-left: 10px;
+}
+
+.event-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.event-detail {
+    color: var(--muted);
+    font-size: .93rem;
+}
+
+/* =========================
+   Status
+========================= */
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: .78rem;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.confirmed {
+    background: #e8f5e9;
+    color: var(--green);
+}
+
+.pending {
+    background: #fff8e1;
+    color: var(--yellow);
+}
+
+.alt {
+    background: #e3f2fd;
+    color: var(--blue);
+}
+
+.warning {
+    background: #ffebee;
+    color: var(--red);
+}
+
+/* =========================
+   Notes
+========================= */
+
+.note {
+    border-radius: 12px;
+    padding: 13px 15px;
+    margin-top: 13px;
+    font-size: .94rem;
+}
+
+.note-yellow {
+    background: #fff8e1;
+    border-left: 4px solid #eab308;
+}
+
+.note-blue {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.note-green {
+    background: #e8f5e9;
+    border-left: 4px solid #43a047;
+}
+
+.note-red {
+    background: #ffebee;
+    border-left: 4px solid #e53935;
+}
+
+/* =========================
+   Overview
+========================= */
+
+.overview-route {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.route-city {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 13px;
+    font-weight: 600;
+}
+
+.arrow {
+    color: var(--muted);
+}
+
+.overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.overview-table th,
+.overview-table td {
+    padding: 11px 13px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.overview-table th {
+    background: #eef0f2;
+}
+
+.overview-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================
+   Footer
+========================= */
+
+.footer {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 45px;
+    font-size: .85rem;
+}
+
+/* =========================
+   Mobile Timeline
+========================= */
+
+@media (max-width: 600px) {
+
+    .hero {
+        padding: 30px 16px;
+    }
+
+    .container {
+        padding: 14px 10px 50px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 13px;
+    }
+
+    .timeline-item {
+        grid-template-columns: 65px 1fr;
+    }
+
+    .timeline-item::before {
+        left: 60px;
+    }
+
+    .timeline-dot {
+        left: 55px;
+    }
+
+    .time {
+        font-size: .88rem;
+    }
+
+    .overview-table {
+        font-size: .88rem;
+    }
+
+    .overview-table th,
+    .overview-table td {
+        padding: 9px;
+    }
+}
 </style>
 </head>
+
+
 <body>
-<h1>🇬🇧🇮🇪 2026 英國／愛爾蘭蜜月行程</h1>
-<p class="small">Football × Scottish Highlands 自駕 × 蜜月慢旅｜目前版本：2026/09/03</p>
 
-<h2>一、總行程</h2>
-<div class="card"><div class="date">10/09（五）｜台北 → 首爾 → 多哈</div>
-EVA Air 07:30 台北 → 11:00 首爾；18:30 首爾 → 23:00 多哈。</div>
+<!-- =========================
+     HERO
+========================= -->
 
-<div class="card"><div class="date">10/10（六）｜Manchester</div>
-08:00 多哈 → 約 13:20 Manchester。約 15:00 入住。下午優先 John Rylands Library，之後 Deansgate／Manchester Cathedral／Castlefield，晚餐後自由活動。
+<header class="hero">
+<div class="hero-inner">
+
+    <h1>🇬🇧🇮🇪 2026 英國・愛爾蘭蜜月</h1>
+
+    <p>
+        Football × Scottish Highlands 自駕 × Honeymoon Slow Travel
+    </p>
+
+    <div class="trip-summary">
+        <div class="summary-pill">📅 10/09 – 10/23</div>
+        <div class="summary-pill">🏙️ Manchester</div>
+        <div class="summary-pill">🏰 Edinburgh</div>
+        <div class="summary-pill">🏔️ Highlands × Skye</div>
+        <div class="summary-pill">☘️ Belfast × Dublin</div>
+    </div>
+
+</div>
+</header>
+
+
+<!-- =========================
+     TABS
+========================= -->
+
+<div class="tabs-wrapper">
+<div class="tabs">
+
+    <button class="tab active" onclick="showTab('overview', this)">
+        🗺️ 總覽
+    </button>
+
+    <button class="tab" onclick="showTab('1009', this)">10/09</button>
+    <button class="tab" onclick="showTab('1010', this)">10/10</button>
+    <button class="tab" onclick="showTab('1011', this)">10/11</button>
+    <button class="tab" onclick="showTab('1012', this)">10/12</button>
+    <button class="tab" onclick="showTab('1013', this)">10/13</button>
+    <button class="tab" onclick="showTab('1014', this)">10/14</button>
+    <button class="tab" onclick="showTab('1015', this)">10/15</button>
+    <button class="tab" onclick="showTab('1016', this)">10/16</button>
+    <button class="tab" onclick="showTab('1017', this)">10/17</button>
+    <button class="tab" onclick="showTab('1018', this)">10/18</button>
+    <button class="tab" onclick="showTab('1019', this)">10/19</button>
+    <button class="tab" onclick="showTab('1020', this)">10/20</button>
+    <button class="tab" onclick="showTab('1021', this)">10/21</button>
+    <button class="tab" onclick="showTab('1022', this)">10/22</button>
+    <button class="tab" onclick="showTab('1023', this)">10/23</button>
+
+</div>
 </div>
 
-<div class="card"><div class="date">10/11（日）｜Manchester</div>
-Manchester 完整一天。<b>Etihad Stadium 與 Old Trafford 擇一</b>參觀，尚未決定。
+
+<main class="container">
+
+
+<!-- ==================================================
+     OVERVIEW
+================================================== -->
+
+<section id="overview" class="tab-content active">
+
+<div class="day-header">
+    <div class="date">2026/10/09 → 2026/10/23</div>
+    <h2>🗺️ 整趟行程</h2>
+    <div class="route">
+        Taiwan → Manchester → Edinburgh → Highlands → Skye
+        → Belfast → Dublin → Asia
+    </div>
 </div>
 
-<div class="card"><div class="date">10/12（一）｜Manchester → Edinburgh</div>
-搭火車前往 Edinburgh。入住／放行李後，<b>下午優先 Palace of Holyroodhouse</b>；晚上 Royal Mile／Old Town。
-</div>
 
-<div class="card"><div class="date">10/13（二）｜Edinburgh</div>
-Edinburgh 完整市區觀光：Edinburgh Castle、Royal Mile、St Giles、Victoria Street、National Museum、Grassmarket、Greyfriars、Princes Street／New Town、Calton Hill。
-<br><br><b>備案：</b>如果 Arsenal vs Lille 的票券確定，改為 Edinburgh → London → 20:00 比賽 → 10/14 早班機回 Edinburgh。
-</div>
-
-<div class="card"><div class="date">10/14（三）｜Edinburgh → Fort William</div>
-取租車，正式開始 Scottish Highlands 自駕。
-</div>
-
-<div class="card"><div class="date">10/15（四）｜Fort William → Skye</div>
-前往 Isle of Skye，入住已訂住宿。
-</div>
-
-<div class="card"><div class="date">10/16（五）｜Skye</div>Skye 自駕觀光。</div>
-<div class="card"><div class="date">10/17（六）｜Skye</div>Skye 自駕觀光。</div>
-
-<div class="card"><div class="date">10/18（日）｜Skye → Edinburgh</div>
-返回 Edinburgh，歸還租車；是否改在 Glasgow 還車待確認。
-</div>
-
-<div class="card"><div class="date">10/19（一）｜Edinburgh → Belfast</div>
-前往 Belfast；安排 Titanic Belfast。
-</div>
-
-<div class="card"><div class="date">10/20（二）｜Belfast → Giant’s Causeway → Dublin</div>
-Giant’s Causeway，晚上前往 Dublin。
-</div>
-
-<div class="card"><div class="date">10/21（三）｜Dublin</div>Dublin 市區觀光。</div>
-<div class="card"><div class="date">10/22（四）｜Dublin</div>Dublin 市區觀光／自由活動。</div>
-<div class="card"><div class="date">10/23（五）｜Dublin → 亞洲</div>返程。</div>
-
-<h2>二、Manchester</h2>
 <div class="card">
-<ul>
-<li>住宿目前考慮：ibis Manchester Centre Princess Street。</li>
-<li>市中心以<b>步行＋Metrolink</b>為主，contactless 最方便。</li>
-<li>10/10：John Rylands Library → Deansgate／Manchester Cathedral → Castlefield → 晚餐。</li>
-<li>10/11：Etihad Stadium / Old Trafford 擇一。</li>
-<li>Manchester → Edinburgh：目前選擇搭火車，不為小額差價增加長途開車。</li>
-<li><b>10/10 不安排觀看 Manchester United 比賽。</b></li>
-</ul>
+
+<h3>🧭 路線</h3>
+
+<div class="overview-route">
+
+    <div class="route-city">🇹🇼 台北</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🇬🇧 Manchester</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🏰 Edinburgh</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🏔️ Fort William</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🏔️ Skye</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🇬🇧 Edinburgh</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">🇬🇧 Belfast</div>
+    <div class="arrow">→</div>
+
+    <div class="route-city">☘️ Dublin</div>
+
 </div>
 
-<h2>三、Edinburgh 粗排</h2>
+</div>
+
+
 <div class="card">
-<h3>10/12（一）｜抵達＋Holyrood</h3>
-<ul>
-<li>Manchester → Edinburgh 火車</li>
-<li>入住／放行李</li>
-<li class="must">下午：Palace of Holyroodhouse（約 1.5–2 小時）</li>
-<li>Holyrood → Royal Mile，沿路逛 Old Town</li>
-<li>晚餐＋Victoria Street／Grassmarket</li>
-</ul>
-</div>
 
-<div class="card">
-<h3>10/13（二）｜Edinburgh 主力日</h3>
-<ul>
-<li>09:30 左右：Edinburgh Castle（約 2–2.5 小時）</li>
-<li>Royal Mile → St Giles' Cathedral</li>
-<li>午餐</li>
-<li>Victoria Street → Grassmarket → Greyfriars</li>
-<li>National Museum of Scotland（約 60–90 分鐘）</li>
-<li>Princes Street／New Town</li>
-<li>Calton Hill（約 45–60 分鐘）</li>
-<li>Arthur's Seat：非必要，視體力決定</li>
-</ul>
-<p>以上主要路線高度集中，原則上以步行為主，不需要特別搭車。</p>
-</div>
+<h3>📋 行程摘要</h3>
 
-<h2>四、Edinburgh 門票／省錢</h2>
-<table>
-<tr><th>景點</th><th>費用</th><th>時間／注意</th><th>策略</th></tr>
-<tr><td>Edinburgh Castle</td><td>約 £23.50 網路票</td><td>約 09:30–17:00；16:00 最後入場</td><td><b>必買</b></td></tr>
-<tr><td>Palace of Holyroodhouse</td><td>約 £20+</td><td>10/12 可去；10/13 週二休館</td><td><b>推薦</b></td></tr>
-<tr><td>National Museum of Scotland</td><td>免費</td><td>約 10:00–17:00</td><td>逛 60–90 分鐘</td></tr>
-<tr><td>St Giles' Cathedral</td><td>免費／可捐款</td><td>依當日開放時間</td><td>順路進去</td></tr>
-<tr><td>Royal Mile</td><td>免費</td><td>戶外</td><td>必逛</td></tr>
-<tr><td>Victoria Street</td><td>免費</td><td>戶外</td><td>必逛</td></tr>
-<tr><td>Grassmarket</td><td>免費</td><td>戶外</td><td>順路</td></tr>
-<tr><td>Greyfriars Kirkyard</td><td>免費</td><td>戶外</td><td>順路</td></tr>
-<tr><td>Calton Hill</td><td>免費</td><td>戶外</td><td>推薦</td></tr>
-<tr><td>Arthur’s Seat</td><td>免費</td><td>戶外</td><td>看體力</td></tr>
-<tr><td>Camera Obscura</td><td>約 £25</td><td>需配合場館時間</td><td>有興趣再買</td></tr>
-<tr><td>Real Mary King’s Close</td><td>約 £25+</td><td>需配合場館時間</td><td>有興趣再買</td></tr>
-<tr><td>Scotch Whisky Experience</td><td>約 £20 起</td><td>需配合場館時間</td><td>威士忌有興趣再去</td></tr>
+<table class="overview-table">
+
+<thead>
+<tr>
+    <th>日期</th>
+    <th>地點</th>
+    <th>主題</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>10/09</td>
+<td>台北 → 首爾 → 多哈</td>
+<td>✈️ 轉機</td>
+</tr>
+
+<tr>
+<td>10/10</td>
+<td>Manchester</td>
+<td>📚 John Rylands＋市區</td>
+</tr>
+
+<tr>
+<td>10/11</td>
+<td>Manchester</td>
+<td>⚽ 球場二選一</td>
+</tr>
+
+<tr>
+<td>10/12</td>
+<td>Manchester → Edinburgh</td>
+<td>🚆 火車＋👑 Holyrood</td>
+</tr>
+
+<tr>
+<td>10/13</td>
+<td>Edinburgh</td>
+<td>🏰 Old Town 主力日</td>
+</tr>
+
+<tr>
+<td>10/14</td>
+<td>Edinburgh → Fort William</td>
+<td>🚗 Highlands 自駕開始</td>
+</tr>
+
+<tr>
+<td>10/15</td>
+<td>Fort William → Skye</td>
+<td>🏔️ 前往 Skye</td>
+</tr>
+
+<tr>
+<td>10/16</td>
+<td>Skye</td>
+<td>🏔️ Skye 自駕</td>
+</tr>
+
+<tr>
+<td>10/17</td>
+<td>Skye</td>
+<td>🏔️ Skye 自駕</td>
+</tr>
+
+<tr>
+<td>10/18</td>
+<td>Skye → Edinburgh</td>
+<td>🚗 回 Edinburgh＋還車</td>
+</tr>
+
+<tr>
+<td>10/19</td>
+<td>Edinburgh → Belfast</td>
+<td>🇬🇧 → 🇬🇧 Titanic Belfast</td>
+</tr>
+
+<tr>
+<td>10/20</td>
+<td>Belfast → Giant's Causeway → Dublin</td>
+<td>🌊 北愛海岸</td>
+</tr>
+
+<tr>
+<td>10/21</td>
+<td>Dublin</td>
+<td>☘️ Dublin</td>
+</tr>
+
+<tr>
+<td>10/22</td>
+<td>Dublin</td>
+<td>☘️ Dublin＋最後採買</td>
+</tr>
+
+<tr>
+<td>10/23</td>
+<td>Dublin → 亞洲</td>
+<td>✈️ 回程</td>
+</tr>
+
+</tbody>
 </table>
-<div class="card"><b>省錢原則：</b>目前不買 Edinburgh City Pass。主要付費景點就是 Castle + Holyrood，其餘大量使用免費景點。</div>
 
-<h2>五、Scottish Highlands 自駕</h2>
+</div>
+
+
 <div class="card">
+
+<h3>🔑 目前幾個核心決策</h3>
+
 <ul>
-<li>10/14 Edinburgh → Fort William</li>
-<li>10/15 Fort William → Skye</li>
-<li>10/16–10/17 Skye</li>
-<li>10/18 Skye → Edinburgh，歸還租車</li>
-<li>目前傾向 Edinburgh 取車；小型自排即可。</li>
+    <li>🚆 Manchester → Edinburgh：<b>搭火車</b></li>
+    <li>🚗 Highlands：<b>10/14–10/18 租車</b></li>
+    <li>🏰 Edinburgh：Castle＋Holyrood 為主要付費景點</li>
+    <li>🚶 Edinburgh 市區：主要靠走路</li>
+    <li>⚽ Manchester 球場：Etihad / Old Trafford <b>擇一</b></li>
+    <li>⚽ Arsenal vs Lille：<b>有票才執行 London 快閃</b></li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/09
+================================================== -->
+
+<section id="1009" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/09（五）</div>
+    <h2>✈️ 台北 → 首爾 → 多哈</h2>
+    <div class="route">旅行正式開始</div>
+</div>
+
+<div class="card">
+
+<h3>🕐 行程</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">07:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">台北 → 首爾</div>
+        <div class="event-detail">EVA Air</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">11:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">抵達首爾</div>
+        <div class="event-detail">等待下一段航班</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">18:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">首爾 → 多哈</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">23:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">抵達多哈</div>
+        <div class="event-detail">轉機</div>
+    </div>
+</div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/10
+================================================== -->
+
+<section id="1010" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/10（六）</div>
+    <h2>🏙️ Manchester</h2>
+    <div class="route">抵達英國的第一天</div>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>✈️ 交通</h3>
+<ul>
+<li>08:00 多哈 → Manchester</li>
+<li>13:20 左右抵達 Manchester</li>
+<li>約 15:00 入住／放行李</li>
 </ul>
 </div>
 
-<h2>六、Belfast／Dublin</h2>
 <div class="card">
-<ul>
-<li>10/19 Edinburgh → Belfast；Titanic Belfast</li>
-<li>10/20 Giant’s Causeway → Dublin</li>
-<li>10/21–10/22 Dublin</li>
-<li>10/23 離境</li>
-</ul>
+<h3>🏨 住宿</h3>
+<p>
+目前考慮：
+<b>ibis Manchester Centre Princess Street</b>
+</p>
 </div>
 
-<h2>七、尚未定案</h2>
-<div class="card">
-<ul>
-<li>10/11 Manchester：Etihad Stadium vs Old Trafford。</li>
-<li>10/13 Arsenal vs Lille：只有在票券確定且價格可接受時才執行 London 快閃。</li>
-<li>Edinburgh 租車：實際車型、保險、還車地點。</li>
-<li>10/19 Edinburgh → Belfast：交通方式。</li>
-<li>Belfast → Dublin 與 Dublin 詳細行程。</li>
-</ul>
 </div>
+
+
+<div class="card">
+
+<h3>📍 下午行程</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">15:15</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">
+            John Rylands Library
+            <span class="badge confirmed">優先</span>
+        </div>
+        <div class="event-detail">
+            這天是重要窗口，先完成
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">16:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Deansgate / Manchester Cathedral</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">17:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Castlefield</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">19:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">晚餐</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">自由活動／Northern Quarter 等</div>
+    </div>
+</div>
+
+</div>
+
+<div class="note note-red">
+    ❌ 不安排觀看 Manchester United 比賽
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/11
+================================================== -->
+
+<section id="1011" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/11（日）</div>
+    <h2>⚽ Manchester</h2>
+    <div class="route">完整一天</div>
+</div>
+
+<div class="card">
+
+<h3>⚽ 球場二選一</h3>
+
+<ul>
+    <li>
+        <b>Etihad Stadium</b>
+        <span class="badge pending">待確認</span>
+        <br>
+        約 £32
+    </li>
+
+    <li>
+        <b>Old Trafford</b>
+        <span class="badge pending">待確認</span>
+        <br>
+        10/11 目前約 £39
+    </li>
+</ul>
+
+<div class="note note-yellow">
+    🤔 最終由老婆決定 XD
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🕐 其他時間</h3>
+
+<p>
+除球場參觀外，其餘時間保留彈性。
+</p>
+
+<ul>
+    <li>Manchester 市區</li>
+    <li>咖啡／餐廳</li>
+    <li>足球相關景點</li>
+    <li>休息</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/12
+================================================== -->
+
+<section id="1012" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/12（一）</div>
+    <h2>🚆 Manchester → Edinburgh</h2>
+    <div class="route">抵達蘇格蘭</div>
+</div>
+
+
+<div class="card">
+
+<h3>🚆 上午／中午</h3>
+
+<ul>
+    <li>Manchester → Edinburgh</li>
+    <li><b>交通方式：火車</b></li>
+    <li>抵達後入住／放行李</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h3>👑 下午</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">下午</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">
+            Palace of Holyroodhouse
+            <span class="badge confirmed">優先</span>
+        </div>
+        <div class="event-detail">
+            約 1.5–2 小時
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">傍晚</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Holyrood → Royal Mile</div>
+        <div class="event-detail">
+            以步行方式一路往 Old Town
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">晚餐＋Old Town</div>
+        <div class="event-detail">
+            Victoria Street／Grassmarket 可順便逛
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="note note-green">
+    👑 Holyrood Palace 排在這天的原因：
+    10/13（二）休館。
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/13
+================================================== -->
+
+<section id="1013" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/13（二）</div>
+    <h2>🏰 Edinburgh</h2>
+    <div class="route">Old Town＋New Town 主力日</div>
+</div>
+
+
+<div class="card">
+
+<h3>🚶 Edinburgh City Day</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">09:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">
+            Edinburgh Castle
+            <span class="badge confirmed">主景點</span>
+        </div>
+        <div class="event-detail">
+            約 2–2.5 小時
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">12:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Royal Mile</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">12:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">St Giles' Cathedral</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">13:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🍴 午餐</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">14:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Victoria Street</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">14:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Grassmarket</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">15:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Greyfriars Kirkyard</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">15:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">
+            National Museum of Scotland
+            <span class="badge confirmed">免費</span>
+        </div>
+        <div class="event-detail">
+            約 60–90 分鐘
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">17:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Princes Street / New Town</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">17:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🌅 Calton Hill</div>
+        <div class="event-detail">
+            約 45–60 分鐘
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">19:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">晚餐</div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="note note-blue">
+    🚶 這天主要景點高度集中，原則上全部步行即可。
+</div>
+
+<div class="note note-yellow">
+    🟡 Arthur's Seat：看體力決定。
+    後面 Highlands＋Skye 已有大量自然景觀，因此不是必排。
+</div>
+
+
+<div class="card">
+
+<h3>⚽ London 快閃備案</h3>
+
+<div class="note note-blue">
+    如果 Arsenal vs Lille 票券確定且價格可接受，
+    本日改成 Edinburgh → London → 20:00 Arsenal 比賽，
+    隔天 10/14 早班機回 Edinburgh。
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/14
+================================================== -->
+
+<section id="1014" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/14（三）</div>
+    <h2>🚗 Edinburgh → Fort William</h2>
+    <div class="route">Scottish Highlands 自駕 Day 1</div>
+</div>
+
+<div class="card">
+
+<h3>🚗 行程</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">上午</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">取租車</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">白天</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Edinburgh → Fort William</div>
+        <div class="event-detail">開始 Highlands Road Trip</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Fort William 住宿</div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/15
+================================================== -->
+
+<section id="1015" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/15（四）</div>
+    <h2>🏔️ Fort William → Skye</h2>
+    <div class="route">Highlands 自駕 Day 2</div>
+</div>
+
+<div class="card">
+
+<h3>🚗 行程</h3>
+
+<ul>
+    <li>Fort William 出發</li>
+    <li>前往 Isle of Skye</li>
+    <li>沿途景點待細排</li>
+    <li>入住 Skye 已訂住宿</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/16
+================================================== -->
+
+<section id="1016" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/16（五）</div>
+    <h2>🏔️ Skye</h2>
+    <div class="route">Skye 自駕 Day 1</div>
+</div>
+
+<div class="card">
+
+<h3>🚗 行程</h3>
+
+<ul>
+    <li>Skye 自駕</li>
+    <li>景點待細排</li>
+    <li>晚上回住宿</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/17
+================================================== -->
+
+<section id="1017" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/17（六）</div>
+    <h2>🏔️ Skye</h2>
+    <div class="route">Skye 自駕 Day 2</div>
+</div>
+
+<div class="card">
+
+<h3>🚗 行程</h3>
+
+<ul>
+    <li>Skye 自駕</li>
+    <li>景點待細排</li>
+    <li>最後一晚 Skye</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/18
+================================================== -->
+
+<section id="1018" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/18（日）</div>
+    <h2>🚗 Skye → Edinburgh</h2>
+    <div class="route">Highlands Road Trip 結束</div>
+</div>
+
+<div class="card">
+
+<h3>🚗 行程</h3>
+
+<ul>
+    <li>Skye 出發</li>
+    <li>返回 Edinburgh</li>
+    <li><b>歸還租車</b></li>
+    <li>Edinburgh 住宿</li>
+</ul>
+
+<div class="note note-yellow">
+    🟡 是否改在 Glasgow 還車待確認。
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/19
+================================================== -->
+
+<section id="1019" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/19（一）</div>
+    <h2>🇬🇧 Edinburgh → Belfast</h2>
+    <div class="route">進入 Northern Ireland</div>
+</div>
+
+<div class="card">
+
+<h3>🚌 / ✈️ 交通</h3>
+
+<p>
+Edinburgh → Belfast
+</p>
+
+<p class="small">
+實際交通方式待確認。
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🚢 Belfast</h3>
+
+<ul>
+    <li><b>Titanic Belfast</b></li>
+    <li>Belfast 市區</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/20
+================================================== -->
+
+<section id="1020" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/20（二）</div>
+    <h2>🌊 Belfast → Giant's Causeway → Dublin</h2>
+    <div class="route">Northern Ireland → Republic of Ireland</div>
+</div>
+
+<div class="card">
+
+<h3>🌊 行程</h3>
+
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">上午</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Belfast 出發</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">白天</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Giant's Causeway</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">晚上</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">前往 Dublin</div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/21
+================================================== -->
+
+<section id="1021" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/21（三）</div>
+    <h2>☘️ Dublin</h2>
+    <div class="route">Dublin City Day 1</div>
+</div>
+
+<div class="card">
+
+<h3>📍 行程</h3>
+
+<ul>
+    <li>Dublin 市區觀光</li>
+    <li>詳細景點待細排</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/22
+================================================== -->
+
+<section id="1022" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/22（四）</div>
+    <h2>☘️ Dublin</h2>
+    <div class="route">Dublin City Day 2</div>
+</div>
+
+<div class="card">
+
+<h3>📍 行程</h3>
+
+<ul>
+    <li>Dublin 市區／自由活動</li>
+    <li>最後採買</li>
+    <li>整理行李</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     10/23
+================================================== -->
+
+<section id="1023" class="tab-content">
+
+<div class="day-header">
+    <div class="date">10/23（五）</div>
+    <h2>✈️ Dublin → 亞洲</h2>
+    <div class="route">蜜月旅程結束</div>
+</div>
+
+<div class="card">
+
+<h3>✈️ 返程</h3>
+
+<ul>
+    <li>Dublin Airport</li>
+    <li>搭機返回亞洲</li>
+</ul>
+
+</div>
+
+</section>
+
+
+<div class="footer">
+    2026 UK & Ireland Honeymoon · Current itinerary
+</div>
+
+</main>
+
+
+<script>
+
+function showTab(id, button) {
+
+    // 隱藏所有內容
+    const contents = document.querySelectorAll(".tab-content");
+
+    contents.forEach(content => {
+        content.classList.remove("active");
+    });
+
+    // 移除所有 active tab
+    const tabs = document.querySelectorAll(".tab");
+
+    tabs.forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    // 顯示指定內容
+    const target = document.getElementById(id);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+    // 設定目前 tab
+    button.classList.add("active");
+
+    // 回到內容上方
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// 鍵盤左右切換日期
+document.addEventListener("keydown", function(event) {
+
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+        return;
+    }
+
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    const activeIndex = tabs.findIndex(tab =>
+        tab.classList.contains("active")
+    );
+
+    let nextIndex;
+
+    if (event.key === "ArrowRight") {
+        nextIndex = Math.min(activeIndex + 1, tabs.length - 1);
+    } else {
+        nextIndex = Math.max(activeIndex - 1, 0);
+    }
+
+    tabs[nextIndex].click();
+});
+
+</script>
+
 </body>
 </html>
