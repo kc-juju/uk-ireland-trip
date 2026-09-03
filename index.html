@@ -444,13 +444,13 @@ body {
 .flight-card {
     display: grid;
 
-    grid-template-columns: 110px 1fr auto;
+    grid-template-columns: 168px minmax(220px, 1fr) 110px;
 
-    gap: 18px;
+    gap: 24px;
 
     align-items: center;
 
-    padding: 15px 0;
+    padding: 20px 0;
 
     border-bottom: 1px solid var(--border);
 }
@@ -461,6 +461,51 @@ body {
 
 .flight-card.featured {
     padding: 18px 0;
+}
+
+.flight-identity {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.airline-logo {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: #fff;
+    font-size: .66rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.02em;
+    box-shadow: 0 6px 15px rgba(15, 23, 42, .12);
+}
+
+.airline-logo.eva {
+    background: linear-gradient(145deg, #008a72 0 67%, #f28c28 67%);
+}
+
+.airline-logo.qatar {
+    background: linear-gradient(145deg, #68143f, #9d255f);
+}
+
+.airline-logo.easyjet {
+    background: linear-gradient(145deg, #ff6600, #ff8a00);
+    font-size: .72rem;
+}
+
+.airline-logo.thai {
+    background: linear-gradient(145deg, #4d267f 0 55%, #d21f75 55% 78%, #d7a72d 78%);
+}
+
+.airline-name {
+    color: var(--muted);
+    font-size: .76rem;
+    font-weight: 700;
+    margin-top: 2px;
 }
 
 .flight-code {
@@ -591,6 +636,132 @@ body {
     background: #f8fafc;
     border: 1px solid var(--border);
     font-size: .85rem;
+}
+
+/* ==================================================
+   RAIL TICKET
+================================================== */
+
+.rail-ticket {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    overflow: hidden;
+    margin: 18px 0 4px;
+    border: 1px solid #c7d2fe;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffffff, #f8faff);
+    box-shadow: 0 14px 35px rgba(49, 46, 129, .12);
+}
+
+.rail-ticket-stub {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 230px;
+    padding: 22px;
+    color: #fff;
+    background: linear-gradient(160deg, #312e81, #5b21b6);
+}
+
+.rail-ticket-stub::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    right: -1px;
+    bottom: 14px;
+    border-right: 2px dashed rgba(255,255,255,.55);
+}
+
+.rail-ticket-status {
+    width: fit-content;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: .74rem;
+    font-weight: 900;
+}
+
+.rail-ticket-code {
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: -.04em;
+}
+
+.rail-ticket-operator {
+    font-size: .76rem;
+    color: rgba(255,255,255,.78);
+}
+
+.rail-ticket-main {
+    padding: 22px 26px;
+}
+
+.rail-ticket-date {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: .82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.rail-ticket-route {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.rail-ticket-stop:last-child {
+    text-align: right;
+}
+
+.rail-ticket-time {
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.05em;
+}
+
+.rail-ticket-station {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: .86rem;
+    font-weight: 700;
+}
+
+.rail-ticket-line {
+    text-align: center;
+    color: #4f46e5;
+    font-size: 1.35rem;
+}
+
+.rail-ticket-line::after {
+    content: "";
+    display: block;
+    height: 2px;
+    margin-top: -12px;
+    background: linear-gradient(90deg, #c7d2fe, #4f46e5, #c7d2fe);
+}
+
+.rail-ticket-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rail-ticket-detail {
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #3730a3;
+    font-size: .8rem;
+    font-weight: 800;
 }
 
 /* ==================================================
@@ -847,6 +1018,62 @@ body {
     border-bottom: none;
 }
 
+.stay-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.stay-card {
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.stay-card.confirmed-stay {
+    border-color: #86efac;
+    background: linear-gradient(135deg, #f0fdf4, #fff);
+}
+
+.stay-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 7px;
+}
+
+.stay-date {
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 800;
+}
+
+.stay-name {
+    font-weight: 850;
+}
+
+.stay-address {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.map-link {
+    display: inline-block;
+    margin-top: 9px;
+    color: #2563eb;
+    font-size: .84rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.map-link:hover {
+    text-decoration: underline;
+}
+
 /* ==================================================
    IMAGE CREDIT
 ================================================== */
@@ -889,13 +1116,18 @@ body {
 @media (max-width: 650px) {
 
     .flight-card {
-        grid-template-columns: 80px 1fr;
-        gap: 8px 12px;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        align-items: start;
+    }
+
+    .flight-identity {
+        grid-column: 1 / -1;
     }
 
     .flight-meta {
         grid-column: 2;
-        text-align: left;
+        grid-row: 2;
     }
 
 }
@@ -941,8 +1173,51 @@ body {
         padding: 9px;
     }
 
+    .stay-grid {
+        grid-template-columns: 1fr;
+    }
+
     .flight-highlight {
         grid-template-columns: 1fr;
+    }
+
+    .rail-ticket {
+        grid-template-columns: 1fr;
+    }
+
+    .rail-ticket-stub {
+        min-height: 0;
+        padding: 16px 18px;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .rail-ticket-stub::after {
+        top: auto;
+        left: 14px;
+        right: 14px;
+        bottom: -1px;
+        border-right: 0;
+        border-bottom: 2px dashed rgba(255,255,255,.55);
+    }
+
+    .rail-ticket-main {
+        padding: 20px 18px;
+    }
+
+    .rail-ticket-route {
+        grid-template-columns: 1fr 46px 1fr;
+        gap: 7px;
+        margin: 22px 0;
+    }
+
+    .rail-ticket-time {
+        font-size: 2rem;
+    }
+
+    .rail-ticket-station {
+        font-size: .72rem;
     }
 
     .match-hero,
@@ -1196,9 +1471,12 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">BR170</div>
-        <div class="flight-time">10/09</div>
+    <div class="flight-identity">
+        <div class="airline-logo eva">EVA</div>
+        <div>
+            <div class="flight-code">BR170</div>
+            <div class="airline-name">EVA Air · 10/09</div>
+        </div>
     </div>
 
     <div>
@@ -1218,9 +1496,12 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR863</div>
-        <div class="flight-time">10/09</div>
+    <div class="flight-identity">
+        <div class="airline-logo qatar">QATAR</div>
+        <div>
+            <div class="flight-code">QR863</div>
+            <div class="airline-name">Qatar Airways · 10/09</div>
+        </div>
     </div>
 
     <div>
@@ -1240,9 +1521,12 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR27</div>
-        <div class="flight-time">10/10</div>
+    <div class="flight-identity">
+        <div class="airline-logo qatar">QATAR</div>
+        <div>
+            <div class="flight-code">QR27</div>
+            <div class="airline-name">Qatar Airways · 10/10</div>
+        </div>
     </div>
 
     <div>
@@ -1262,9 +1546,15 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">U290</div>
-        <div class="flight-time">10/19</div>
+    <div class="flight-identity">
+        <div class="airline-logo easyjet">easyJet</div>
+        <div>
+            <div class="flight-code-row">
+                <div class="flight-code">U290</div>
+                <span class="badge pending">尚未購買</span>
+            </div>
+            <div class="airline-name">easyJet · 10/19</div>
+        </div>
     </div>
 
     <div>
@@ -1284,9 +1574,12 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR20</div>
-        <div class="flight-time">10/23</div>
+    <div class="flight-identity">
+        <div class="airline-logo qatar">QATAR</div>
+        <div>
+            <div class="flight-code">QR20</div>
+            <div class="airline-name">Qatar Airways · 10/23</div>
+        </div>
     </div>
 
     <div>
@@ -1306,12 +1599,15 @@ body {
 
 <div class="flight-card featured">
 
-    <div>
-        <div class="flight-code-row">
-            <div class="flight-code">QR836</div>
-            <span class="badge flight">最長</span>
+    <div class="flight-identity">
+        <div class="airline-logo qatar">QATAR</div>
+        <div>
+            <div class="flight-code-row">
+                <div class="flight-code">QR836</div>
+                <span class="badge flight">最長</span>
+            </div>
+            <div class="airline-name">Qatar Airways · 10/24</div>
         </div>
-        <div class="flight-time">10/24</div>
     </div>
 
     <div>
@@ -1331,9 +1627,12 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">TG634</div>
-        <div class="flight-time">10/26</div>
+    <div class="flight-identity">
+        <div class="airline-logo thai">THAI</div>
+        <div>
+            <div class="flight-code">TG634</div>
+            <div class="airline-name">Thai Airways · 10/26</div>
+        </div>
     </div>
 
     <div>
@@ -1457,7 +1756,7 @@ body {
 <tr>
     <td>10/19</td>
     <td>Manchester Airport → Belfast</td>
-    <td>✈️ U290</td>
+    <td>✈️ U290（尚未購買）</td>
 </tr>
 
 <tr>
@@ -1509,6 +1808,92 @@ body {
 
 
 <!-- ==================================================
+     ACCOMMODATION SUMMARY
+================================================== -->
+
+<div class="card">
+
+<div class="flight-section-title">
+    <h3>🏨 住宿總覽</h3>
+    <span class="flight-badge">STAY PLAN</span>
+</div>
+
+<div class="stay-grid">
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/10–10/12</div>
+            <span class="badge pending">待確認</span>
+        </div>
+        <div class="stay-name">Manchester</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/12–10/14</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Edinburgh</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/14–10/15</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Fort William</div>
+    </div>
+
+    <div class="stay-card confirmed-stay">
+        <div class="stay-card-head">
+            <div class="stay-date">10/15–10/17 · 2 晚</div>
+            <span class="badge confirmed">已預訂</span>
+        </div>
+        <div class="stay-name">Isle of Skye Airbnb</div>
+        <div class="stay-address">5 Fernilea, Carbost, Scotland IV47 8SJ</div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=5%20Fernilea%2C%20Carbost%2C%20Scotland%20IV47%208SJ" target="_blank" rel="noopener">📍 Google Maps</a>
+        ·
+        <a class="map-link" href="https://www.airbnb.com.tw/rooms/34254793" target="_blank" rel="noopener">🏠 Airbnb</a>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/17–10/18</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Glasgow</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/18–10/19</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Manchester Airport</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/20–10/23</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Dublin</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/24–10/26</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Bangkok</div>
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ==================================================
      CORE DECISIONS
 ================================================== -->
 
@@ -1536,7 +1921,7 @@ body {
 
 <li>🛏️ 10/18：看完比賽後回 <b>Manchester Airport</b> 住宿</li>
 
-<li>✈️ 10/19：<b>Manchester Airport → Belfast，直接搭 U290</b></li>
+<li>✈️ 10/19：Manchester Airport → Belfast，<b>U290 尚未購買</b></li>
 
 </ul>
 
@@ -1871,61 +2256,6 @@ body {
 </div>
 
 
-<div class="card">
-
-<h3>🚆 明早前往 Edinburgh：班次比較</h3>
-
-<div class="flight-highlight">
-
-<div class="flight-highlight-item">
-    <div class="flight-highlight-title">
-        08:24 → 11:37
-        <span class="badge confirmed">最推薦</span>
-    </div>
-    <div class="flight-highlight-detail">
-        MCO → EDB · TPE 直達 · 3 小時 13 分<br>
-        Advance Standard £78.40 · Limited availability
-    </div>
-</div>
-
-<div class="flight-highlight-item">
-    <div class="flight-highlight-title">
-        08:53 → 12:20
-        <span class="badge pending">不優先</span>
-    </div>
-    <div class="flight-highlight-detail">
-        需轉車 1 次 · 3 小時 27 分<br>
-        只晚出發 29 分鐘，卻晚抵達 43 分鐘
-    </div>
-</div>
-
-<div class="flight-highlight-item">
-    <div class="flight-highlight-title">
-        10:24 → 13:32
-        <span class="badge warning">太晚</span>
-    </div>
-    <div class="flight-highlight-detail">
-        TPE 直達 · 3 小時 8 分 · £86.20<br>
-        抵達後再放行李，Holyroodhouse 緩衝不足
-    </div>
-</div>
-
-<div class="flight-highlight-item">
-    <div class="flight-highlight-title">今晚準備</div>
-    <div class="flight-highlight-detail">
-        行李先整理好，確認由 Manchester Oxford Road（MCO）上車；
-        建議 07:55 前抵達月台區。
-    </div>
-</div>
-
-</div>
-
-<div class="note note-green">
-✅ 建議預訂 <b>08:24 直達車</b>。它最便宜、免轉車，也能完整保留 10/12 下午的皇宮行程。
-</div>
-
-</div>
-
 </section>
 
 
@@ -1944,30 +2274,47 @@ body {
 
 <div class="card">
 
-<h3>🚆 交通</h3>
+<h3>🎫 Manchester → Edinburgh</h3>
 
-<div class="flight-stats">
-    <div class="flight-stat">
-        <div class="number">08:24</div>
-        <div class="label">Manchester Oxford Road 出發</div>
+<div class="rail-ticket">
+    <div class="rail-ticket-stub">
+        <div class="rail-ticket-status">✓ 已購票</div>
+        <div>
+            <div class="rail-ticket-code">MCR → EDB</div>
+            <div class="rail-ticket-operator">TransPennine Express</div>
+        </div>
     </div>
-    <div class="flight-stat">
-        <div class="number">11:37</div>
-        <div class="label">Edinburgh Waverley 抵達</div>
-    </div>
-    <div class="flight-stat">
-        <div class="number">3h 13m</div>
-        <div class="label">TPE 直達，不需轉車</div>
-    </div>
-    <div class="flight-stat">
-        <div class="number">£78.40</div>
-        <div class="label">Advance Standard · Non-Flexible</div>
+
+    <div class="rail-ticket-main">
+        <div class="rail-ticket-date">
+            <span>Monday · 12 October 2026</span>
+            <span>Direct</span>
+        </div>
+
+        <div class="rail-ticket-route">
+            <div class="rail-ticket-stop">
+                <div class="rail-ticket-time">08:24</div>
+                <div class="rail-ticket-station">Manchester Piccadilly</div>
+            </div>
+
+            <div class="rail-ticket-line">🚆</div>
+
+            <div class="rail-ticket-stop">
+                <div class="rail-ticket-time">11:37</div>
+                <div class="rail-ticket-station">Edinburgh Waverley</div>
+            </div>
+        </div>
+
+        <div class="rail-ticket-details">
+            <span class="rail-ticket-detail">3h 13m</span>
+            <span class="rail-ticket-detail">No changes</span>
+            <span class="rail-ticket-detail">MCR → EDB</span>
+        </div>
     </div>
 </div>
 
-<div class="note note-blue">
-🚆 <b>選擇理由：</b>08:53 班次需轉車且 12:20 才抵達；10:24 班次雖然直達，
-但 13:32 才抵達且票價較高。08:24 是時間、風險與價格最平衡的方案。
+<div class="note note-green">
+✅ 車票已完成購買；建議 07:55 前抵達 Manchester Piccadilly，月台資訊以當日看板與電子車票為準。
 </div>
 
 </div>
@@ -1975,7 +2322,7 @@ body {
 
 <div class="card">
 
-<h3>👑 下午</h3>
+<h3>🗓️ 當日流程</h3>
 
 <div class="timeline">
 
@@ -1983,7 +2330,7 @@ body {
     <div class="time">08:24</div>
     <div class="timeline-dot"></div>
     <div class="event">
-        <div class="event-title">🚆 Manchester Oxford Road 出發</div>
+        <div class="event-title">🚆 Manchester Piccadilly 出發</div>
         <div class="event-detail">TPE 直達 Edinburgh Waverley</div>
     </div>
 </div>
@@ -2044,42 +2391,6 @@ body {
 
 </div>
 
-
-<div class="card">
-
-<h3>🏰 Edinburgh 兩日分工比較</h3>
-
-<div class="grid">
-
-<div class="card">
-    <h3>10/12（一）· 皇室＋下城區</h3>
-    <ul>
-        <li>Holyroodhouse、Holyrood Abbey、花園</li>
-        <li>Canongate、Royal Mile 下半段</li>
-        <li>Old Town 晚餐與輕鬆散步</li>
-    </ul>
-    <div class="note note-green">抵達日不塞太滿，重點是完成隔天休館的 Holyroodhouse。</div>
-</div>
-
-<div class="card">
-    <h3>10/13（二）· 城堡＋Old Town 主力日</h3>
-    <ul>
-        <li>09:30 Edinburgh Castle，預留 2–2.5 小時</li>
-        <li>Royal Mile、St Giles'、Victoria Street、Grassmarket</li>
-        <li>15:30–16:45 National Museum of Scotland</li>
-        <li>17:00 後前往 Calton Hill 看日落</li>
-    </ul>
-    <div class="note note-blue">New Town／Princes Street 放在前往 Calton Hill途中或日落後，不要壓縮博物館。</div>
-</div>
-
-</div>
-
-<div class="note note-yellow">
-🟡 若改搭 10:24 班次，10/12 的 Holyroodhouse 會變成趕場，並把 Royal Mile 壓回已經很滿的 10/13；
-因此兩日整體品質仍以 08:24 班次最好。
-</div>
-
-</div>
 
 </section>
 
@@ -2284,8 +2595,15 @@ body {
     <li>Fort William 出發</li>
     <li>前往 Isle of Skye</li>
     <li>沿途景點待細排</li>
-    <li>入住 Skye 已訂住宿</li>
+    <li>
+        入住 Skye 已訂 Airbnb：
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=5%20Fernilea%2C%20Carbost%2C%20Scotland%20IV47%208SJ" target="_blank" rel="noopener">5 Fernilea, Carbost, Scotland IV47 8SJ</a>
+    </li>
 </ul>
+
+<div class="note note-green">
+🏠 <b>入住 10/15、退房 10/17（2 晚）</b> · <a href="https://www.airbnb.com.tw/rooms/34254793" target="_blank" rel="noopener">查看 Airbnb</a>
+</div>
 
 </div>
 
@@ -2312,7 +2630,7 @@ body {
 <ul>
     <li>Skye 自駕</li>
     <li>景點待細排</li>
-    <li>晚上回住宿</li>
+    <li>晚上回 5 Fernilea, Carbost 的 Airbnb</li>
 </ul>
 
 </div>
@@ -2347,7 +2665,7 @@ body {
     <div class="event">
         <div class="event-title">Skye 出發</div>
         <div class="event-detail">
-            離開 Isle of Skye，開始往東南方向移動
+            Airbnb 退房後離開 Isle of Skye，開始往東南方向移動
         </div>
     </div>
 </div>
@@ -2390,7 +2708,7 @@ body {
 
 
 <div class="note note-blue">
-🏔️ 這天的重點是把 Skye、Loch Ness、Glasgow 串起來，不再繞回 Edinburgh。
+🏔️ Loch Ness 只有途中停留，不住宿；今晚住 <b>Glasgow</b>，不再繞回 Edinburgh。
 </div>
 
 </section>
@@ -2832,7 +3150,7 @@ Glasgow → Nottingham → The City Ground
 <p>
 看完球直接開回 Manchester Airport，
 晚上住機場附近，
-隔天早上直接還車＋搭乘 U290。
+隔天早上直接還車；U290 尚未購買，訂妥後再鎖定報到時間。
 </p>
 
 </div>
@@ -2873,7 +3191,7 @@ Premier League 正規聯賽，
 
 <br><br>
 
-✈️ <b>10/19 U290</b><br>
+✈️ <b>10/19 U290</b> <span class="badge pending">尚未購買</span><br>
 Manchester Airport → Belfast<br>
 08:40 → 09:40 · Economy · A320
 
@@ -2900,13 +3218,16 @@ Manchester Airport → Belfast<br>
 
 <div class="card">
 
-<h3>✈️ U290</h3>
+<h3>✈️ U290 <span class="badge pending">尚未購買</span></h3>
 
 <div class="flight-card">
 
-<div>
-    <div class="flight-code">U290</div>
-    <div class="flight-time">easyJet</div>
+<div class="flight-identity">
+    <div class="airline-logo easyjet">easyJet</div>
+    <div>
+        <div class="flight-code">U290</div>
+        <div class="airline-name">easyJet</div>
+    </div>
 </div>
 
 <div>
@@ -2963,6 +3284,7 @@ Manchester Airport → Belfast<br>
 
         <div class="event-title">
             MAN → BFS
+            <span class="badge pending">尚未購買</span>
         </div>
 
         <div class="event-detail">
@@ -3507,3 +3829,4 @@ tabsContainer.addEventListener(
 
 </body>
 </html>
+
