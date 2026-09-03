@@ -956,15 +956,20 @@ body {
     }
 
     .match-teams {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
         gap: 10px;
+        width: 100%;
     }
 
     .match-team {
         min-width: 0;
+        text-align: center;
     }
 
     .team-name {
         font-size: 1.35rem;
+        overflow-wrap: anywhere;
     }
 
     .match-vs {
@@ -2269,9 +2274,8 @@ body {
 
 <div class="match-hero">
 
-```
 <img
-    src="https://commons.wikimedia.org/wiki/Special:FilePath/CityGroundFromAboveTrentBridgeCricketGround.jpg"
+    src="assets/city-ground-nottingham.jpg"
     alt="The City Ground, Nottingham Forest"
     class="match-image"
 >
@@ -2287,13 +2291,15 @@ body {
         <div class="match-team">
 
             <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Nottingham_Forest_F.C._logo.svg/240px-Nottingham_Forest_F.C._logo.svg.png"
+                src="https://upload.wikimedia.org/wikipedia/commons/4/41/Nottingham_Forest_F.C._logo.svg"
                 alt="Nottingham Forest"
                 style="
                     width:64px;
                     height:64px;
+                    max-width:100%;
                     object-fit:contain;
-                    margin-bottom:8px;
+                    display:block;
+                    margin:0 auto 8px;
                 "
             >
 
@@ -2309,13 +2315,15 @@ body {
         <div class="match-team">
 
             <img
-                src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/240px-Arsenal_FC.svg.png"
+                src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg"
                 alt="Arsenal"
                 style="
                     width:64px;
                     height:64px;
+                    max-width:100%;
                     object-fit:contain;
-                    margin-bottom:8px;
+                    display:block;
+                    margin:0 auto 8px;
                 "
             >
 
@@ -2341,15 +2349,12 @@ body {
     </div>
 
 </div>
-```
-
 </div>
 
 <!-- MATCH INFO -->
 
 <div class="match-info-grid">
 
-```
 <div class="match-info-card">
     <div class="match-info-icon">⚽</div>
     <div>
@@ -2384,8 +2389,6 @@ body {
         <div class="match-info-value">Nottingham</div>
     </div>
 </div>
-```
-
 </div>
 
 <!-- MATCH DETAILS -->
@@ -2396,17 +2399,18 @@ body {
 
 <div class="match-scoreboard">
 
-```
 <div class="match-side">
 
     <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Nottingham_Forest_F.C._logo.svg/240px-Nottingham_Forest_F.C._logo.svg.png"
+        src="https://upload.wikimedia.org/wikipedia/commons/4/41/Nottingham_Forest_F.C._logo.svg"
         alt="Nottingham Forest"
         style="
             width:58px;
             height:58px;
+            max-width:100%;
             object-fit:contain;
-            margin-bottom:8px;
+            display:block;
+            margin:0 auto 8px;
         "
     >
 
@@ -2441,13 +2445,15 @@ body {
 <div class="match-side">
 
     <img
-        src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/240px-Arsenal_FC.svg.png"
+        src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg"
         alt="Arsenal"
         style="
             width:58px;
             height:58px;
+            max-width:100%;
             object-fit:contain;
-            margin-bottom:8px;
+            display:block;
+            margin:0 auto 8px;
         "
     >
 
@@ -2460,8 +2466,6 @@ body {
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="note note-blue">
@@ -2515,7 +2519,6 @@ Glasgow → Nottingham → The City Ground
 
 <div class="timeline-item">
 
-```
 <div class="time">上午</div>
 <div class="timeline-dot"></div>
 
@@ -2530,13 +2533,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">白天</div>
 <div class="timeline-dot"></div>
 
@@ -2551,13 +2551,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">下午</div>
 <div class="timeline-dot"></div>
 
@@ -2572,13 +2569,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">16:30</div>
 <div class="timeline-dot"></div>
 
@@ -2599,13 +2593,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">約18:20+</div>
 <div class="timeline-dot"></div>
 
@@ -2620,13 +2611,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">賽後</div>
 <div class="timeline-dot"></div>
 
@@ -2641,13 +2629,10 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 <div class="timeline-item">
 
-```
 <div class="time">晚上</div>
 <div class="timeline-dot"></div>
 
@@ -2662,8 +2647,6 @@ Glasgow → Nottingham → The City Ground
     </div>
 
 </div>
-```
-
 </div>
 
 </div>
