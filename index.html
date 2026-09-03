@@ -444,7 +444,7 @@ body {
 .flight-card {
     display: grid;
 
-    grid-template-columns: 168px minmax(220px, 1fr) 110px;
+    grid-template-columns: 210px minmax(220px, 1fr) 110px;
 
     gap: 24px;
 
@@ -465,40 +465,28 @@ body {
 
 .flight-identity {
     display: grid;
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: 104px 1fr;
     gap: 12px;
     align-items: center;
 }
 
 .airline-logo {
-    width: 48px;
+    width: 104px;
     height: 48px;
     display: grid;
     place-items: center;
-    border-radius: 14px;
-    color: #fff;
-    font-size: .66rem;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -.02em;
-    box-shadow: 0 6px 15px rgba(15, 23, 42, .12);
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 14px rgba(15, 23, 42, .08);
 }
 
-.airline-logo.eva {
-    background: linear-gradient(145deg, #008a72 0 67%, #f28c28 67%);
-}
-
-.airline-logo.qatar {
-    background: linear-gradient(145deg, #68143f, #9d255f);
-}
-
-.airline-logo.easyjet {
-    background: linear-gradient(145deg, #ff6600, #ff8a00);
-    font-size: .72rem;
-}
-
-.airline-logo.thai {
-    background: linear-gradient(145deg, #4d267f 0 55%, #d21f75 55% 78%, #d7a72d 78%);
+.airline-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .airline-name {
@@ -1472,7 +1460,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo eva">EVA</div>
+        <div class="airline-logo"><img src="assets/airlines/eva-air.svg" alt="EVA Air logo"></div>
         <div>
             <div class="flight-code">BR170</div>
             <div class="airline-name">EVA Air · 10/09</div>
@@ -1497,7 +1485,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo qatar">QATAR</div>
+        <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR863</div>
             <div class="airline-name">Qatar Airways · 10/09</div>
@@ -1522,7 +1510,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo qatar">QATAR</div>
+        <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR27</div>
             <div class="airline-name">Qatar Airways · 10/10</div>
@@ -1547,7 +1535,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo easyjet">easyJet</div>
+        <div class="airline-logo"><img src="assets/airlines/easyjet.svg" alt="easyJet logo"></div>
         <div>
             <div class="flight-code-row">
                 <div class="flight-code">U290</div>
@@ -1575,7 +1563,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo qatar">QATAR</div>
+        <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR20</div>
             <div class="airline-name">Qatar Airways · 10/23</div>
@@ -1600,7 +1588,7 @@ body {
 <div class="flight-card featured">
 
     <div class="flight-identity">
-        <div class="airline-logo qatar">QATAR</div>
+        <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code-row">
                 <div class="flight-code">QR836</div>
@@ -1628,7 +1616,7 @@ body {
 <div class="flight-card">
 
     <div class="flight-identity">
-        <div class="airline-logo thai">THAI</div>
+        <div class="airline-logo"><img src="assets/airlines/thai-airways.svg" alt="Thai Airways logo"></div>
         <div>
             <div class="flight-code">TG634</div>
             <div class="airline-name">Thai Airways · 10/26</div>
@@ -1870,6 +1858,14 @@ body {
             <span class="badge pending">待補</span>
         </div>
         <div class="stay-name">Manchester Airport</div>
+    </div>
+
+    <div class="stay-card">
+        <div class="stay-card-head">
+            <div class="stay-date">10/19–10/20 · 1 晚</div>
+            <span class="badge pending">待補</span>
+        </div>
+        <div class="stay-name">Belfast</div>
     </div>
 
     <div class="stay-card">
@@ -3223,7 +3219,7 @@ Manchester Airport → Belfast<br>
 <div class="flight-card">
 
 <div class="flight-identity">
-    <div class="airline-logo easyjet">easyJet</div>
+    <div class="airline-logo"><img src="assets/airlines/easyjet.svg" alt="easyJet logo"></div>
     <div>
         <div class="flight-code">U290</div>
         <div class="airline-name">easyJet</div>
