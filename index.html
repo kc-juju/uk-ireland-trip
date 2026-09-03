@@ -541,6 +541,110 @@ body {
     font-size: .82rem;
 }
 
+.flight-ticket-list {
+    display: grid;
+    gap: 14px;
+    margin: 18px 0;
+}
+
+.flight-card.flight-ticket {
+    position: relative;
+    grid-template-columns: 230px minmax(220px, 1fr) 180px;
+    gap: 0;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #d8dee8;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .07);
+}
+
+.flight-card.flight-ticket:last-child {
+    border-bottom: 1px solid #d8dee8;
+}
+
+.flight-card.flight-ticket.featured {
+    padding: 0;
+    border-color: #d8b4fe;
+    background: linear-gradient(110deg, #fff 70%, #faf5ff);
+}
+
+.flight-ticket .flight-identity {
+    align-self: stretch;
+    padding: 18px;
+    background: #f8fafc;
+}
+
+.flight-ticket .flight-leg {
+    align-self: center;
+    padding: 18px 24px;
+}
+
+.flight-ticket .flight-route {
+    font-size: 1.08rem;
+    letter-spacing: .01em;
+}
+
+.flight-ticket .flight-time {
+    margin-top: 4px;
+    color: #111827;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.flight-ticket .flight-duration {
+    margin-top: 6px;
+    color: var(--muted);
+}
+
+.flight-ticket .flight-duration::before {
+    content: "✦ ";
+    color: #7c3aed;
+}
+
+.flight-ticket .flight-meta {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 18px 20px 18px 27px;
+    border-left: 2px dashed #d8dee8;
+    text-align: left;
+    background: rgba(248, 250, 252, .7);
+}
+
+.flight-ticket .flight-meta::before {
+    content: "CABIN / AIRCRAFT";
+    margin-bottom: 8px;
+    color: #94a3b8;
+    font-size: .65rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.flight-ticket .flight-meta::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #d8dee8;
+    border-radius: 50%;
+    background: #eef0f2;
+    transform: translateY(-50%);
+}
+
+.flight-ticket .cabin {
+    font-size: 1rem;
+}
+
+.flight-ticket .aircraft {
+    margin-top: 3px;
+    font-size: .82rem;
+}
+
 .flight-section-title {
     display: flex;
     align-items: center;
@@ -1118,6 +1222,49 @@ body {
         grid-row: 2;
     }
 
+    .flight-card.flight-ticket {
+        grid-template-columns: 1fr;
+    }
+
+    .flight-ticket .flight-identity,
+    .flight-ticket .flight-leg,
+    .flight-ticket .flight-meta {
+        grid-column: 1;
+    }
+
+    .flight-ticket .flight-identity {
+        padding: 15px;
+    }
+
+    .flight-ticket .flight-leg {
+        padding: 16px;
+    }
+
+    .flight-ticket .flight-meta {
+        grid-row: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 13px 16px;
+        border-top: 2px dashed #d8dee8;
+        border-left: 0;
+    }
+
+    .flight-ticket .flight-meta::before {
+        margin: 0 auto 0 0;
+    }
+
+    .flight-ticket .flight-meta::after {
+        top: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .flight-ticket .aircraft {
+        margin-top: 0;
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -1456,83 +1603,81 @@ body {
     <span class="flight-badge">47h00 AIRBORNE</span>
 </div>
 
+<div class="flight-ticket-list">
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/eva-air.svg" alt="EVA Air logo"></div>
         <div>
             <div class="flight-code">BR170</div>
-            <div class="airline-name">EVA Air · 10/09</div>
+            <div class="airline-name">10/09</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">TPE → ICN</div>
         <div class="flight-time">07:30 → 11:00</div>
         <div class="flight-duration">3h30</div>
-        <div class="flight-aircraft-full">Boeing 787-9</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Economy</div>
-        <div class="aircraft">B789</div>
+        <div class="aircraft">Boeing 787-9</div>
     </div>
 
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR863</div>
-            <div class="airline-name">Qatar Airways · 10/09</div>
+            <div class="airline-name">10/09</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">ICN → DOH</div>
         <div class="flight-time">18:30 → 23:00</div>
         <div class="flight-duration">9h30</div>
-        <div class="flight-aircraft-full">Airbus A350-1000</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Business</div>
-        <div class="aircraft">A35K</div>
+        <div class="aircraft">Airbus A350-1000</div>
     </div>
 
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR27</div>
-            <div class="airline-name">Qatar Airways · 10/10</div>
+            <div class="airline-name">10/10</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">DOH → MAN</div>
         <div class="flight-time">07:50 → 13:10</div>
         <div class="flight-duration">7h20</div>
-        <div class="flight-aircraft-full">Airbus A350-1000</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Business</div>
-        <div class="aircraft">A35K</div>
+        <div class="aircraft">Airbus A350-1000</div>
     </div>
 
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/easyjet.svg" alt="easyJet logo"></div>
@@ -1541,51 +1686,49 @@ body {
                 <div class="flight-code">U290</div>
                 <span class="badge pending">尚未購買</span>
             </div>
-            <div class="airline-name">easyJet · 10/19</div>
+            <div class="airline-name">10/19</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">MAN → BFS</div>
         <div class="flight-time">08:40 → 09:40</div>
         <div class="flight-duration">1h00</div>
-        <div class="flight-aircraft-full">Airbus A320</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Economy</div>
-        <div class="aircraft">A320</div>
+        <div class="aircraft">Airbus A320</div>
     </div>
 
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
         <div>
             <div class="flight-code">QR20</div>
-            <div class="airline-name">Qatar Airways · 10/23</div>
+            <div class="airline-name">10/23</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">DUB → DOH</div>
         <div class="flight-time">08:15 → 17:20</div>
         <div class="flight-duration">10h05</div>
-        <div class="flight-aircraft-full">Boeing 787-9</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Business</div>
-        <div class="aircraft">B789</div>
+        <div class="aircraft">Boeing 787-9</div>
     </div>
 
 </div>
 
 
-<div class="flight-card featured">
+<div class="flight-card flight-ticket featured">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/qatar-airways.svg" alt="Qatar Airways logo"></div>
@@ -1594,49 +1737,48 @@ body {
                 <div class="flight-code">QR836</div>
                 <span class="badge flight">最長</span>
             </div>
-            <div class="airline-name">Qatar Airways · 10/24</div>
+            <div class="airline-name">10/24</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">DOH → BKK</div>
         <div class="flight-time">02:30 → 13:25</div>
         <div class="flight-duration">10h55</div>
-        <div class="flight-aircraft-full">Airbus A380-800</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">First</div>
-        <div class="aircraft">A388</div>
+        <div class="aircraft">Airbus A380-800</div>
     </div>
 
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card flight-ticket">
 
     <div class="flight-identity">
         <div class="airline-logo"><img src="assets/airlines/thai-airways.svg" alt="Thai Airways logo"></div>
         <div>
             <div class="flight-code">TG634</div>
-            <div class="airline-name">Thai Airways · 10/26</div>
+            <div class="airline-name">10/26</div>
         </div>
     </div>
 
-    <div>
+    <div class="flight-leg">
         <div class="flight-route">BKK → TPE</div>
         <div class="flight-time">12:40 → 17:20</div>
         <div class="flight-duration">4h40</div>
-        <div class="flight-aircraft-full">Airbus A321neo</div>
     </div>
 
     <div class="flight-meta">
         <div class="cabin">Economy</div>
-        <div class="aircraft">A321neo</div>
+        <div class="aircraft">Airbus A321neo</div>
     </div>
 
 </div>
 
+</div>
 
 <div class="connection-strip">
 
