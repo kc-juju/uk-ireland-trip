@@ -265,7 +265,6 @@ body {
 }
 
 @media (max-width: 700px) {
-
     .grid {
         grid-template-columns: 1fr;
     }
@@ -459,9 +458,20 @@ body {
     border-bottom: none;
 }
 
+.flight-card.featured {
+    padding: 18px 0;
+}
+
 .flight-code {
     font-size: 1.15rem;
     font-weight: 800;
+}
+
+.flight-code-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
 }
 
 .flight-route {
@@ -486,17 +496,290 @@ body {
     color: var(--muted);
 }
 
-@media (max-width: 650px) {
+.flight-duration {
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--muted);
+}
 
-    .flight-card {
-        grid-template-columns: 80px 1fr;
-        gap: 8px 12px;
-    }
+.flight-aircraft-full {
+    color: var(--muted);
+    font-size: .82rem;
+}
 
-    .flight-meta {
-        grid-column: 2;
-        text-align: left;
-    }
+.flight-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.flight-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 700;
+    background: var(--purple-bg);
+    color: var(--purple);
+}
+
+/* ==================================================
+   FLIGHT ANALYSIS
+================================================== */
+
+.flight-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 12px;
+    margin: 18px 0;
+}
+
+.flight-stat {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.flight-stat .number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.flight-stat .label {
+    color: var(--muted);
+    font-size: .84rem;
+    margin-top: 4px;
+}
+
+.flight-highlight {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.flight-highlight-item {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 13px 15px;
+    background: #fff;
+}
+
+.flight-highlight-title {
+    font-weight: 800;
+}
+
+.flight-highlight-detail {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.connection-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.connection-chip {
+    padding: 7px 10px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    font-size: .85rem;
+}
+
+/* ==================================================
+   MATCH HERO
+================================================== */
+
+.match-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    min-height: 390px;
+    margin: 18px 0;
+    background: #263238;
+    box-shadow: 0 8px 25px rgba(0,0,0,.12);
+}
+
+.match-image {
+    width: 100%;
+    height: 390px;
+    object-fit: cover;
+    display: block;
+}
+
+.match-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 30px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.82) 0%,
+            rgba(0,0,0,.58) 48%,
+            rgba(0,0,0,.20) 100%
+        );
+}
+
+.match-competition {
+    font-size: .8rem;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    opacity: .8;
+    margin-bottom: 18px;
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.match-team {
+    min-width: 180px;
+}
+
+.team-name {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+}
+
+.team-role {
+    margin-top: 5px;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    opacity: .65;
+}
+
+.match-vs {
+    font-size: 1.4rem;
+    font-weight: 900;
+    opacity: .7;
+}
+
+.match-date {
+    margin-top: 22px;
+    font-size: .95rem;
+}
+
+.match-time {
+    margin-top: 2px;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.match-time span {
+    font-size: .85rem;
+    opacity: .7;
+    margin-left: 4px;
+}
+
+.match-venue {
+    margin-top: 5px;
+    font-size: .95rem;
+    opacity: .85;
+}
+
+/* ==================================================
+   MATCH INFO
+================================================== */
+
+.match-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.match-info-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 13px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.match-info-icon {
+    font-size: 1.4rem;
+}
+
+.match-info-label {
+    color: var(--muted);
+    font-size: .75rem;
+}
+
+.match-info-value {
+    font-weight: 800;
+    font-size: .9rem;
+}
+
+/* ==================================================
+   MATCH SCOREBOARD
+================================================== */
+
+.match-scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 130px 1fr;
+    align-items: center;
+
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.match-side {
+    text-align: center;
+}
+
+.match-side-name {
+    font-weight: 900;
+    font-size: 1.15rem;
+}
+
+.match-side-label {
+    color: var(--muted);
+    font-size: .8rem;
+    margin-top: 3px;
+}
+
+.match-center {
+    text-align: center;
+}
+
+.match-center-date {
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.match-center-vs {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 3px 0;
+}
+
+.match-center-time {
+    font-weight: 800;
 }
 
 /* ==================================================
@@ -564,6 +847,16 @@ body {
 }
 
 /* ==================================================
+   IMAGE CREDIT
+================================================== */
+
+.image-credit {
+    margin: 15px 0 0;
+    color: var(--muted);
+    font-size: .75rem;
+}
+
+/* ==================================================
    FOOTER
 ================================================== */
 
@@ -580,6 +873,31 @@ body {
 /* ==================================================
    MOBILE
 ================================================== */
+
+@media (max-width: 800px) {
+
+    .flight-stats {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .match-info-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+}
+
+@media (max-width: 650px) {
+
+    .flight-card {
+        grid-template-columns: 80px 1fr;
+        gap: 8px 12px;
+    }
+
+    .flight-meta {
+        grid-column: 2;
+        text-align: left;
+    }
+
+}
 
 @media (max-width: 600px) {
 
@@ -620,151 +938,97 @@ body {
     .overview-table td {
         padding: 9px;
     }
+
+    .flight-highlight {
+        grid-template-columns: 1fr;
+    }
+
+    .match-hero,
+    .match-image {
+        min-height: 430px;
+        height: 430px;
+    }
+
+    .match-overlay {
+        padding: 22px;
+        justify-content: flex-end;
+        padding-bottom: 28px;
+    }
+
+    .match-teams {
+        gap: 10px;
+    }
+
+    .match-team {
+        min-width: 0;
+    }
+
+    .team-name {
+        font-size: 1.35rem;
+    }
+
+    .match-vs {
+        font-size: 1rem;
+    }
+
+    .match-scoreboard {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .match-center {
+        order: -1;
+    }
 }
 </style>
 </head>
 
-
 <body>
 
-<!-- ==================================================
-     HERO
-================================================== -->
-
 <header class="hero">
-
 <div class="hero-inner">
-
     <h1>🇬🇧🇮🇪 2026 英國・愛爾蘭蜜月</h1>
-
-    <p>
-        Football × Scottish Highlands 自駕 × Honeymoon Slow Travel
-    </p>
+    <p>Football × Scottish Highlands 自駕 × Honeymoon Slow Travel</p>
 
     <div class="trip-summary">
-
-        <div class="summary-pill">
-            📅 10/09 – 10/26
-        </div>
-
-        <div class="summary-pill">
-            🏙️ Manchester
-        </div>
-
-        <div class="summary-pill">
-            🏰 Edinburgh
-        </div>
-
-        <div class="summary-pill">
-            🏔️ Highlands × Skye
-        </div>
-
-        <div class="summary-pill">
-            ☘️ Belfast × Dublin
-        </div>
-
-        <div class="summary-pill">
-            ✈️ Qatar Airways
-        </div>
-
+        <div class="summary-pill">📅 10/09 – 10/26</div>
+        <div class="summary-pill">🏙️ Manchester</div>
+        <div class="summary-pill">🏰 Edinburgh</div>
+        <div class="summary-pill">🏔️ Highlands × Skye</div>
+        <div class="summary-pill">☘️ Belfast × Dublin</div>
+        <div class="summary-pill">✈️ Qatar Airways</div>
     </div>
-
 </div>
-
 </header>
 
-
-<!-- ==================================================
-     TABS
-================================================== -->
-
 <div class="tabs-wrapper">
-
 <div class="tabs" id="tabs">
 
-    <button class="tab active" onclick="showTab('overview', this)">
-        🗺️ 總覽
-    </button>
+    <button class="tab active" onclick="showTab('overview', this)">🗺️ 總覽</button>
 
-    <button class="tab" onclick="showTab('1009', this)">
-        10/09
-    </button>
-
-    <button class="tab" onclick="showTab('1010', this)">
-        10/10
-    </button>
-
-    <button class="tab" onclick="showTab('1011', this)">
-        10/11
-    </button>
-
-    <button class="tab" onclick="showTab('1012', this)">
-        10/12
-    </button>
-
-    <button class="tab" onclick="showTab('1013', this)">
-        10/13
-    </button>
-
-    <button class="tab" onclick="showTab('1014', this)">
-        10/14
-    </button>
-
-    <button class="tab" onclick="showTab('1015', this)">
-        10/15
-    </button>
-
-    <button class="tab" onclick="showTab('1016', this)">
-        10/16
-    </button>
-
-    <button class="tab" onclick="showTab('1017', this)">
-        10/17
-    </button>
-
-    <button class="tab" onclick="showTab('1018', this)">
-        10/18
-    </button>
-
-    <button class="tab" onclick="showTab('1019', this)">
-        10/19
-    </button>
-
-    <button class="tab" onclick="showTab('1020', this)">
-        10/20
-    </button>
-
-    <button class="tab" onclick="showTab('1021', this)">
-        10/21
-    </button>
-
-    <button class="tab" onclick="showTab('1022', this)">
-        10/22
-    </button>
-
-    <button class="tab" onclick="showTab('1023', this)">
-        10/23
-    </button>
-
-    <button class="tab" onclick="showTab('1024', this)">
-        10/24
-    </button>
-
-    <button class="tab" onclick="showTab('1025', this)">
-        10/25
-    </button>
-
-    <button class="tab" onclick="showTab('1026', this)">
-        10/26
-    </button>
+    <button class="tab" onclick="showTab('1009', this)">10/09</button>
+    <button class="tab" onclick="showTab('1010', this)">10/10</button>
+    <button class="tab" onclick="showTab('1011', this)">10/11</button>
+    <button class="tab" onclick="showTab('1012', this)">10/12</button>
+    <button class="tab" onclick="showTab('1013', this)">10/13</button>
+    <button class="tab" onclick="showTab('1014', this)">10/14</button>
+    <button class="tab" onclick="showTab('1015', this)">10/15</button>
+    <button class="tab" onclick="showTab('1016', this)">10/16</button>
+    <button class="tab" onclick="showTab('1017', this)">10/17</button>
+    <button class="tab" onclick="showTab('1018', this)">10/18</button>
+    <button class="tab" onclick="showTab('1019', this)">10/19</button>
+    <button class="tab" onclick="showTab('1020', this)">10/20</button>
+    <button class="tab" onclick="showTab('1021', this)">10/21</button>
+    <button class="tab" onclick="showTab('1022', this)">10/22</button>
+    <button class="tab" onclick="showTab('1023', this)">10/23</button>
+    <button class="tab" onclick="showTab('1024', this)">10/24</button>
+    <button class="tab" onclick="showTab('1025', this)">10/25</button>
+    <button class="tab" onclick="showTab('1026', this)">10/26</button>
 
 </div>
-
 </div>
-
 
 <main class="container">
-
 
 <!-- ==================================================
      OVERVIEW
@@ -773,27 +1037,16 @@ body {
 <section id="overview" class="tab-content active">
 
 <div class="day-header">
-
-    <div class="date">
-        2026/10/09 → 2026/10/26
-    </div>
-
+    <div class="date">2026/10/09 → 2026/10/26</div>
     <h2>🗺️ 整趟行程</h2>
-
     <div class="route">
         Taiwan → Manchester → Edinburgh → Highlands → Skye
-        → Loch Ness → Glasgow → Manchester Airport
-        → Nottingham → Manchester Airport → Belfast → Dublin
-        → Doha → Bangkok → Taipei
+        → Loch Ness → Glasgow → Manchester Airport → Nottingham
+        → Manchester Airport → Belfast → Dublin → Doha → Bangkok → Taipei
     </div>
-
 </div>
 
-
-<!-- ROUTE -->
-
 <div class="card">
-
 <h3>🧭 路線</h3>
 
 <div class="overview-route">
@@ -819,10 +1072,10 @@ body {
     <div class="route-city">🏔️ Skye</div>
     <div class="arrow">→</div>
 
-    <div class="route-city">🌊 Loch Ness</div>
+    <div class="route-city">🏞️ Loch Ness</div>
     <div class="arrow">→</div>
 
-    <div class="route-city">🏙️ Glasgow</div>
+    <div class="route-city">🏴 Glasgow</div>
     <div class="arrow">→</div>
 
     <div class="route-city">✈️ Manchester Airport</div>
@@ -831,7 +1084,7 @@ body {
     <div class="route-city">⚽ Nottingham</div>
     <div class="arrow">→</div>
 
-    <div class="route-city">🇬🇧 Manchester Airport</div>
+    <div class="route-city">✈️ Manchester Airport</div>
     <div class="arrow">→</div>
 
     <div class="route-city">🇬🇧 Belfast</div>
@@ -849,15 +1102,90 @@ body {
     <div class="route-city">🇹🇼 Taipei</div>
 
 </div>
+</div>
+
+
+<!-- ==================================================
+     FLIGHT ANALYSIS
+================================================== -->
+
+<div class="card">
+
+<div class="flight-section-title">
+    <h3>✈️ 空中移動總覽</h3>
+    <span class="flight-badge">7 SEGMENTS</span>
+</div>
+
+<div class="flight-stats">
+
+    <div class="flight-stat">
+        <div class="number">47h</div>
+        <div class="label">排定飛行時間</div>
+    </div>
+
+    <div class="flight-stat">
+        <div class="number">4</div>
+        <div class="label">航空公司</div>
+    </div>
+
+    <div class="flight-stat">
+        <div class="number">3＋1</div>
+        <div class="label">Business＋First</div>
+    </div>
+
+    <div class="flight-stat">
+        <div class="number">10h55</div>
+        <div class="label">最長單段 · QR836</div>
+    </div>
+
+</div>
+
+<div class="flight-highlight">
+
+    <div class="flight-highlight-item">
+        <div class="flight-highlight-title">👑 最豪華的一段</div>
+        <div class="flight-highlight-detail">
+            QR836 · Doha → Bangkok · First · A388 · 10h55
+        </div>
+    </div>
+
+    <div class="flight-highlight-item">
+        <div class="flight-highlight-title">💼 商務艙主力</div>
+        <div class="flight-highlight-detail">
+            QR863＋QR27＋QR20，共 27h55
+        </div>
+    </div>
+
+    <div class="flight-highlight-item">
+        <div class="flight-highlight-title">🛫 A350-1000 雙連發</div>
+        <div class="flight-highlight-detail">
+            QR863＋QR27 都是 A35K
+        </div>
+    </div>
+
+    <div class="flight-highlight-item">
+        <div class="flight-highlight-title">🌏 最長停留</div>
+        <div class="flight-highlight-detail">
+            Bangkok 約 47h15，不是單純轉機，是完整停留
+        </div>
+    </div>
+
+</div>
 
 </div>
 
 
-<!-- FLIGHTS -->
+<!-- ==================================================
+     COMPLETE FLIGHT TABLE
+================================================== -->
 
 <div class="card">
 
-<h3>✈️ 完整航班總表</h3>
+<div class="flight-section-title">
+    <h3>✈️ 完整航班總表</h3>
+    <span class="flight-badge">47h00 AIRBORNE</span>
+</div>
+
 
 <div class="flight-card">
 
@@ -867,12 +1195,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            TPE → ICN
-        </div>
-        <div class="flight-time">
-            07:30 → 11:00
-        </div>
+        <div class="flight-route">TPE → ICN</div>
+        <div class="flight-time">07:30 → 11:00</div>
+        <div class="flight-duration">3h30</div>
+        <div class="flight-aircraft-full">Boeing 787-9</div>
     </div>
 
     <div class="flight-meta">
@@ -891,12 +1217,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            ICN → DOH
-        </div>
-        <div class="flight-time">
-            18:30 → 23:00
-        </div>
+        <div class="flight-route">ICN → DOH</div>
+        <div class="flight-time">18:30 → 23:00</div>
+        <div class="flight-duration">9h30</div>
+        <div class="flight-aircraft-full">Airbus A350-1000</div>
     </div>
 
     <div class="flight-meta">
@@ -915,12 +1239,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            DOH → MAN
-        </div>
-        <div class="flight-time">
-            07:50 → 13:10
-        </div>
+        <div class="flight-route">DOH → MAN</div>
+        <div class="flight-time">07:50 → 13:10</div>
+        <div class="flight-duration">7h20</div>
+        <div class="flight-aircraft-full">Airbus A350-1000</div>
     </div>
 
     <div class="flight-meta">
@@ -939,12 +1261,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            MAN → BFS
-        </div>
-        <div class="flight-time">
-            08:40 → 09:40
-        </div>
+        <div class="flight-route">MAN → BFS</div>
+        <div class="flight-time">08:40 → 09:40</div>
+        <div class="flight-duration">1h00</div>
+        <div class="flight-aircraft-full">Airbus A320</div>
     </div>
 
     <div class="flight-meta">
@@ -963,12 +1283,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            DUB → DOH
-        </div>
-        <div class="flight-time">
-            08:15 → 17:20
-        </div>
+        <div class="flight-route">DUB → DOH</div>
+        <div class="flight-time">08:15 → 17:20</div>
+        <div class="flight-duration">10h05</div>
+        <div class="flight-aircraft-full">Boeing 787-9</div>
     </div>
 
     <div class="flight-meta">
@@ -979,20 +1297,21 @@ body {
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card featured">
 
     <div>
-        <div class="flight-code">QR836</div>
+        <div class="flight-code-row">
+            <div class="flight-code">QR836</div>
+            <span class="badge flight">最長</span>
+        </div>
         <div class="flight-time">10/24</div>
     </div>
 
     <div>
-        <div class="flight-route">
-            DOH → BKK
-        </div>
-        <div class="flight-time">
-            02:30 → 13:25
-        </div>
+        <div class="flight-route">DOH → BKK</div>
+        <div class="flight-time">02:30 → 13:25</div>
+        <div class="flight-duration">10h55</div>
+        <div class="flight-aircraft-full">Airbus A380-800</div>
     </div>
 
     <div class="flight-meta">
@@ -1011,12 +1330,10 @@ body {
     </div>
 
     <div>
-        <div class="flight-route">
-            BKK → TPE
-        </div>
-        <div class="flight-time">
-            12:40 → 17:20
-        </div>
+        <div class="flight-route">BKK → TPE</div>
+        <div class="flight-time">12:40 → 17:20</div>
+        <div class="flight-duration">4h40</div>
+        <div class="flight-aircraft-full">Airbus A321neo</div>
     </div>
 
     <div class="flight-meta">
@@ -1026,10 +1343,33 @@ body {
 
 </div>
 
+
+<div class="connection-strip">
+
+    <div class="connection-chip">
+        🛫 ICN 轉機 <b>7h30</b>
+    </div>
+
+    <div class="connection-chip">
+        🌙 DOH 過夜轉機 <b>8h50</b>
+    </div>
+
+    <div class="connection-chip">
+        ✈️ DUB → DOH 後等待 <b>9h10</b>
+    </div>
+
+    <div class="connection-chip">
+        🇹🇭 Bangkok 停留 <b>47h15</b>
+    </div>
+
+</div>
+
 </div>
 
 
-<!-- SUMMARY -->
+<!-- ==================================================
+     ITINERARY SUMMARY
+================================================== -->
 
 <div class="card">
 
@@ -1048,111 +1388,111 @@ body {
 <tbody>
 
 <tr>
-<td>10/09</td>
-<td>台北 → 首爾 → 多哈</td>
-<td>✈️ BR170＋QR863</td>
+    <td>10/09</td>
+    <td>台北 → 首爾 → 多哈</td>
+    <td>✈️ BR170＋QR863</td>
 </tr>
 
 <tr>
-<td>10/10</td>
-<td>Manchester</td>
-<td>📚 John Rylands＋市區</td>
+    <td>10/10</td>
+    <td>Manchester</td>
+    <td>📚 John Rylands＋市區</td>
 </tr>
 
 <tr>
-<td>10/11</td>
-<td>Manchester</td>
-<td>⚽ 球場二選一</td>
+    <td>10/11</td>
+    <td>Manchester</td>
+    <td>⚽ 球場二選一</td>
 </tr>
 
 <tr>
-<td>10/12</td>
-<td>Manchester → Edinburgh</td>
-<td>🚆 火車＋👑 Holyrood</td>
+    <td>10/12</td>
+    <td>Manchester → Edinburgh</td>
+    <td>🚆 火車＋👑 Holyrood</td>
 </tr>
 
 <tr>
-<td>10/13</td>
-<td>Edinburgh</td>
-<td>🏰 Old Town 主力日</td>
+    <td>10/13</td>
+    <td>Edinburgh</td>
+    <td>🏰 Old Town 主力日</td>
 </tr>
 
 <tr>
-<td>10/14</td>
-<td>Edinburgh → Fort William</td>
-<td>🚗 Highlands 自駕開始</td>
+    <td>10/14</td>
+    <td>Edinburgh → Fort William</td>
+    <td>🚗 Highlands 自駕開始</td>
 </tr>
 
 <tr>
-<td>10/15</td>
-<td>Fort William → Skye</td>
-<td>🏔️ 前往 Skye</td>
+    <td>10/15</td>
+    <td>Fort William → Skye</td>
+    <td>🏔️ 前往 Skye</td>
 </tr>
 
 <tr>
-<td>10/16</td>
-<td>Skye</td>
-<td>🏔️ Skye 自駕</td>
+    <td>10/16</td>
+    <td>Skye</td>
+    <td>🏔️ Skye 自駕</td>
 </tr>
 
 <tr>
-<td>10/17</td>
-<td>Skye → Loch Ness → Glasgow</td>
-<td>🏔️ Highlands 自駕</td>
+    <td>10/17</td>
+    <td>Skye → Loch Ness → Glasgow</td>
+    <td>🏔️ Highlands Road Trip</td>
 </tr>
 
 <tr>
-<td>10/18</td>
-<td>Glasgow → Manchester Airport → Nottingham → Manchester Airport</td>
-<td>⚽ 足球賽</td>
+    <td>10/18</td>
+    <td>Glasgow → Manchester Airport → Nottingham</td>
+    <td>⚽ Nottingham Forest vs Arsenal</td>
 </tr>
 
 <tr>
-<td>10/19</td>
-<td>Manchester Airport → Belfast</td>
-<td>✈️ U290</td>
+    <td>10/19</td>
+    <td>Manchester Airport → Belfast</td>
+    <td>✈️ U290</td>
 </tr>
 
 <tr>
-<td>10/20</td>
-<td>Belfast → Giant's Causeway → Dublin</td>
-<td>🌊 北愛海岸</td>
+    <td>10/20</td>
+    <td>Belfast → Giant's Causeway → Dublin</td>
+    <td>🌊 北愛海岸</td>
 </tr>
 
 <tr>
-<td>10/21</td>
-<td>Dublin</td>
-<td>☘️ Dublin</td>
+    <td>10/21</td>
+    <td>Dublin</td>
+    <td>☘️ Dublin</td>
 </tr>
 
 <tr>
-<td>10/22</td>
-<td>Dublin</td>
-<td>☘️ Dublin＋最後採買</td>
+    <td>10/22</td>
+    <td>Dublin</td>
+    <td>☘️ Dublin＋最後採買</td>
 </tr>
 
 <tr>
-<td>10/23</td>
-<td>Dublin → Doha</td>
-<td>✈️ QR20</td>
+    <td>10/23</td>
+    <td>Dublin → Doha</td>
+    <td>✈️ QR20</td>
 </tr>
 
 <tr>
-<td>10/24</td>
-<td>Doha → Bangkok</td>
-<td>✈️ QR836</td>
+    <td>10/24</td>
+    <td>Doha → Bangkok</td>
+    <td>✈️ QR836 First</td>
 </tr>
 
 <tr>
-<td>10/25</td>
-<td>Bangkok</td>
-<td>🛏️ 轉機／停留</td>
+    <td>10/25</td>
+    <td>Bangkok</td>
+    <td>🛏️ 轉機／停留</td>
 </tr>
 
 <tr>
-<td>10/26</td>
-<td>Bangkok → Taipei</td>
-<td>✈️ TG634</td>
+    <td>10/26</td>
+    <td>Bangkok → Taipei</td>
+    <td>✈️ TG634</td>
 </tr>
 
 </tbody>
@@ -1161,7 +1501,9 @@ body {
 </div>
 
 
-<!-- KEY DECISIONS -->
+<!-- ==================================================
+     CORE DECISIONS
+================================================== -->
 
 <div class="card">
 
@@ -1169,46 +1511,25 @@ body {
 
 <ul>
 
-    <li>
-        🚆 Manchester → Edinburgh：
-        <b>搭火車</b>
-    </li>
+<li>🚆 Manchester → Edinburgh：<b>搭火車</b></li>
 
-    <li>
-        🚗 Highlands：
-        <b>10/14–10/18 租車</b>
-    </li>
+<li>🚗 Highlands：<b>10/14–10/18 租車</b></li>
 
-    <li>
-        🏰 Edinburgh：
-        Castle＋Holyrood 為主要付費景點
-    </li>
+<li>🏰 Edinburgh：Castle＋Holyrood 為主要付費景點</li>
 
-    <li>
-        🚶 Edinburgh 市區：
-        主要靠走路
-    </li>
+<li>🚶 Edinburgh 市區：主要靠走路</li>
 
-    <li>
-        ⚽ Manchester 球場：
-        Etihad / Old Trafford <b>擇一</b>
-    </li>
+<li>⚽ Manchester 球場：Etihad / Old Trafford <b>擇一</b></li>
 
-    <li>
-        🏔️ 10/17：
-        <b>Skye → Loch Ness → Glasgow</b>
-    </li>
+<li>🏔️ 10/17：<b>Skye → Loch Ness → Glasgow</b></li>
 
-    <li>
-        ⚽ 10/18：
-        <b>Glasgow → Manchester Airport → Nottingham 足球賽
-        → Manchester Airport 住宿</b>
-    </li>
+<li>⚽ 10/18：<b>Nottingham Forest vs Arsenal</b></li>
 
-    <li>
-        ✈️ 10/19：
-        <b>Manchester Airport → Belfast</b>
-    </li>
+<li>🏟️ 比賽場地：<b>The City Ground</b></li>
+
+<li>🛏️ 10/18：看完比賽後回 <b>Manchester Airport</b> 住宿</li>
+
+<li>✈️ 10/19：<b>Manchester Airport → Belfast，直接搭 U290</b></li>
 
 </ul>
 
@@ -1224,15 +1545,9 @@ body {
 <section id="1009" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/09（五）</div>
-
     <h2>✈️ 台北 → 首爾 → 多哈</h2>
-
-    <div class="route">
-        旅行正式開始
-    </div>
-
+    <div class="route">旅行正式開始</div>
 </div>
 
 
@@ -1242,40 +1557,55 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">BR170</div>
-        <div class="flight-time">EVA Air</div>
-    </div>
+<div>
+    <div class="flight-code">BR170</div>
+    <div class="flight-time">EVA Air</div>
+</div>
 
-    <div>
-        <div class="flight-route">TPE → ICN</div>
-        <div class="flight-time">07:30 → 11:00</div>
-    </div>
+<div>
+    <div class="flight-route">TPE → ICN</div>
+    <div class="flight-time">07:30 → 11:00</div>
+    <div class="flight-duration">3h30 · Boeing 787-9</div>
+</div>
 
-    <div class="flight-meta">
-        <div class="cabin">Economy</div>
-        <div class="aircraft">B789</div>
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Economy</div>
+    <div class="aircraft">B789</div>
+</div>
 
 </div>
 
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR863</div>
-        <div class="flight-time">Qatar Airways</div>
-    </div>
+<div>
+    <div class="flight-code">QR863</div>
+    <div class="flight-time">Qatar Airways</div>
+</div>
 
-    <div>
-        <div class="flight-route">ICN → DOH</div>
-        <div class="flight-time">18:30 → 23:00</div>
-    </div>
+<div>
+    <div class="flight-route">ICN → DOH</div>
+    <div class="flight-time">18:30 → 23:00</div>
+    <div class="flight-duration">9h30 · Airbus A350-1000</div>
+</div>
 
-    <div class="flight-meta">
-        <div class="cabin">Business</div>
-        <div class="aircraft">A35K</div>
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Business</div>
+    <div class="aircraft">A35K</div>
+</div>
+
+</div>
+
+
+<div class="connection-strip">
+
+<div class="connection-chip">
+    🇰🇷 ICN 轉機 <b>7h30</b>
+</div>
+
+<div class="connection-chip">
+    🇶🇦 DOH 抵達後過夜
+</div>
 
 </div>
 
@@ -1291,48 +1621,40 @@ body {
 <div class="timeline-item">
     <div class="time">07:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">TPE → ICN</div>
         <div class="event-detail">BR170 · Economy · B789</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">11:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">抵達首爾</div>
         <div class="event-detail">等待下一段航班</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">18:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">ICN → DOH</div>
         <div class="event-detail">QR863 · Business · A35K</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">23:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">抵達 Doha</div>
-        <div class="event-detail">轉機</div>
+        <div class="event-detail">準備隔日 QR27</div>
     </div>
 </div>
 
 </div>
-
 </div>
 
 </section>
@@ -1345,15 +1667,9 @@ body {
 <section id="1010" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/10（六）</div>
-
     <h2>🏙️ Manchester</h2>
-
-    <div class="route">
-        抵達英國的第一天
-    </div>
-
+    <div class="route">抵達英國的第一天</div>
 </div>
 
 
@@ -1363,20 +1679,21 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR27</div>
-        <div class="flight-time">Qatar Airways</div>
-    </div>
+<div>
+    <div class="flight-code">QR27</div>
+    <div class="flight-time">Qatar Airways</div>
+</div>
 
-    <div>
-        <div class="flight-route">DOH → MAN</div>
-        <div class="flight-time">07:50 → 13:10</div>
-    </div>
+<div>
+    <div class="flight-route">DOH → MAN</div>
+    <div class="flight-time">07:50 → 13:10</div>
+    <div class="flight-duration">7h20 · Airbus A350-1000</div>
+</div>
 
-    <div class="flight-meta">
-        <div class="cabin">Business</div>
-        <div class="aircraft">A35K</div>
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Business</div>
+    <div class="aircraft">A35K</div>
+</div>
 
 </div>
 
@@ -1419,108 +1736,71 @@ body {
 <div class="timeline">
 
 <div class="timeline-item">
-
     <div class="time">13:10</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">抵達 Manchester</div>
         <div class="event-detail">MAN Airport</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">15:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">入住／放行李</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">15:15</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
         <div class="event-title">
             John Rylands Library
             <span class="badge confirmed">優先</span>
         </div>
-
-        <div class="event-detail">
-            第一天下午優先完成
-        </div>
-
+        <div class="event-detail">第一天下午優先完成</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">16:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Deansgate / Manchester Cathedral
-        </div>
+        <div class="event-title">Deansgate / Manchester Cathedral</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">17:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Castlefield</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">19:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">晚餐</div>
     </div>
-
 </div>
-
 
 <div class="timeline-item">
-
     <div class="time">晚上</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">自由活動</div>
-        <div class="event-detail">
-            Northern Quarter 等
-        </div>
+        <div class="event-detail">Northern Quarter 等</div>
     </div>
-
 </div>
 
 </div>
-
 
 <div class="note note-red">
-    ❌ 不安排觀看 Manchester United 比賽
+❌ 不安排觀看 Manchester United 比賽
 </div>
 
 </div>
@@ -1535,15 +1815,9 @@ body {
 <section id="1011" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/11（日）</div>
-
     <h2>⚽ Manchester</h2>
-
-    <div class="route">
-        完整 Manchester Day
-    </div>
-
+    <div class="route">完整 Manchester Day</div>
 </div>
 
 
@@ -1570,7 +1844,7 @@ body {
 </ul>
 
 <div class="note note-yellow">
-    🤔 問老婆好了 XD
+🤔 問老婆好了 XD
 </div>
 
 </div>
@@ -1599,15 +1873,9 @@ body {
 <section id="1012" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/12（一）</div>
-
     <h2>🚆 Manchester → Edinburgh</h2>
-
-    <div class="route">
-        抵達蘇格蘭
-    </div>
-
+    <div class="route">抵達蘇格蘭</div>
 </div>
 
 
@@ -1631,71 +1899,39 @@ body {
 <div class="timeline">
 
 <div class="timeline-item">
-
     <div class="time">下午</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
         <div class="event-title">
             Palace of Holyroodhouse
             <span class="badge confirmed">優先</span>
         </div>
-
-        <div class="event-detail">
-            約 1.5–2 小時
-        </div>
-
+        <div class="event-detail">約 1.5–2 小時</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">傍晚</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
-        <div class="event-title">
-            Holyrood → Royal Mile
-        </div>
-
-        <div class="event-detail">
-            步行前往 Old Town
-        </div>
-
+        <div class="event-title">Holyrood → Royal Mile</div>
+        <div class="event-detail">步行前往 Old Town</div>
     </div>
-
 </div>
-
 
 <div class="timeline-item">
-
     <div class="time">晚上</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
-        <div class="event-title">
-            晚餐＋Old Town
-        </div>
-
-        <div class="event-detail">
-            Victoria Street／Grassmarket
-        </div>
-
+        <div class="event-title">晚餐＋Old Town</div>
+        <div class="event-detail">Victoria Street／Grassmarket</div>
     </div>
-
 </div>
 
 </div>
-
 
 <div class="note note-green">
-    👑 Holyrood Palace 排在這天，
-    因為 10/13（二）休館。
+👑 Holyrood Palace 排在這天，因為 10/13（二）休館。
 </div>
 
 </div>
@@ -1710,15 +1946,9 @@ body {
 <section id="1013" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/13（二）</div>
-
     <h2>🏰 Edinburgh</h2>
-
-    <div class="route">
-        Old Town＋New Town 主力日
-    </div>
-
+    <div class="route">Old Town＋New Town 主力日</div>
 </div>
 
 
@@ -1731,7 +1961,6 @@ body {
 <div class="timeline-item">
     <div class="time">09:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">
             Edinburgh Castle
@@ -1741,130 +1970,98 @@ body {
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">12:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Royal Mile</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">12:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">St Giles' Cathedral</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">13:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">🍴 午餐</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">14:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Victoria Street</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">14:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Grassmarket</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">15:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Greyfriars Kirkyard</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">15:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
-        <div class="event-title">
-            National Museum of Scotland
-        </div>
-
-        <div class="event-detail">
-            約 60–90 分鐘
-        </div>
-
+        <div class="event-title">National Museum of Scotland</div>
+        <div class="event-detail">約 60–90 分鐘</div>
     </div>
-
 </div>
-
 
 <div class="timeline-item">
     <div class="time">17:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">Princes Street / New Town</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">17:30</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">🌅 Calton Hill</div>
         <div class="event-detail">約 45–60 分鐘</div>
     </div>
 </div>
 
-
 <div class="timeline-item">
     <div class="time">19:00</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">晚餐</div>
     </div>
 </div>
 
 </div>
-
 </div>
 
 
 <div class="note note-blue">
-    🚶 主要景點高度集中，
-    原則上全部步行即可。
+🚶 主要景點高度集中，原則上全部步行即可。
 </div>
 
-
 <div class="note note-yellow">
-    🟡 Arthur's Seat：看體力決定。
-    後面 Highlands＋Skye 已有大量自然景觀，不是必排。
+🟡 Arthur's Seat：看體力決定。後面 Highlands＋Skye 已有大量自然景觀，不是必排。
 </div>
 
 </section>
@@ -1877,15 +2074,9 @@ body {
 <section id="1014" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/14（三）</div>
-
     <h2>🚗 Edinburgh → Fort William</h2>
-
-    <div class="route">
-        Scottish Highlands 自駕 Day 1
-    </div>
-
+    <div class="route">Scottish Highlands 自駕 Day 1</div>
 </div>
 
 
@@ -1896,52 +2087,32 @@ body {
 <div class="timeline">
 
 <div class="timeline-item">
-
     <div class="time">上午</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
         <div class="event-title">取租車</div>
-        <div class="event-detail">
-            小型自排為主
-        </div>
+        <div class="event-detail">小型自排為主</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">白天</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Edinburgh → Fort William
-        </div>
-        <div class="event-detail">
-            Highlands Road Trip 開始
-        </div>
+        <div class="event-title">Edinburgh → Fort William</div>
+        <div class="event-detail">Highlands Road Trip 開始</div>
     </div>
-
 </div>
-
 
 <div class="timeline-item">
-
     <div class="time">晚上</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Fort William 住宿
-        </div>
+        <div class="event-title">Fort William 住宿</div>
     </div>
-
 </div>
 
 </div>
-
 </div>
 
 </section>
@@ -1954,15 +2125,9 @@ body {
 <section id="1015" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/15（四）</div>
-
     <h2>🏔️ Fort William → Skye</h2>
-
-    <div class="route">
-        Highlands 自駕 Day 2
-    </div>
-
+    <div class="route">Highlands 自駕 Day 2</div>
 </div>
 
 
@@ -1971,15 +2136,10 @@ body {
 <h3>🚗 行程</h3>
 
 <ul>
-
     <li>Fort William 出發</li>
-
     <li>前往 Isle of Skye</li>
-
     <li>沿途景點待細排</li>
-
     <li>入住 Skye 已訂住宿</li>
-
 </ul>
 
 </div>
@@ -1994,15 +2154,9 @@ body {
 <section id="1016" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/16（五）</div>
-
     <h2>🏔️ Skye</h2>
-
-    <div class="route">
-        Skye 自駕 Day 1
-    </div>
-
+    <div class="route">Skye 自駕 Day 1</div>
 </div>
 
 
@@ -2028,15 +2182,11 @@ body {
 <section id="1017" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/17（六）</div>
-
     <h2>🏔️ Skye → Loch Ness → Glasgow</h2>
-
     <div class="route">
-        Highlands Road Trip Day 4
+        Highlands Road Trip · Skye → Loch Ness → Glasgow
     </div>
-
 </div>
 
 
@@ -2047,82 +2197,55 @@ body {
 <div class="timeline">
 
 <div class="timeline-item">
-
     <div class="time">上午</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Skye 出發
-        </div>
+        <div class="event-title">Skye 出發</div>
         <div class="event-detail">
-            開始離開 Isle of Skye，往東行駛
+            離開 Isle of Skye，開始往東南方向移動
         </div>
     </div>
-
 </div>
 
+<div class="timeline-item">
+    <div class="time">白天</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🏞️ Loch Ness</div>
+        <div class="event-detail">
+            尼斯湖沿岸停留；Urquhart Castle 可視時間加入
+        </div>
+    </div>
+</div>
 
 <div class="timeline-item">
-
     <div class="time">下午</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Loch Ness
-        </div>
-        <div class="event-detail">
-            沿途停留 Loch Ness／Urquhart Castle 一帶
-        </div>
-    </div>
-
-</div>
-
-
-<div class="timeline-item">
-
-    <div class="time">傍晚</div>
-    <div class="timeline-dot"></div>
-
-    <div class="event">
-        <div class="event-title">
-            Loch Ness → Glasgow
-        </div>
+        <div class="event-title">Loch Ness → Glasgow</div>
         <div class="event-detail">
             繼續南下前往 Glasgow
         </div>
     </div>
-
 </div>
-
 
 <div class="timeline-item">
-
     <div class="time">晚上</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Glasgow 住宿
-        </div>
+        <div class="event-title">🌃 Glasgow 住宿</div>
         <div class="event-detail">
-            Highlands 自駕進入最後階段
+            Highlands 自駕段最後一晚
         </div>
     </div>
-
 </div>
 
 </div>
-
 </div>
 
 
-<div class="note note-yellow">
-
-    🟡 這天車程較長，重點是順利從 Skye 移動到 Glasgow；
-    Loch Ness 以沿途停留為主，不宜排太滿。
-
+<div class="note note-blue">
+🏔️ 這天的重點是把 Skye、Loch Ness、Glasgow 串起來，不再繞回 Edinburgh。
 </div>
 
 </section>
@@ -2135,21 +2258,175 @@ body {
 <section id="1018" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/18（日）</div>
-
     <h2>⚽ Glasgow → Manchester Airport → Nottingham</h2>
-
     <div class="route">
-        足球賽日 × Manchester Airport 住宿
+        還車 → MAN → City Ground → 回 MAN 住宿
+    </div>
+</div>
+
+
+<!-- MATCH HERO -->
+
+<div class="match-hero">
+
+    <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/CityGroundFromAboveTrentBridgeCricketGround.jpg"
+        alt="The City Ground, Nottingham Forest"
+        class="match-image"
+    >
+
+    <div class="match-overlay">
+
+        <div class="match-competition">
+            PREMIER LEAGUE · MATCHWEEK 7
+        </div>
+
+        <div class="match-teams">
+
+            <div class="match-team">
+                <div class="team-name">Nottingham Forest</div>
+                <div class="team-role">HOME</div>
+            </div>
+
+            <div class="match-vs">VS</div>
+
+            <div class="match-team">
+                <div class="team-name">Arsenal</div>
+                <div class="team-role">AWAY</div>
+            </div>
+
+        </div>
+
+        <div class="match-date">
+            🗓️ Sunday · 18 October 2026
+        </div>
+
+        <div class="match-time">
+            16:30
+            <span>BST</span>
+        </div>
+
+        <div class="match-venue">
+            🏟️ The City Ground · Nottingham
+        </div>
+
     </div>
 
 </div>
 
 
+<!-- MATCH INFO -->
+
+<div class="match-info-grid">
+
+    <div class="match-info-card">
+        <div class="match-info-icon">⚽</div>
+        <div>
+            <div class="match-info-label">賽事</div>
+            <div class="match-info-value">Premier League</div>
+        </div>
+    </div>
+
+    <div class="match-info-card">
+        <div class="match-info-icon">🕟</div>
+        <div>
+            <div class="match-info-label">開賽</div>
+            <div class="match-info-value">16:30 BST</div>
+        </div>
+    </div>
+
+    <div class="match-info-card">
+        <div class="match-info-icon">🏟️</div>
+        <div>
+            <div class="match-info-label">球場</div>
+            <div class="match-info-value">The City Ground</div>
+        </div>
+    </div>
+
+    <div class="match-info-card">
+        <div class="match-info-icon">📍</div>
+        <div>
+            <div class="match-info-label">地點</div>
+            <div class="match-info-value">Nottingham</div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- MATCH DETAILS -->
+
 <div class="card">
 
-<h3>🚗＋🚆 行程</h3>
+<h3>⚽ 10/18 足球賽</h3>
+
+<div class="match-scoreboard">
+
+    <div class="match-side">
+        <div class="match-side-name">Nottingham Forest</div>
+        <div class="match-side-label">主場</div>
+    </div>
+
+    <div class="match-center">
+        <div class="match-center-date">10/18</div>
+        <div class="match-center-vs">VS</div>
+        <div class="match-center-time">16:30 BST</div>
+    </div>
+
+    <div class="match-side">
+        <div class="match-side-name">Arsenal</div>
+        <div class="match-side-label">客場</div>
+    </div>
+
+</div>
+
+
+<div class="note note-blue">
+
+📍 <b>The City Ground</b><br>
+Nottingham Forest 主場，位於 Nottingham。
+
+</div>
+
+
+<div class="note note-yellow">
+
+⏰ <b>16:30 BST 開賽</b><br>
+台灣時間為 <b>10/18 23:30</b>。
+
+</div>
+
+
+<div class="note note-green">
+
+🔥 這場比賽非常適合直接塞進你的 10/18 路線：
+
+<br><br>
+
+<b>
+Glasgow → Manchester Airport → Nottingham → The City Ground
+</b>
+
+<br><br>
+
+看完比賽後再返回 Manchester Airport。
+
+</div>
+
+
+<p class="image-credit">
+圖片：The City Ground / Wikimedia Commons
+</p>
+
+</div>
+
+
+<!-- DAY TIMELINE -->
+
+<div class="card">
+
+<h3>🕐 當日流程</h3>
 
 <div class="timeline">
 
@@ -2159,12 +2436,35 @@ body {
     <div class="timeline-dot"></div>
 
     <div class="event">
+
         <div class="event-title">
-            Glasgow 出發
+            🚗 Glasgow 出發
         </div>
+
         <div class="event-detail">
-            前往 Manchester Airport
+            Highlands 自駕段結束，準備歸還租車
         </div>
+
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">上午</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+
+        <div class="event-title">
+            🚗 歸還租車
+        </div>
+
+        <div class="event-detail">
+            Glasgow 還車
+        </div>
+
     </div>
 
 </div>
@@ -2176,12 +2476,15 @@ body {
     <div class="timeline-dot"></div>
 
     <div class="event">
+
         <div class="event-title">
-            Manchester Airport
+            🚆 Glasgow → Manchester Airport
         </div>
+
         <div class="event-detail">
-            放行李／入住機場飯店
+            前往 MAN，先處理隔天航班與行李
         </div>
+
     </div>
 
 </div>
@@ -2193,12 +2496,61 @@ body {
     <div class="timeline-dot"></div>
 
     <div class="event">
+
         <div class="event-title">
-            Manchester Airport → Nottingham
+            ⚽ 前往 Nottingham
         </div>
+
         <div class="event-detail">
-            搭火車前往 Nottingham 看足球賽
+            前往 The City Ground
         </div>
+
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">16:30</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+
+        <div class="event-title">
+
+            🔥 Nottingham Forest vs Arsenal
+
+            <span class="badge confirmed">
+                CONFIRMED
+            </span>
+
+        </div>
+
+        <div class="event-detail">
+            Premier League · Matchweek 7 · The City Ground
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="timeline-item">
+
+    <div class="time">約18:15</div>
+    <div class="timeline-dot"></div>
+
+    <div class="event">
+
+        <div class="event-title">
+            🏁 比賽結束
+        </div>
+
+        <div class="event-detail">
+            實際離場時間依比賽進程與人流而定
+        </div>
+
     </div>
 
 </div>
@@ -2210,12 +2562,15 @@ body {
     <div class="timeline-dot"></div>
 
     <div class="event">
+
         <div class="event-title">
-            ⚽ Nottingham 足球賽
+            🚆 Nottingham → Manchester Airport
         </div>
+
         <div class="event-detail">
-            比賽結束後返回 Manchester Airport
+            看完比賽直接返回 MAN
         </div>
+
     </div>
 
 </div>
@@ -2223,17 +2578,83 @@ body {
 
 <div class="timeline-item">
 
-    <div class="time">深夜</div>
+    <div class="time">晚上</div>
     <div class="timeline-dot"></div>
 
     <div class="event">
+
         <div class="event-title">
-            Manchester Airport 住宿
+            🛏️ Manchester Airport 住宿
         </div>
+
         <div class="event-detail">
-            隔天直接前往航廈搭乘 U290
+            為隔天 08:40 U290 做準備
         </div>
+
     </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- WHY THIS MATCH -->
+
+<div class="card">
+
+<h3>🧠 為什麼這場很適合你的行程？</h3>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>🏔️ Highlands 結束</h3>
+
+<p>
+10/17 已經安排
+<b>Skye → Loch Ness → Glasgow</b>，
+所以 10/18 從 Glasgow 出發非常順。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>⚽ 不用 London 快閃</h3>
+
+<p>
+不用為了看 Arsenal 特別跑 London，
+而是直接在 Nottingham 看
+<b>Arsenal 客場</b>。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🛏️ 隔天風險低</h3>
+
+<p>
+看完球直接回 Manchester Airport，
+隔天早上不用再從 Manchester 市區趕機場。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔥 球賽本身也夠有看頭</h3>
+
+<p>
+Premier League 正規聯賽，
+而且是
+<b>Nottingham Forest 主場 vs Arsenal</b>。
+</p>
 
 </div>
 
@@ -2244,23 +2665,12 @@ body {
 
 <div class="note note-red">
 
-    ⚠️ <b>這天是整趟行程中最硬的一天之一。</b><br><br>
+⚠️ <b>交通要留 buffer：</b>
 
-    Glasgow → Manchester Airport → Nottingham 足球賽
-    → Manchester Airport 住宿。<br><br>
+16:30 開賽，賽後離開 The City Ground
+＋前往 Manchester Airport 不要抓得太緊。
 
-    隔天 10/19 08:40 還有 U290，
-    因此比賽結束後務必預留足夠時間返回 MAN。
-
-</div>
-
-
-<div class="note note-blue">
-
-    🧳 <b>重點：</b>
-    10/18 先把大行李放在 Manchester Airport 飯店，
-    去 Nottingham 看完球再回機場住宿，
-    避免隔天一早從市區趕機場。
+10/18 晚上住 MAN Airport 的安排仍然是最合理的。
 
 </div>
 
@@ -2274,15 +2684,11 @@ body {
 <section id="1019" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/19（一）</div>
-
     <h2>✈️ Manchester Airport → Belfast</h2>
-
     <div class="route">
-        早班機前往 Northern Ireland
+        Manchester Airport 直接搭早班機前往 Northern Ireland
     </div>
-
 </div>
 
 
@@ -2292,25 +2698,21 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">U290</div>
-        <div class="flight-time">easyJet</div>
-    </div>
+<div>
+    <div class="flight-code">U290</div>
+    <div class="flight-time">easyJet</div>
+</div>
 
-    <div>
-        <div class="flight-route">
-            MAN → BFS
-        </div>
+<div>
+    <div class="flight-route">MAN → BFS</div>
+    <div class="flight-time">08:40 → 09:40</div>
+    <div class="flight-duration">1h00 · Airbus A320</div>
+</div>
 
-        <div class="flight-time">
-            08:40 → 09:40
-        </div>
-    </div>
-
-    <div class="flight-meta">
-        <div class="cabin">Economy</div>
-        <div class="aircraft">A320</div>
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Economy</div>
+    <div class="aircraft">A320</div>
+</div>
 
 </div>
 
@@ -2331,12 +2733,14 @@ body {
     <div class="event">
 
         <div class="event-title">
-            Manchester Airport
-            <span class="badge confirmed">機場住宿</span>
+            Manchester Airport 住宿 → 航廈
+            <span class="badge confirmed">
+                前一晚已住機場
+            </span>
         </div>
 
         <div class="event-detail">
-            從機場飯店直接前往航廈
+            不需要再從市區趕機場
         </div>
 
     </div>
@@ -2418,8 +2822,8 @@ body {
 
 <div class="note note-green">
 
-    🛏️ 10/18 已住在 Manchester Airport，
-    因此 10/19 早上不需要從 Edinburgh 趕往 MAN。
+🟢 10/18 已住 Manchester Airport，
+10/19 直接前往航廈，這段風險比前一版低很多。
 
 </div>
 
@@ -2433,15 +2837,9 @@ body {
 <section id="1020" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/20（二）</div>
-
     <h2>🌊 Belfast → Giant's Causeway → Dublin</h2>
-
-    <div class="route">
-        Northern Ireland → Republic of Ireland
-    </div>
-
+    <div class="route">Northern Ireland → Republic of Ireland</div>
 </div>
 
 
@@ -2452,48 +2850,27 @@ body {
 <div class="timeline">
 
 <div class="timeline-item">
-
     <div class="time">上午</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-        <div class="event-title">
-            Belfast 出發
-        </div>
+        <div class="event-title">Belfast 出發</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">白天</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
-        <div class="event-title">
-            Giant's Causeway
-        </div>
-
+        <div class="event-title">Giant's Causeway</div>
     </div>
-
 </div>
 
-
 <div class="timeline-item">
-
     <div class="time">晚上</div>
     <div class="timeline-dot"></div>
-
     <div class="event">
-
-        <div class="event-title">
-            前往 Dublin
-        </div>
-
+        <div class="event-title">前往 Dublin</div>
     </div>
-
 </div>
 
 </div>
@@ -2510,15 +2887,9 @@ body {
 <section id="1021" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/21（三）</div>
-
     <h2>☘️ Dublin</h2>
-
-    <div class="route">
-        Dublin City Day 1
-    </div>
-
+    <div class="route">Dublin City Day 1</div>
 </div>
 
 
@@ -2527,11 +2898,8 @@ body {
 <h3>📍 行程</h3>
 
 <ul>
-
     <li>Dublin 市區觀光</li>
-
     <li>詳細景點待細排</li>
-
 </ul>
 
 </div>
@@ -2546,15 +2914,9 @@ body {
 <section id="1022" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/22（四）</div>
-
     <h2>☘️ Dublin</h2>
-
-    <div class="route">
-        Dublin City Day 2
-    </div>
-
+    <div class="route">Dublin City Day 2</div>
 </div>
 
 
@@ -2563,13 +2925,9 @@ body {
 <h3>📍 行程</h3>
 
 <ul>
-
     <li>Dublin 市區／自由活動</li>
-
     <li>最後採買</li>
-
     <li>整理行李</li>
-
 </ul>
 
 </div>
@@ -2584,15 +2942,9 @@ body {
 <section id="1023" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/23（五）</div>
-
     <h2>✈️ Dublin → Doha</h2>
-
-    <div class="route">
-        歐洲段結束
-    </div>
-
+    <div class="route">歐洲段結束</div>
 </div>
 
 
@@ -2602,32 +2954,21 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">QR20</div>
-        <div class="flight-time">Qatar Airways</div>
-    </div>
+<div>
+    <div class="flight-code">QR20</div>
+    <div class="flight-time">Qatar Airways</div>
+</div>
 
-    <div>
-        <div class="flight-route">
-            DUB → DOH
-        </div>
+<div>
+    <div class="flight-route">DUB → DOH</div>
+    <div class="flight-time">08:15 → 17:20</div>
+    <div class="flight-duration">10h05 · Boeing 787-9</div>
+</div>
 
-        <div class="flight-time">
-            08:15 → 17:20
-        </div>
-    </div>
-
-    <div class="flight-meta">
-
-        <div class="cabin">
-            Business
-        </div>
-
-        <div class="aircraft">
-            B789
-        </div>
-
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Business</div>
+    <div class="aircraft">B789</div>
+</div>
 
 </div>
 
@@ -2636,8 +2977,8 @@ body {
 
 <div class="note note-blue">
 
-    ✈️ 抵達 Doha 後，
-    隔日凌晨還有下一段 QR836。
+✈️ 抵達 Doha 後，
+隔日凌晨還有下一段 QR836。
 
 </div>
 
@@ -2651,50 +2992,65 @@ body {
 <section id="1024" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/24（六）</div>
-
     <h2>✈️ Doha → Bangkok</h2>
-
-    <div class="route">
-        Qatar Airways First Class
-    </div>
-
+    <div class="route">Qatar Airways First Class</div>
 </div>
 
 
 <div class="card">
 
-<h3>✈️ QR836</h3>
+<h3>👑 ✈️ QR836</h3>
 
-<div class="flight-card">
+<div class="flight-card featured">
 
-    <div>
-        <div class="flight-code">QR836</div>
-        <div class="flight-time">Qatar Airways</div>
-    </div>
+<div>
 
-    <div>
-        <div class="flight-route">
-            DOH → BKK
-        </div>
+<div class="flight-code-row">
 
-        <div class="flight-time">
-            02:30 → 13:25
-        </div>
-    </div>
+    <div class="flight-code">QR836</div>
 
-    <div class="flight-meta">
+    <span class="badge flight">
+        FIRST
+    </span>
 
-        <div class="cabin">
-            First
-        </div>
+</div>
 
-        <div class="aircraft">
-            A388
-        </div>
+<div class="flight-time">
+    Qatar Airways
+</div>
 
-    </div>
+</div>
+
+
+<div>
+
+<div class="flight-route">
+    DOH → BKK
+</div>
+
+<div class="flight-time">
+    02:30 → 13:25
+</div>
+
+<div class="flight-duration">
+    10h55 · Airbus A380-800
+</div>
+
+</div>
+
+
+<div class="flight-meta">
+
+<div class="cabin">
+    First
+</div>
+
+<div class="aircraft">
+    A388
+</div>
+
+</div>
 
 </div>
 
@@ -2706,13 +3062,9 @@ body {
 <h3>🛬 Bangkok</h3>
 
 <ul>
-
     <li>13:25 抵達 Bangkok</li>
-
     <li>轉機／入境</li>
-
     <li>住宿待確認</li>
-
 </ul>
 
 </div>
@@ -2727,15 +3079,9 @@ body {
 <section id="1025" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/25（日）</div>
-
     <h2>🇹🇭 Bangkok</h2>
-
-    <div class="route">
-        回程中途停留
-    </div>
-
+    <div class="route">回程中途停留</div>
 </div>
 
 
@@ -2744,13 +3090,9 @@ body {
 <h3>🛏️ 行程</h3>
 
 <ul>
-
     <li>Bangkok 停留</li>
-
     <li>自由活動／休息</li>
-
     <li>準備隔天回台灣</li>
-
 </ul>
 
 </div>
@@ -2758,8 +3100,8 @@ body {
 
 <div class="note note-yellow">
 
-    🟡 這天目前看起來是回程中間的停留日，
-    實際安排依住宿與是否出機場決定。
+🟡 這天目前看起來是回程中間的停留日，
+實際安排依住宿與是否出機場決定。
 
 </div>
 
@@ -2773,15 +3115,9 @@ body {
 <section id="1026" class="tab-content">
 
 <div class="day-header">
-
     <div class="date">10/26（一）</div>
-
     <h2>✈️ Bangkok → Taipei</h2>
-
-    <div class="route">
-        蜜月旅程正式結束
-    </div>
-
+    <div class="route">蜜月旅程正式結束</div>
 </div>
 
 
@@ -2791,32 +3127,21 @@ body {
 
 <div class="flight-card">
 
-    <div>
-        <div class="flight-code">TG634</div>
-        <div class="flight-time">Thai Airways</div>
-    </div>
+<div>
+    <div class="flight-code">TG634</div>
+    <div class="flight-time">Thai Airways</div>
+</div>
 
-    <div>
-        <div class="flight-route">
-            BKK → TPE
-        </div>
+<div>
+    <div class="flight-route">BKK → TPE</div>
+    <div class="flight-time">12:40 → 17:20</div>
+    <div class="flight-duration">4h40 · Airbus A321neo</div>
+</div>
 
-        <div class="flight-time">
-            12:40 → 17:20
-        </div>
-    </div>
-
-    <div class="flight-meta">
-
-        <div class="cabin">
-            Economy
-        </div>
-
-        <div class="aircraft">
-            A321neo
-        </div>
-
-    </div>
+<div class="flight-meta">
+    <div class="cabin">Economy</div>
+    <div class="aircraft">A321neo</div>
+</div>
 
 </div>
 
@@ -2836,30 +3161,19 @@ body {
 
 <div class="note note-green">
 
-    🏁 Honeymoon complete!
-    🇹🇼 回家啦 XD
+🏁 Honeymoon complete! 🇹🇼 回家啦 XD
 
 </div>
 
 </section>
 
 
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
 <div class="footer">
-
     2026 UK & Ireland Honeymoon · Current itinerary
-
 </div>
 
 </main>
 
-
-<!-- ==================================================
-     JAVASCRIPT
-================================================== -->
 
 <script>
 
@@ -2868,17 +3182,17 @@ function showTab(id, button) {
     const contents =
         document.querySelectorAll(".tab-content");
 
-    contents.forEach(content => {
-        content.classList.remove("active");
-    });
+    contents.forEach(content =>
+        content.classList.remove("active")
+    );
 
 
     const tabs =
         document.querySelectorAll(".tab");
 
-    tabs.forEach(tab => {
-        tab.classList.remove("active");
-    });
+    tabs.forEach(tab =>
+        tab.classList.remove("active")
+    );
 
 
     const target =
@@ -2907,63 +3221,62 @@ function showTab(id, button) {
 }
 
 
-/* ==================================================
-   鍵盤左右切換日期
-================================================== */
+document.addEventListener(
+    "keydown",
+    function(event) {
 
-document.addEventListener("keydown", function(event) {
-
-    if (
-        event.key !== "ArrowLeft" &&
-        event.key !== "ArrowRight"
-    ) {
-        return;
-    }
+        if (
+            event.key !== "ArrowLeft" &&
+            event.key !== "ArrowRight"
+        ) {
+            return;
+        }
 
 
-    const tabs =
-        Array.from(document.querySelectorAll(".tab"));
-
-
-    const activeIndex =
-        tabs.findIndex(tab =>
-            tab.classList.contains("active")
-        );
-
-
-    let nextIndex;
-
-
-    if (event.key === "ArrowRight") {
-
-        nextIndex =
-            Math.min(
-                activeIndex + 1,
-                tabs.length - 1
+        const tabs =
+            Array.from(
+                document.querySelectorAll(".tab")
             );
 
-    } else {
 
-        nextIndex =
-            Math.max(
-                activeIndex - 1,
-                0
+        const activeIndex =
+            tabs.findIndex(
+                tab =>
+                    tab.classList.contains("active")
             );
 
+
+        let nextIndex;
+
+
+        if (event.key === "ArrowRight") {
+
+            nextIndex =
+                Math.min(
+                    activeIndex + 1,
+                    tabs.length - 1
+                );
+
+        } else {
+
+            nextIndex =
+                Math.max(
+                    activeIndex - 1,
+                    0
+                );
+
+        }
+
+
+        tabs[nextIndex].click();
+
     }
+);
 
-
-    tabs[nextIndex].click();
-
-});
-
-
-/* ==================================================
-   滑鼠滾輪左右滑日期 Tab
-================================================== */
 
 const tabsContainer =
     document.getElementById("tabs");
+
 
 tabsContainer.addEventListener(
     "wheel",
@@ -2979,11 +3292,12 @@ tabsContainer.addEventListener(
         }
 
     },
-    { passive: false }
+    {
+        passive: false
+    }
 );
 
 </script>
-
 
 </body>
 </html>
