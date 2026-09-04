@@ -463,6 +463,76 @@ body {
     padding: 18px 0;
 }
 
+/* Daily itinerary flight card */
+.flight-card.day-flight {
+    grid-template-columns: 180px minmax(240px, 1fr) 150px;
+    gap: 0;
+    overflow: hidden;
+    margin-top: 14px;
+    padding: 0;
+    border: 1px solid #d8dee8;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .07);
+}
+
+.day-flight > div {
+    padding: 20px;
+}
+
+.day-flight > div:first-child {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.day-flight > div:nth-child(2) {
+    align-self: center;
+}
+
+.day-flight > div:nth-child(2) .flight-route {
+    font-size: 1.08rem;
+}
+
+.day-flight > div:nth-child(2) .flight-time {
+    margin-top: 3px;
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 850;
+}
+
+.day-flight > div:nth-child(2) .flight-duration {
+    margin-top: 6px;
+}
+
+.day-flight .flight-meta {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 27px;
+    border-left: 2px dashed #d8dee8;
+    text-align: left;
+    background: rgba(248, 250, 252, .72);
+}
+
+.day-flight .flight-meta::before {
+    content: "CABIN / AIRCRAFT";
+    margin-bottom: 7px;
+    color: #94a3b8;
+    font-size: .63rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.day-flight.featured {
+    border-color: #d8b4fe;
+    background: linear-gradient(110deg, #fff 70%, #faf5ff);
+}
+
 .flight-identity {
     display: grid;
     grid-template-columns: 104px 1fr;
@@ -1193,6 +1263,31 @@ body {
     .flight-meta {
         grid-column: 2;
         grid-row: 2;
+    }
+
+    .flight-card.day-flight {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .day-flight > div,
+    .day-flight .flight-meta {
+        grid-column: 1;
+        padding: 15px 16px;
+    }
+
+    .day-flight .flight-meta {
+        grid-row: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        border-top: 2px dashed #d8dee8;
+        border-left: 0;
+    }
+
+    .day-flight .flight-meta::before {
+        margin: 0 auto 0 0;
     }
 
     .flight-card.flight-ticket {
@@ -2003,7 +2098,7 @@ body {
 
 <h3>✈️ 航班</h3>
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div>
     <div class="flight-code">BR170</div>
@@ -2024,7 +2119,7 @@ body {
 </div>
 
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div>
     <div class="flight-code">QR863</div>
@@ -2079,8 +2174,62 @@ body {
     <div class="time">11:00</div>
     <div class="timeline-dot"></div>
     <div class="event">
-        <div class="event-title">抵達首爾</div>
-        <div class="event-detail">等待下一段航班</div>
+        <div class="event-title">抵達仁川 T1</div>
+        <div class="event-detail">入境，確認 QR863 登機證與行李直掛狀態</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">12:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🚆 前往雲西站</div>
+        <div class="event-detail">AREX 普通車約 14 分鐘，單程預算 ₩1,500–2,000／人</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">12:30</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🇰🇷 韓式午餐</div>
+        <div class="event-detail">雲西站周邊商圈，不排特定店家，視當天狀態選擇</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">13:40</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🛒 輕鬆採買</div>
+        <div class="event-detail">Lotte Mart／Olive Young／Daiso，以零食、美妝與旅行補給為主</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">14:40</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🚆 返回仁川機場</div>
+        <div class="event-detail">最晚這個時間離開雲西；若入境延誤就直接縮短採買</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">15:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🛋️ 安檢與貴賓室</div>
+        <div class="event-detail">回到 T1，完成出境後用餐、洗澡與休息</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">17:45</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">前往登機門</div>
+        <div class="event-detail">結束貴賓室休息，預留登機緩衝</div>
     </div>
 </div>
 
@@ -2105,6 +2254,10 @@ body {
 </div>
 </div>
 
+<div class="note note-yellow">
+雲西短停以行李能直掛、已取得 QR863 登機證為前提；若需領行李或重新辦理托運，當天改為留在機場。
+</div>
+
 </section>
 
 
@@ -2125,7 +2278,7 @@ body {
 
 <h3>✈️ 抵達 Manchester</h3>
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div>
     <div class="flight-code">QR27</div>
@@ -3276,7 +3429,7 @@ Manchester Airport → Belfast<br>
 
 <h3>✈️ U290 <span class="badge pending">尚未購買</span></h3>
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div class="flight-identity">
     <div class="airline-logo"><img src="assets/airlines/easyjet.svg" alt="easyJet logo"></div>
@@ -3536,7 +3689,7 @@ Manchester Airport → Belfast<br>
 
 <h3>✈️ QR20</h3>
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div>
     <div class="flight-code">QR20</div>
@@ -3586,7 +3739,7 @@ Manchester Airport → Belfast<br>
 
 <h3>👑 ✈️ QR836</h3>
 
-<div class="flight-card featured">
+<div class="flight-card day-flight featured">
 
 <div>
 
@@ -3709,7 +3862,7 @@ Manchester Airport → Belfast<br>
 
 <h3>✈️ TG634</h3>
 
-<div class="flight-card">
+<div class="flight-card day-flight">
 
 <div>
     <div class="flight-code">TG634</div>
