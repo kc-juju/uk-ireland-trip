@@ -800,6 +800,48 @@ body {
     font-size: .85rem;
 }
 
+.layover-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.layover-option {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.layover-option.recommended {
+    border-color: #86efac;
+    background: linear-gradient(135deg, #f0fdf4, #fff);
+}
+
+.layover-option-title {
+    font-weight: 850;
+}
+
+.layover-option-meta {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: .84rem;
+}
+
+.layover-option a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #2563eb;
+    font-size: .84rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.layover-option a:hover {
+    text-decoration: underline;
+}
+
 /* ==================================================
    RAIL TICKET
 ================================================== */
@@ -1245,6 +1287,10 @@ body {
 
     .match-info-grid {
         grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .layover-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -2108,7 +2154,7 @@ body {
 <div>
     <div class="flight-route">TPE → ICN</div>
     <div class="flight-time">07:30 → 11:00</div>
-    <div class="flight-duration">2h30 · Boeing 787-9</div>
+    <div class="flight-duration">2h30</div>
 </div>
 
 <div class="flight-meta">
@@ -2129,7 +2175,7 @@ body {
 <div>
     <div class="flight-route">ICN → DOH</div>
     <div class="flight-time">18:30 → 23:00</div>
-    <div class="flight-duration">10h30 · Airbus A350-1000</div>
+    <div class="flight-duration">10h30</div>
 </div>
 
 <div class="flight-meta">
@@ -2258,6 +2304,56 @@ body {
 雲西短停以行李能直掛、已取得 QR863 登機證為前提；若需領行李或重新辦理托運，當天改為留在機場。
 </div>
 
+<div class="card">
+
+<h3>🇰🇷 雲西交通與午餐</h3>
+
+<div class="connection-strip">
+    <div class="connection-chip">🚆 T1 ↔ 雲西：單程約 <b>14 分鐘</b></div>
+    <div class="connection-chip">🎫 AREX 普通車：單程約 <b>₩1,500–2,000／人</b></div>
+    <div class="connection-chip">👫 兩人來回預算：<b>₩6,000–8,000</b></div>
+</div>
+
+<div class="layover-grid">
+
+    <div class="layover-option recommended">
+        <div class="layover-option-title">🐙 紅色小新家章魚總店</div>
+        <div class="layover-option-meta">
+            紅色辣味活章魚鍋／白色清湯章魚鍋<br>
+            約 ₩30,000／人，2 人起點；約 10:00–22:00<br>
+            距雲西站約 700 公尺，最有在地特色
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=%EB%B9%A8%EA%B0%84%EA%B1%B0%EC%A7%B1%EA%B5%AC%EB%84%A4+%EB%B3%B8%EC%A0%90" target="_blank" rel="noopener">開啟地圖 ↗</a>
+    </div>
+
+    <div class="layover-option">
+        <div class="layover-option-title">🥩 黃牛排骨 永宗島店</div>
+        <div class="layover-option-meta">
+            炭烤牛排骨／韓牛／冷麵<br>
+            2 人套餐約 ₩63,000；約 11:00–23:00<br>
+            靠近雲西站，想吃烤肉的穩妥選擇
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=%ED%99%A9%EC%86%8C%EA%B0%88%EB%B9%84+%EC%98%81%EC%A2%85%EB%8F%84%EC%A0%90" target="_blank" rel="noopener">開啟地圖 ↗</a>
+    </div>
+
+    <div class="layover-option">
+        <div class="layover-option-title">🍜 孔陵洞元祖鯙魚麵 雲西店</div>
+        <div class="layover-option-meta">
+            水餃／麵食／排骨餃子<br>
+            水餃約 ₩7,500、餃子約 ₩4,000<br>
+            距 1 號出口約 3 分鐘，出餐快、最省時間
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=%EA%B3%B5%EB%A6%89%EB%8F%99%EC%9B%90%EC%A1%B0%EB%A9%B8%EC%B9%98%EA%B5%AD%EC%88%98+%EC%9A%B4%EC%84%9C%EC%A0%90" target="_blank" rel="noopener">開啟地圖 ↗</a>
+    </div>
+
+</div>
+
+<div class="note note-blue">
+首選紅色小新家；若排隊超過 15 分鐘，改選近站的黃牛排骨或孔陵洞麵店。票價、菜單與營業時間為目前參考，出發前再確認。
+</div>
+
+</div>
+
 </section>
 
 
@@ -2288,7 +2384,7 @@ body {
 <div>
     <div class="flight-route">DOH → MAN</div>
     <div class="flight-time">07:50 → 13:10</div>
-    <div class="flight-duration">7h20 · Airbus A350-1000</div>
+    <div class="flight-duration">7h20</div>
 </div>
 
 <div class="flight-meta">
@@ -3442,7 +3538,7 @@ Manchester Airport → Belfast<br>
 <div>
     <div class="flight-route">MAN → BFS</div>
     <div class="flight-time">08:40 → 09:40</div>
-    <div class="flight-duration">1h00 · Airbus A320</div>
+    <div class="flight-duration">1h00</div>
 </div>
 
 <div class="flight-meta">
@@ -3699,7 +3795,7 @@ Manchester Airport → Belfast<br>
 <div>
     <div class="flight-route">DUB → DOH</div>
     <div class="flight-time">08:15 → 17:20</div>
-    <div class="flight-duration">7h05 · Boeing 787-9</div>
+    <div class="flight-duration">7h05</div>
 </div>
 
 <div class="flight-meta">
@@ -3771,7 +3867,7 @@ Manchester Airport → Belfast<br>
 </div>
 
 <div class="flight-duration">
-    6h55 · Airbus A380-800
+    6h55
 </div>
 
 </div>
@@ -3872,7 +3968,7 @@ Manchester Airport → Belfast<br>
 <div>
     <div class="flight-route">BKK → TPE</div>
     <div class="flight-time">12:40 → 17:20</div>
-    <div class="flight-duration">3h40 · Airbus A321neo</div>
+    <div class="flight-duration">3h40</div>
 </div>
 
 <div class="flight-meta">
