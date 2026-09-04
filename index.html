@@ -807,6 +807,45 @@ body {
     margin-top: 14px;
 }
 
+.place-photo {
+    margin: 14px 0 18px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-soft);
+}
+
+.place-photo img {
+    display: block;
+    width: 100%;
+    height: clamp(190px, 32vw, 360px);
+    object-fit: cover;
+}
+
+.place-photo.compact img {
+    height: clamp(170px, 24vw, 260px);
+}
+
+.place-photo figcaption {
+    padding: 7px 11px;
+    color: var(--muted);
+    font-size: .72rem;
+    text-align: right;
+}
+
+.place-photo figcaption a {
+    color: inherit;
+}
+
+.option-photo {
+    display: block;
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 10px 0 8px;
+}
+
 .layover-option {
     padding: 16px;
     border: 1px solid var(--border);
@@ -2348,12 +2387,14 @@ body {
 
     <div class="layover-option">
         <div class="layover-option-title">🥩 黃牛排骨 永宗島店</div>
+        <img class="option-photo" src="assets/trip/korean-bbq.jpg" alt="韓式烤肉" loading="lazy">
         <div class="layover-option-meta">
             炭烤牛排骨／韓牛／冷麵<br>
             2 人套餐約 ₩63,000；約 11:00–23:00<br>
             靠近雲西站，想吃烤肉的穩妥選擇
         </div>
         <a href="https://www.google.com/maps/search/?api=1&query=%ED%99%A9%EC%86%8C%EA%B0%88%EB%B9%84+%EC%98%81%EC%A2%85%EB%8F%84%EC%A0%90" target="_blank" rel="noopener">開啟地圖 ↗</a>
+        · <a href="https://commons.wikimedia.org/wiki/File:Korean_BBQ_Seoul.jpg" target="_blank" rel="noopener">圖片來源 ↗</a>
     </div>
 
     <div class="layover-option">
@@ -2368,12 +2409,14 @@ body {
 
     <div class="layover-option">
         <div class="layover-option-title">🍗 Kyochon Chicken 雲西店</div>
+        <img class="option-photo" src="assets/trip/korean-fried-chicken.jpg" alt="韓式炸雞" loading="lazy">
         <div class="layover-option-meta">
             蜂蜜炸雞／醬油炸雞／紅辣炸雞<br>
             整隻約 ₩19,000–23,000，兩人分食剛好<br>
             現點現炸預留 20–30 分鐘；也可外帶至機場
         </div>
         <a href="https://www.google.com/maps/search/?api=1&query=Kyochon+Chicken+Unseo" target="_blank" rel="noopener">開啟地圖與確認營業 ↗</a>
+        · <a href="https://commons.wikimedia.org/wiki/File:Iksan_City_48_Korean_Style_Fried_chicken.jpg" target="_blank" rel="noopener">圖片來源 ↗</a>
     </div>
 
 </div>
@@ -2399,16 +2442,26 @@ body {
     <div class="route">Doha 過夜轉機 → 抵達英國</div>
 </div>
 
+<figure class="place-photo">
+    <img src="assets/trip/manchester.jpg" alt="Manchester 市中心天際線" loading="lazy">
+    <figcaption>Manchester · <a href="https://commons.wikimedia.org/wiki/File:Tower_Blocks_over_Knott_Mill,_geograph_6866152_by_David_Dixon.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
+
 
 <div class="card">
 
 <h3>🌙 Doha 過夜轉機 · Al Mourjan The Garden</h3>
 
+<figure class="place-photo compact">
+    <img src="assets/trip/doha-airport.jpg" alt="Doha Hamad International Airport 航廈內部" loading="lazy">
+    <figcaption>Hamad International Airport · <a href="https://commons.wikimedia.org/wiki/File:Hamad_International_Airport_Qatar.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
+
 <div class="connection-strip">
     <div class="connection-chip">⏱️ 轉機 <b>8h50</b></div>
     <div class="connection-chip">🏃 跑步 <b>1h</b></div>
     <div class="connection-chip">😴 休息約 <b>3h25</b></div>
-    <div class="connection-chip">🚪 06:35 離開貴賓室</div>
+    <div class="connection-chip">🚪 06:50 離開貴賓室</div>
 </div>
 
 <div class="timeline">
@@ -2468,24 +2521,60 @@ body {
 </div>
 
 <div class="timeline-item">
-    <div class="time">06:10–06:35</div>
+    <div class="time">06:10–06:50</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">最後整理與確認登機門</div>
-        <div class="event-detail">補水、上洗手間；06:35 準時離開，最晚約 06:55 抵達登機門</div>
+        <div class="event-detail">補水、上洗手間；06:50 離開，目標 07:10 抵達登機門，保留起飛前 40 分鐘</div>
     </div>
 </div>
 
 </div>
 
 <div class="note note-yellow">
-The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comfort／Classic 為主，Business Lite 須另購。安靜室採現場安排，官方資料為前 6 小時免費；跑步機、淋浴與當日使用規則請在入口再次確認。
+The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comfort／Classic 為主，Business Lite 須另購。安靜室採現場安排，官方資料為前 6 小時免費；跑步機、淋浴與當日使用規則請在入口再次確認。若登機證標示較早截止，或登機門步行時間超過 20 分鐘，依現場資訊提早離開。
 </div>
 
 <p>
     <a class="map-link" href="https://www.qatarairways.com/en/lounges/al-mourjan-garden.html" target="_blank" rel="noopener">Qatar Airways 官方設施介紹 ↗</a>
     <a class="map-link" href="https://m.qatarairways.com/mobile/vta/lounge/viewLoungeList.htm?airportCode=DOH&amp;platform=DESKTOP" target="_blank" rel="noopener">官方位置與開放時間 ↗</a>
 </p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🛫 兩段長途飛行 · 吃、玩、睡</h3>
+
+<div class="layover-grid">
+    <div class="layover-option recommended">
+        <div class="layover-option-title">QR863 · ICN → DOH</div>
+        <div class="layover-option-meta">
+            <b>18:30–20:30</b> 起飛、晚餐與一集短節目<br>
+            <b>20:30–21:00</b> 盥洗、換舒適衣物、鋪床<br>
+            <b>21:00–03:30</b> 主睡眠 6 小時 30 分<br>
+            <b>03:30–05:00</b> 早餐、整理與抵達<br>
+            <small>以上用韓國時間；05:00 KST＝23:00 Doha</small>
+        </div>
+    </div>
+
+    <div class="layover-option">
+        <div class="layover-option-title">QR27 · DOH → MAN</div>
+        <div class="layover-option-meta">
+            <b>05:50–06:20</b> 起飛、直接準備補眠<br>
+            <b>06:20–08:20</b> 補睡 2 小時<br>
+            <b>08:20–09:30</b> 請空服員安排早餐／早午餐<br>
+            <b>09:30–12:15</b> 電影、遊戲或輕鬆活動<br>
+            <b>12:15–13:10</b> 盥洗、補水、準備落地<br>
+            <small>以上直接用 Manchester 時間，協助調時差</small>
+        </div>
+    </div>
+</div>
+
+<div class="note note-blue">
+理想睡眠合計約 11 小時 55 分：QR863 6h30＋貴賓室 3h25＋QR27 2h。最低底線是全程累計 8 小時；若第一段睡不到 5 小時，QR27 就取消電影並多睡 60–90 分鐘。登機後先告知空服員希望睡醒再用餐，避免第一輪餐飲打斷睡眠。
+</div>
 
 </div>
 
@@ -2549,6 +2638,11 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 <div class="card">
 
 <h3>📍 下午行程</h3>
+
+<figure class="place-photo compact">
+    <img src="assets/trip/john-rylands.jpg" alt="John Rylands Library 哥德式建築外觀" loading="lazy">
+    <figcaption>John Rylands Library · <a href="https://commons.wikimedia.org/wiki/File:2025-06-07_John_Rylands_Library_01.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
 
 <div class="timeline">
 
@@ -2696,6 +2790,11 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
     <div class="route">抵達蘇格蘭</div>
 </div>
 
+<figure class="place-photo">
+    <img src="assets/trip/edinburgh.jpg" alt="Edinburgh 城市天際線" loading="lazy">
+    <figcaption>Edinburgh · <a href="https://commons.wikimedia.org/wiki/File:Skyline_of_Edinburgh.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
+
 
 <div class="card">
 
@@ -2831,6 +2930,11 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
     <h2>🏰 Edinburgh</h2>
     <div class="route">Old Town＋New Town 主力日</div>
 </div>
+
+<figure class="place-photo">
+    <img src="assets/trip/edinburgh-castle.jpg" alt="Edinburgh Castle 位於 Castle Rock 上" loading="lazy">
+    <figcaption>Edinburgh Castle · <a href="https://commons.wikimedia.org/wiki/File:City_of_Edinburgh_-_Edinburgh_Castle_-_20140421004403.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
 
 
 <div class="card">
@@ -3076,6 +3180,11 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
         Highlands Road Trip · Skye → Loch Ness → Glasgow
     </div>
 </div>
+
+<figure class="place-photo">
+    <img src="assets/trip/loch-ness.jpg" alt="Loch Ness 與 Urquhart Castle" loading="lazy">
+    <figcaption>Loch Ness · <a href="https://commons.wikimedia.org/wiki/File:LochNessUrquhart.jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
 
 
 <div class="card">
@@ -3640,6 +3749,11 @@ Manchester Airport → Belfast<br>
     </div>
 </div>
 
+<figure class="place-photo">
+    <img src="assets/trip/belfast.png" alt="Belfast 市區與河岸天際線" loading="lazy">
+    <figcaption>Belfast · <a href="https://commons.wikimedia.org/wiki/File:Belfast_Skyline_City_Quays.png" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
+
 
 <div class="card">
 
@@ -3845,6 +3959,11 @@ Manchester Airport → Belfast<br>
     <div class="route">Dublin City Day 1</div>
 </div>
 
+<figure class="place-photo">
+    <img src="assets/trip/dublin.jpg" alt="Dublin Samuel Beckett Bridge 黃昏景色" loading="lazy">
+    <figcaption>Dublin · <a href="https://commons.wikimedia.org/wiki/File:Samuel_Beckett_Bridge_At_Sunset_Dublin_Ireland_(97037639)_(cropped).jpeg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
+
 
 <div class="card">
 
@@ -4036,6 +4155,11 @@ Manchester Airport → Belfast<br>
     <h2>🇹🇭 Bangkok</h2>
     <div class="route">回程中途停留</div>
 </div>
+
+<figure class="place-photo">
+    <img src="assets/trip/bangkok.jpg" alt="Bangkok Wat Arun 河岸景色" loading="lazy">
+    <figcaption>Bangkok · <a href="https://commons.wikimedia.org/wiki/File:4Y1A1159_Bangkok_(33536795515).jpg" target="_blank" rel="noopener">Wikimedia Commons ↗</a></figcaption>
+</figure>
 
 
 <div class="card">
