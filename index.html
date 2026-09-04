@@ -861,6 +861,40 @@ body {
     color: inherit;
 }
 
+.point-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.point-photo-grid figure {
+    margin: 0;
+}
+
+.point-photo-grid img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+.point-photo-grid figcaption {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+@media (max-width: 700px) {
+    .point-photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .point-photo-grid img {
+        height: 120px;
+    }
+}
+
 .option-photo {
     display: block;
     width: 100%;
@@ -3444,23 +3478,24 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-    <div class="time">14:00</div>
+    <div class="time">13:30–15:00</div>
     <div class="timeline-dot"></div>
     <div class="event">
-        <div class="event-title">Victoria Street</div>
+        <div class="event-title">🛏️ 回飯店午睡</div>
+        <div class="event-detail">午餐後回住宿處休息約 90 分鐘，再繼續 Old Town／New Town。</div>
     </div>
 </div>
 
 <div class="timeline-item">
-    <div class="time">14:30</div>
+    <div class="time">15:15</div>
     <div class="timeline-dot"></div>
     <div class="event">
-        <div class="event-title">Grassmarket</div>
+        <div class="event-title">Victoria Street → Grassmarket</div>
     </div>
 </div>
 
 <div class="timeline-item">
-    <div class="time">15:00</div>
+    <div class="time">15:45</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">Greyfriars Kirkyard</div>
@@ -3468,7 +3503,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-    <div class="time">15:30</div>
+    <div class="time">16:15</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">National Museum of Scotland</div>
@@ -3477,7 +3512,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-    <div class="time">17:00</div>
+    <div class="time">17:45</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">Princes Street / New Town</div>
@@ -3485,7 +3520,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-    <div class="time">17:30</div>
+    <div class="time">18:15</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">🌅 Calton Hill</div>
@@ -3494,7 +3529,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-    <div class="time">19:00</div>
+    <div class="time">19:30</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">晚餐</div>
@@ -3537,7 +3572,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 <div class="timeline">
 
 <div class="timeline-item">
-        <div class="time">08:00–09:00</div>
+        <div class="time">09:00–10:00</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">取租車＋離開 Edinburgh</div>
@@ -3546,27 +3581,60 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 </div>
 
 <div class="timeline-item">
-        <div class="time">09:00–10:00</div>
+        <div class="time">10:00–11:00</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">🏰 Doune Castle</div>
-        <div class="event-detail">Edinburgh → Doune 車程約 50–60 分鐘；停留約 60 分鐘。</div>
+        <div class="event-detail">Edinburgh → Doune 車程約 50–60 分鐘；城堡外觀／入內重點停留約 60 分鐘。</div>
     </div>
 </div>
 
 <div class="timeline-item">
-        <div class="time">10:00–12:00</div>
+        <div class="time">11:00–12:45</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title"><span class="optional">車程</span>Doune → Glencoe</div>
+        <div class="event-detail">約 1 小時 45 分；沿 A84／A82 行駛，中途可在休息區短停。</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+        <div class="time">12:45–14:15</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">🏞️ Glencoe＋Three Sisters Viewpoint</div>
-        <div class="event-detail">Doune → Glencoe 約 1 小時 45 分；沿線與 Three Sisters 合計停留約 2 小時。</div>
+        <div class="event-detail">三姊妹觀景台與谷地拍照、簡單午餐；停留約 90 分鐘。</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+        <div class="time">14:15–14:55</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title"><span class="optional">車程</span>Glencoe → Fort William</div>
+        <div class="event-detail">約 30–40 分鐘；抵達後辦理入住。</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+        <div class="time">15:00 起</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">Fort William 飯店休息／晚餐</div>
+        <div class="event-detail">保留彈性，不再硬塞景點；若精神好可在 Loch Linnhe 海邊散步。</div>
     </div>
 </div>
 
 </div>
 </div>
 
-<div class="note note-blue">12:00–12:40：Glencoe → Fort William 約 30–40 分鐘；抵達後入住／午晚餐。若前段延誤，優先保留 Glencoe／Three Sisters，Doune 改外觀。</div>
+<div class="note note-blue">整天約 09:00 出發，較不趕也保留午餐與拍照緩衝。若前段延誤，優先保留 Glencoe／Three Sisters，Doune 改外觀。</div>
+
+<div class="point-photo-grid">
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Doune_Castle_Scotland.jpg" alt="Doune Castle" loading="lazy"><figcaption>Doune Castle</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/The_Three_Sisters%2C_Glencoe_-_geograph.org.uk_-_4395644.jpg" alt="Glencoe Three Sisters" loading="lazy"><figcaption>Glencoe／Three Sisters</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/21/The_Three_Sisters%2C_Glencoe_-_geograph.org.uk_-_4395644.jpg" alt="Glencoe valley" loading="lazy"><figcaption>Glencoe Valley</figcaption></figure>
+</div>
 
 </section>
 
@@ -3603,6 +3671,12 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 🏠 <b>入住 10/15、退房 10/17（2 晚）</b> · <a href="https://www.airbnb.com.tw/rooms/34254793" target="_blank" rel="noopener">查看 Airbnb</a>
 </div>
 
+<div class="point-photo-grid">
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Jacobite_on_Glenfinnan_Viaduct_2_20211024.jpg" alt="Glenfinnan Viaduct" loading="lazy"><figcaption>Glenfinnan Viaduct</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Eilean_Donan_at_Dusk.jpg" alt="Eilean Donan Castle" loading="lazy"><figcaption>Eilean Donan Castle</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Portree_Isle_of_Skye.jpg" alt="Portree" loading="lazy"><figcaption>Portree</figcaption></figure>
+</div>
+
 </div>
 
 </section>
@@ -3637,6 +3711,13 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 <div class="timeline-item"><div class="time">14:50–15:40</div><div class="timeline-dot"></div><div class="event"><div class="event-title">Portree → Carbost Airbnb</div><div class="event-detail">車程約 40–50 分鐘，回 5 Fernilea 休息。</div></div></div>
 </div>
 <div class="note note-yellow">10/16 精華版只排 <b>Storr → Kilt Rock → Quiraing</b>；Neist Point 距離 Carbost 另一側，這天先刪除，避免開車與健行過量。</div>
+
+<div class="point-photo-grid">
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Loch_Fada_Storr_Skye_restitch_2007-08-22.jpg" alt="Old Man of Storr" loading="lazy"><figcaption>Old Man of Storr</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Mealt_Waterfall_with_Kilt_Rock%2C_Isle_of_Skye.jpg" alt="Kilt Rock" loading="lazy"><figcaption>Kilt Rock</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Quiraing%2C_Isle_of_Skye%2C_Scotland_-_Diliff.jpg" alt="Quiraing" loading="lazy"><figcaption>Quiraing</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Portree_Isle_of_Skye.jpg" alt="Portree" loading="lazy"><figcaption>Portree 午餐</figcaption></figure>
+</div>
 
 </div>
 
@@ -3747,6 +3828,13 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
 
 <div class="note note-blue">
 🏔️ Loch Ness 只有途中停留，不住宿；今晚住 <b>Glasgow</b>，不再繞回 Edinburgh。
+</div>
+
+<div class="point-photo-grid">
+<figure><img src="assets/trip/loch-ness.jpg" alt="Loch Ness" loading="lazy"><figcaption>Loch Ness</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Kelvingrove_Art_Gallery_and_Museum_1.jpg" alt="Kelvingrove Art Gallery and Museum" loading="lazy"><figcaption>Kelvingrove</figcaption></figure>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/University_of_Glasgow_-_Main_Building_and_tower.JPG/960px-University_of_Glasgow_-_Main_Building_and_tower.JPG" alt="University of Glasgow Main Building" loading="lazy"><figcaption>University of Glasgow</figcaption></figure>
+<figure><img src="https://s0.geograph.org.uk/geophotos/07/76/53/7765319_63171a12.jpg" alt="George Square Glasgow" loading="lazy"><figcaption>George Square／Glasgow 市區</figcaption></figure>
 </div>
 
 <div class="card">
