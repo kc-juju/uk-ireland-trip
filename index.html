@@ -295,7 +295,7 @@ body {
 .timeline-item {
     display: grid;
 
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 130px minmax(0, 1fr);
 
     gap: 14px;
 
@@ -313,7 +313,7 @@ body {
 
     position: absolute;
 
-    left: 94px;
+    left: 124px;
     top: 26px;
     bottom: 0;
 
@@ -339,7 +339,7 @@ body {
 .timeline-dot {
     position: absolute;
 
-    left: 89px;
+    left: 119px;
     top: 7px;
 
     width: 11px;
@@ -1494,21 +1494,21 @@ body {
     }
 
     .timeline-item {
-        grid-template-columns: 78px minmax(0, 1fr);
+        grid-template-columns: 108px minmax(0, 1fr);
     }
 
     .timeline-item::before {
-        left: 72px;
+        left: 102px;
     }
 
     .timeline-dot {
-        left: 67px;
+        left: 97px;
     }
 
     .time {
-        font-size: .88rem;
+        font-size: .82rem;
         padding-right: 12px;
-        white-space: normal;
+        white-space: nowrap;
         line-height: 1.35;
     }
 
@@ -2201,7 +2201,8 @@ body {
             <div class="stay-date">10/19–10/20 · 1 晚</div>
             <span class="badge pending">待補</span>
         </div>
-        <div class="stay-name">Belfast</div>
+        <div class="stay-name">Belfast · Grand Central Station 附近</div>
+        <div class="stay-address">抵達 BHD 後先到飯店寄放行李，再前往 Titanic Quarter。</div>
     </div>
 
     <div class="stay-card confirmed-stay">
@@ -4420,7 +4421,7 @@ Manchester T2 → Belfast City Airport<br>
     <div class="date">10/19（一）</div><div class="sun-times">🌅 日出 07:45　🌇 日落 18:25（Belfast）</div>
     <h2>✈️ Manchester Airport → Belfast</h2>
     <div class="route">
-        睡飽、正常還車 → MAN Terminal 2 → Belfast City Airport
+        睡飽、正常還車 → MAN Terminal 2 → BHD → Grand Central Station 附近飯店 → Titanic Quarter
     </div>
     <div class="souvenir-hint">🎁 伴手禮：Titanic Belfast 明信片／徽章、Irish linen 小布品</div>
 </div>
@@ -4535,16 +4536,34 @@ Manchester T2 → Belfast City Airport<br>
 </div>
 
 <div class="timeline-item">
-    <div class="time">約 14:20–14:30</div>
+    <div class="time">約 14:20–14:40</div>
     <div class="timeline-dot"></div>
     <div class="event">
-        <div class="event-title">BHD → Titanic Quarter</div>
-        <div class="event-detail">搭 Airport Express 600 或其他當地交通前往；BHD 距 Titanic Quarter／市區很近。</div>
+        <div class="event-title">BHD → Belfast Grand Central Station 附近飯店</div>
+        <div class="event-detail">搭 Airport Express 600 或計程車前往市中心；住宿尚未確定，以 Grand Central Station 附近為選擇範圍。</div>
     </div>
 </div>
 
 <div class="timeline-item">
-    <div class="time">約 14:30–17:00</div>
+    <div class="time">約 14:40–15:00</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">🧳 飯店寄放行李</div>
+        <div class="event-detail">先完成寄放行李，不拖著行李去 Titanic Belfast。</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">約 15:00–15:15</div>
+    <div class="timeline-dot"></div>
+    <div class="event">
+        <div class="event-title">飯店 → Titanic Quarter</div>
+        <div class="event-detail">從 Grand Central Station 周邊搭當地交通前往 Titanic Quarter。</div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="time">約 15:15–17:30</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">🚢 Titanic Belfast</div>
@@ -4553,7 +4572,7 @@ Manchester T2 → Belfast City Airport<br>
 </div>
 
 <div class="timeline-item">
-    <div class="time">17:00 起</div>
+    <div class="time">17:30 起</div>
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">Belfast city centre → Dinner／evening walk／hotel</div>
@@ -4571,7 +4590,7 @@ Manchester T2 → Belfast City Airport<br>
 </div>
 
 <div class="note note-blue">
-🚌 <b>Belfast Visitor Pass：Optional。</b>1 Day £7／人，包含 Airport Express 600、Metro／Glider 等適用交通；本日只有 BHD → Titanic → city，只有搭乘次數足夠划算時再買，不列為必買。
+🚌 <b>Belfast Visitor Pass：Optional。</b>1 Day £7／人，包含 Airport Express 600、Metro／Glider 等適用交通；本日動線為 BHD → Grand Central Station 附近飯店 → Titanic Quarter → city，只有搭乘次數足夠划算時再買，不列為必買。
 </div>
 
 </section>
