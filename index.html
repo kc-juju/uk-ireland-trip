@@ -122,6 +122,23 @@ body {
     border-bottom: 1px solid var(--border);
 }
 
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -48px;
+    z-index: 100;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
 .tabs {
     max-width: 1100px;
     margin: auto;
@@ -188,6 +205,13 @@ body {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
+}
+
+.tab:focus-visible,
+.map-link:focus-visible,
+.skip-link:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 2px;
 }
 
 /* ==================================================
@@ -1654,6 +1678,8 @@ body {
 
 <body>
 
+<a class="skip-link" href="#overview">跳到主要內容</a>
+
 <header class="hero">
 <div class="hero-inner">
     <h1>🇬🇧🇮🇪 2026 英國・愛爾蘭蜜月</h1>
@@ -1671,7 +1697,7 @@ body {
 </header>
 
 <div class="tabs-wrapper">
-<div class="tabs" id="tabs">
+<div class="tabs" id="tabs" role="tablist" aria-label="每日行程">
 
     <button class="tab active" onclick="showTab('overview', this)">🗺️ 總覽</button>
 
@@ -3032,7 +3058,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
         <div class="timeline-dot"></div>
         <div class="event">
             <div class="event-title">🍖 Blacklock Manchester Sunday Roast <span class="badge confirmed">已訂位</span></div>
-            <div class="event-detail">Sun 11 Oct 12:00，2 人 Standard seating；預留 60–70 分鐘，吃完直接前往 Piccadilly。Sunday roast 供應與當日菜單以店家公告為準。<br><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Blacklock+Manchester" target="_blank" rel="noopener">Blacklock 地圖 ↗</a> <a class="map-link" href="https://www.blacklock.com/" target="_blank" rel="noopener">官方網站／訂位 ↗</a></div>
+        <div class="event-detail">Sun 11 Oct 12:00，2 人 Standard seating；預留 60–70 分鐘，吃完直接前往 Piccadilly。Sunday roast 供應與當日菜單以店家公告為準。<br><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Blacklock+Manchester" target="_blank" rel="noopener">Blacklock 地圖 ↗</a> <a class="map-link" href="https://theblacklock.com/restaurants/manchester/" target="_blank" rel="noopener">官方網站／訂位 ↗</a></div>
         </div>
     </div>
     <div class="timeline-item">
@@ -3525,7 +3551,7 @@ The Garden 全天開放，但免費入場以 Qatar Airways Business Elite／Comf
     <div class="timeline-dot"></div>
     <div class="event">
         <div class="event-title">🫖 The Dome – Georgian Tea Room <span class="badge confirmed">已納入</span></div>
-        <div class="event-detail">14 George Street；正式 British Afternoon Tea，約 £35／人（兩人約 £70），建議預約。內容：finger sandwiches、scones、clotted cream &amp; jam、pastries／cakes、loose-leaf tea。與 Eden Locke 同在 George Street，下午茶後回住宿很方便。<br><a class="map-link" href="https://thedomeedinburgh.com/afternoon-tea/" target="_blank" rel="noopener">The Dome Afternoon Tea／預約 ↗</a></div>
+        <div class="event-detail">14 George Street；正式 British Afternoon Tea，約 £35／人（兩人約 £70），建議預約。內容：finger sandwiches、scones、clotted cream &amp; jam、pastries／cakes、loose-leaf tea。與 Eden Locke 同在 George Street，下午茶後回住宿很方便。<br><a class="map-link" href="https://www.thedomeedinburgh.com/reservations" target="_blank" rel="noopener">The Dome Afternoon Tea／預約 ↗</a></div>
     </div>
 </div>
 
@@ -4730,6 +4756,9 @@ Manchester T2 → Belfast City Airport<br>
 
 </div>
 
+<!-- close 10/20 transport card -->
+</div>
+
 </section>
 
 
@@ -4777,8 +4806,8 @@ Manchester T2 → Belfast City Airport<br>
         <div class="time">10:30–13:30</div>
         <div class="timeline-dot"></div>
         <div class="event">
-            <div class="event-title">🏺 Brú na Bóinne Tour＋Newgrange Chamber</div>
-            <div class="event-detail">10:30 報到；展覽、Boyne 河步道、接駁車與古墓導覽全程約 3 小時。</div>
+            <div class="event-title">🏺 Brú na Bóinne Tour＋Newgrange Chamber <span class="badge confirmed">已預約</span></div>
+            <div class="event-detail">2026/10/21（三）10:30 報到；2 位成人，€18／人，共 €36。預留至約 13:30，包含 Visitor Centre 展覽、接駁車與 Newgrange Chamber 導覽。</div>
         </div>
     </div>
     <div class="timeline-item">
@@ -4817,11 +4846,11 @@ Manchester T2 → Belfast City Airport<br>
 </div>
 
 <div class="note note-yellow">
-🎟️ <b>必要預訂資訊：</b>10/21 屬 4/1–11/1 開放季，線上預訂窗口為參觀日前 30 天，約 9/21 午夜（愛爾蘭時間）開放；票很容易售罄。主行程選成人 €18 的「Brú na Bóinne Tour＋Newgrange Chamber」，兩人 €36；指定時間是抵達 Visitor Centre 的報到時間，不是古墓接駁車時間。
+🎟️ <b>已預約：</b>2026/10/21（三）10:30，Brú na Bóinne Tour＋Newgrange Chamber；2 位成人 × €18，共 €36。10:30 是抵達 Visitor Centre 的報到時間，不是古墓接駁車時間；建議提早抵達停車、上洗手間與看展覽。
 </div>
 
 <div class="note note-blue">
-📌 <b>現場規則：</b>Newgrange、Knowth 沒有獨立入口，必須先到 Visitor Centre；參觀包含展覽、步道、接駁車和導覽。10 月 Visitor Centre 最晚入場約 16:15；若票售罄，只能買 €5 的 Visitor Centre Exhibition（約 45 分鐘），不能保證進古墓。
+📌 <b>現場規則：</b>Newgrange、Knowth 沒有獨立入口，必須先到 Visitor Centre；本次已預約的參觀包含展覽、步道、接駁車和 Newgrange Chamber 導覽。請以 10:30 報到時間為準，避免遲到影響接駁安排。
 </div>
 
 <div class="note note-green">
@@ -5023,7 +5052,7 @@ Manchester T2 → Belfast City Airport<br>
 <section id="1024" class="tab-content">
 
 <div class="day-header">
-    <div class="date">10/24（六）</div><div class="sun-times">🌅 日出 05:36　🌇 日落 16:59（Doha）</div>
+    <div class="date">10/24（六）</div><div class="sun-times">🌅 日出約 06:00　🌇 日落約 17:50（Bangkok）</div>
     <h2>✈️ Doha → Bangkok</h2>
     <div class="route">Qatar Airways First Class</div>
 </div>
@@ -5122,7 +5151,7 @@ Manchester T2 → Belfast City Airport<br>
 <h3>🛏️ 10/24 抵達後｜不排觀光版</h3>
 <div class="timeline">
     <div class="timeline-item"><div class="time">14:25–16:30</div><div class="timeline-dot"></div><div class="event"><div class="event-title">入境、前往飯店、Check-in</div><div class="event-detail">從 BKK 到市區交通抓 1–1.5 小時；抵達後先洗澡、補眠，不急著出門。</div></div></div>
-    <div class="timeline-item"><div class="time">15:30–18:00</div><div class="timeline-dot"></div><div class="event"><div class="event-title">泳池／房間休息／按摩</div><div class="event-detail">二選一即可：泳池放空，或安排 60–90 分鐘按摩；前一晚長途飛行後不排景點。</div></div></div>
+    <div class="timeline-item"><div class="time">16:30–18:00</div><div class="timeline-dot"></div><div class="event"><div class="event-title">泳池／房間休息／按摩</div><div class="event-detail">Check-in 後二選一即可：泳池放空，或安排 60–90 分鐘按摩；前一晚長途飛行後不排景點。</div></div></div>
     <div class="timeline-item"><div class="time">18:00–20:00</div><div class="timeline-dot"></div><div class="event"><div class="event-title">河畔晚餐</div><div class="event-detail">優先吃飯店餐廳或附近河畔餐廳，看夕陽、吹冷氣，避免再跨區奔波。</div></div></div>
     <div class="timeline-item"><div class="time">20:00 後</div><div class="timeline-dot"></div><div class="event"><div class="event-title">回房間休息</div><div class="event-detail">可以直接當作飯店夜；睡不著再到泳池／酒吧坐一下。</div></div></div>
 </div>
@@ -5254,8 +5283,10 @@ function showTab(id, button) {
     const contents =
         document.querySelectorAll(".tab-content");
 
-    contents.forEach(content =>
-        content.classList.remove("active")
+    contents.forEach(content => {
+        content.classList.remove("active");
+        content.setAttribute("aria-hidden", "true");
+    }
     );
 
 
@@ -5263,7 +5294,10 @@ function showTab(id, button) {
         document.querySelectorAll(".tab");
 
     tabs.forEach(tab =>
-        tab.classList.remove("active")
+        {
+            tab.classList.remove("active");
+            tab.setAttribute("aria-selected", "false");
+        }
     );
 
 
@@ -5272,10 +5306,12 @@ function showTab(id, button) {
 
     if (target) {
         target.classList.add("active");
+        target.setAttribute("aria-hidden", "false");
     }
 
 
     button.classList.add("active");
+    button.setAttribute("aria-selected", "true");
 
 
     button.scrollIntoView({
@@ -5293,9 +5329,46 @@ function showTab(id, button) {
 }
 
 
+// Add tab semantics after the static document is available.
+const tabButtons =
+    Array.from(document.querySelectorAll(".tab"));
+
+tabButtons.forEach(tab => {
+    const match = tab.getAttribute("onclick")?.match(/showTab\('([^']+)'/);
+    const panelId = match ? match[1] : null;
+
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-selected", tab.classList.contains("active") ? "true" : "false");
+
+    if (panelId) {
+        const tabId = `tab-${panelId}`;
+        const panel = document.getElementById(panelId);
+        tab.id = tabId;
+        tab.setAttribute("aria-controls", panelId);
+        if (panel) {
+            panel.setAttribute("aria-labelledby", tabId);
+        }
+    }
+});
+
+document.querySelectorAll(".tab-content").forEach(panel => {
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("tabindex", "-1");
+    panel.setAttribute("aria-hidden", panel.classList.contains("active") ? "false" : "true");
+});
+
+
 document.addEventListener(
     "keydown",
     function(event) {
+
+        if (
+            event.target instanceof HTMLElement &&
+            (event.target.isContentEditable ||
+             ["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName))
+        ) {
+            return;
+        }
 
         if (
             event.key !== "ArrowLeft" &&
@@ -5303,6 +5376,8 @@ document.addEventListener(
         ) {
             return;
         }
+
+        event.preventDefault();
 
 
         const tabs =
@@ -5341,6 +5416,7 @@ document.addEventListener(
 
 
         tabs[nextIndex].click();
+        tabs[nextIndex].focus();
 
     }
 );
