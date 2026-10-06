@@ -5,6 +5,10 @@
         throw new Error('Trip data or UI components are unavailable.');
     }
     mount.innerHTML = window.TripComponents.renderApp(window.TripData);
+    const mapMount = document.getElementById('journey-map-mount');
+    if (mapMount && window.TripData.meta.journeyMap) {
+        mapMount.outerHTML = window.TripComponents.renderJourneyMap(window.TripData.meta.journeyMap);
+    }
     const travelMount = document.getElementById('travel-control-mount');
     if (travelMount && window.TripData.meta.travelControl) {
         travelMount.outerHTML = window.TripComponents.renderTravelControl(window.TripData.meta.travelControl);
@@ -207,7 +211,7 @@ function showHub(hub) {
     const overviewButton = document.querySelector('.tab[onclick*="overview"]');
     const targetByHub = {
         home: 'home-hub',
-        map: 'route-map',
+        map: 'journey-map-center',
         travel: 'travel-control-center',
         guide: 'guide-hub',
         journal: 'journal-hub'
@@ -225,6 +229,7 @@ function showHub(hub) {
     document.body.classList.remove('app-itinerary');
     setHubMode(hub);
     setActiveHub(hub);
+    if (hub === 'map') window.setTimeout(() => window.JourneyMap?.refresh(), 60);
 
     const target = document.getElementById(targetByHub[hub] || 'home-hub');
     if (target) {

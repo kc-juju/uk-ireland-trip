@@ -30,6 +30,11 @@
         return `<nav class="bottom-nav" aria-label="主要導覽">${items}</nav>`;
     }
 
+    function renderJourneyMap(journey) {
+        const days = journey.highlandsDays.map(day => `<button type="button" data-map-day="${day.id}">${day.label}<small>${day.drive}</small></button>`).join('');
+        return `<section id="journey-map-center" class="journey-map-center"><div class="map-page-intro"><div><div class="eyebrow">OUR HONEYMOON JOURNEY</div><h2>從台北出發，一路寫成地圖。</h2><p>Flights · Train · Highlands Road Trip · Coach · Home</p></div><button type="button" class="map-summary-toggle" aria-expanded="true">Journey Summary</button></div><div class="map-journey-summary"><span>Taipei</span><i>→</i><span>Seoul</span><i>→</i><span>Doha</span><i>→</i><span>Manchester</span><i>→</i><span>Edinburgh</span><i>→</i><span>Fort William</span><i>→</i><span>Isle of Skye</span><i>→</i><span>Fort Augustus</span><i>→</i><span>Glasgow</span><i>→</i><span>Nottingham</span><i>→</i><span>Manchester</span><i>→</i><span>Belfast</span><i>→</i><span>Dublin</span><i>→</i><span>Doha</span><i>→</i><span>Bangkok</span><i>→</i><span>Taipei</span></div><div class="map-layout"><aside class="map-sidebar"><div class="eyebrow">HIGHLANDS ROAD TRIP</div><h2>Drive the Highlands</h2><p>Choose a day to focus the route.</p><button type="button" class="map-day active" data-map-day="all">All journey</button><button type="button" class="map-day" data-map-day="today">Today · Skye loop</button>${days}</aside><section class="map-stage"><div class="map-filter-chips" role="group" aria-label="Map filters"><button class="active" data-map-filter="all">All</button><button data-map-filter="today">Today</button><button data-map-filter="attraction">Attractions</button><button data-map-filter="hotel">Hotels</button><button data-map-filter="food">Food</button><button data-map-filter="driving">Driving</button><button data-map-filter="saved">Saved</button></div><div id="journey-leaflet-map" aria-label="Interactive honeymoon journey map"><div class="map-fallback">Loading journey map…</div></div><article class="location-sheet" aria-live="polite"><button type="button" class="sheet-close" aria-label="Close location details">×</button><div class="sheet-icon">⌖</div><div class="sheet-copy"><span class="sheet-type">SELECT A PLACE</span><h3>Our Honeymoon Journey</h3><p>Tap a marker to see the day, plan and navigation link.</p><div class="sheet-actions"><button type="button" data-map-view-day disabled>View Day</button><a data-map-google hidden target="_blank" rel="noopener">Open in Google Maps</a></div></div></article></section></div></section>`;
+    }
+
     function renderTravelControl(travel) {
         const route = (stops, label) => `<div class="journey-line"><span>${label}</span>${stops.map(stop => `<b>${stop}</b>`).join('<i>↓</i>')}</div>`;
         const flights = travel.flights.map(flight => `<article class="travel-flight-card"><div class="travel-flight-head"><span>${flight.code}</span><small>${flight.airline}</small></div><h3>${flight.from} → ${flight.to}</h3><p>${flight.route}</p><div class="travel-flight-time"><b>${flight.time.split(' → ')[0]}</b><i>→</i><b>${flight.time.split(' → ')[1]}</b></div><div class="travel-flight-meta"><span>${flight.duration}</span><span>${flight.cabin}</span><span>${flight.aircraft}</span></div><details><summary>Flight detail</summary><ul>${flight.detail.map(item => `<li>${item}</li>`).join('')}</ul>${flight.code === 'QR863' || flight.code === 'QR27' ? '<a class="map-link" href="qatar-dining-guide.html">Open Qatar dining guide ↗</a>' : ''}</details></article>`).join('');
@@ -54,6 +59,7 @@ ${renderTabs(data.panels)}
 ${renderBottomNavigation(data.meta.navigation)}`;
         },
         renderDiningGuide,
-        renderTravelControl
+        renderTravelControl,
+        renderJourneyMap
     };
 }());
