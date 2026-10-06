@@ -357,15 +357,20 @@ document.querySelectorAll('[data-open-day]').forEach(button => {
 
 function getTimelineCategory(title) {
     const text = title.toLowerCase();
-    if (/雲西|arex|\btrain\b|火車|waverley|rail/.test(text)) return '🚆 Train';
-    if (/取車|還車|driv|開車|rental|alamo|carbost|fort augustus/.test(text)) return '🚗 Driving';
-    if (/lunch|dinner|breakfast|午餐|晚餐|早餐|tea rooms|afternoon tea|café|coffee/.test(text)) return '🍽 Food';
+    if (/🚆|雲西|arex|\btrain\b|火車|waverley|rail|liverpool lime|返回仁川/.test(text)) return '🚆 Train';
+    if (/🚌|🚊|🚋|coach|aircoach|tram|\bbus\b|巴士|接駁/.test(text)) return '🚌 Transit';
+    if (/🚗|取車|還車|driv|開車|rental|alamo|carbost|fort augustus|annandale water|tebay|services/.test(text)) return '🚗 Driving';
+    if (/✈️|🛫|🛬|\btpe\b|\bicn\b|\bdoh\b|\bbkk\b|\bqr\d|\bbr\d|\btg\d|\bei\d|airport|機場|航班|登機|出境|lounge|抵達仁川|抵達 doha|抵達 manchester/.test(text)) return '✈️ Flight';
+    if (/lunch|dinner|breakfast|午餐|晚餐|早餐|tea rooms|afternoon tea|café|coffee|roast|用餐/.test(text)) return '🍽 Food';
+    if (/hotel|airbnb|check-in|check-out|飯店|the flint|the standard|golden jubilee/.test(text)) return '🏨 Hotel';
     if (/shop|shopping|採買|olive young|daiso/.test(text)) return '🛍 Shopping';
-    if (/castle|museum|cathedral|palace|causeway|glencoe|skye|university|景點/.test(text)) return '🏰 Attraction';
-    if (/forest|arsenal|football|match|球賽/.test(text)) return '⚽ Football';
-    if (/photo|拍照|sunset|日落/.test(text)) return '📸 Photo';
-    if (/tpe|icn|doh|bkk|qr\d|br\d|tg\d|ei\d|airport|機場|航班|登機|出境|lounge|抵達仁川|抵達 doha/.test(text)) return '✈️ Flight';
-    return '💍 Honeymoon';
+    if (/🏃|跑步|\brun\b|swim/.test(text)) return '🏃 Activity';
+    if (/泳池|spa|按摩|淋浴|更衣|補水|休息|小睡|睡覺|pack|整理行李/.test(text)) return '🛋️ Rest';
+    if (/forest|arsenal|football|match|球賽|city ground|比賽/.test(text)) return '⚽ Football';
+    if (/castle|museum|cathedral|palace|causeway|glencoe|skye|university|stadium|titantic|titanic|talisker|newgrange|book of kells|guinness|storr|quiraing|kilt rock|neist point|fairy pools|glenfinnan|eilean donan|sligachan|景點|tour|體驗/.test(text)) return '🏰 Attraction';
+    if (/photo|拍照|sunset|日落|viewpoint/.test(text)) return '📸 Photo';
+    if (/🚶|walk|步行|前往|返回|royal mile|victoria street|grassmarket|calton hill|grafton street|temple bar|waterfront|pier head/.test(text)) return '🚶 Walking';
+    return '';
 }
 
 function timelineLocation(item) {
@@ -389,10 +394,12 @@ function enhanceTimelineItems(panel) {
         if (!title) return;
         const category = getTimelineCategory(title.textContent);
         const location = timelineLocation(item);
-        const meta = document.createElement('div');
-        meta.className = 'timeline-meta';
-        meta.innerHTML = `<span class="timeline-category">${category}</span>${location ? `<span class="timeline-location">📍 ${location}</span>` : ''}`;
-        title.insertAdjacentElement('afterend', meta);
+        if (category || location) {
+            const meta = document.createElement('div');
+            meta.className = 'timeline-meta';
+            meta.innerHTML = `${category ? `<span class="timeline-category">${category}</span>` : ''}${location ? `<span class="timeline-location">📍 ${location}</span>` : ''}`;
+            title.insertAdjacentElement('afterend', meta);
+        }
         if (detail && detail.textContent.trim()) {
             detail.classList.add('timeline-detail', 'is-collapsed');
             const toggle = document.createElement('button');
