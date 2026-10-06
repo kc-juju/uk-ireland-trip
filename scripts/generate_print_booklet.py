@@ -26,7 +26,7 @@ from reportlab.pdfgen import canvas
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "js" / "data" / "itinerary-data.js"
-OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-print-booklet.pdf"
+OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-a4-folded-booklet.pdf"
 
 A5_W, A5_H = 419.528, 595.276
 A4_W, A4_H = 841.89, 595.276
