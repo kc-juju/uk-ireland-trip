@@ -45,7 +45,104 @@ window.TripData = {
         "icon": "◌"
       }
     ],
-    "footer": "2026 UK & Ireland Honeymoon · Current itinerary"
+    "footer": "2026 UK & Ireland Honeymoon · Current itinerary",
+    "dailyPresentation": {
+      "1009": {
+        "highlight": "Taipei → Seoul → Doha",
+        "stay": "Overnight transit · Doha",
+        "driving": "No driving planned"
+      },
+      "1010": {
+        "highlight": "Manchester arrival day",
+        "stay": "Hotel ibis Manchester Centre Princess Street",
+        "driving": "Walk / local transport"
+      },
+      "1011": {
+        "highlight": "Football & Beatles day",
+        "stay": "Hotel ibis Manchester Centre Princess Street",
+        "driving": "Train day"
+      },
+      "1012": {
+        "highlight": "Edinburgh Old Town introduction",
+        "stay": "Premier Inn Edinburgh City Centre",
+        "driving": "Train day"
+      },
+      "1013": {
+        "highlight": "Edinburgh Castle",
+        "moment": "Afternoon Tea at The Willow Tea Rooms",
+        "stay": "Premier Inn Edinburgh City Centre",
+        "driving": "Walk day"
+      },
+      "1014": {
+        "highlight": "Drive through Glencoe",
+        "moment": "First Highlands road-trip night",
+        "stay": "Airbnb · Fort William",
+        "driving": "145 km · 2h 45m driving"
+      },
+      "1015": {
+        "highlight": "Fort William → Isle of Skye",
+        "stay": "Isle of Skye Airbnb · Carbost",
+        "driving": "Driving details in timeline"
+      },
+      "1016": {
+        "highlight": "Isle of Skye road trip",
+        "moment": "Slow day on Skye",
+        "stay": "Isle of Skye Airbnb · Carbost",
+        "driving": "Driving details in timeline"
+      },
+      "1017": {
+        "highlight": "Fort Augustus & Loch Ness",
+        "stay": "The Golden Jubilee Conference Hotel",
+        "driving": "Driving details in timeline"
+      },
+      "1018": {
+        "highlight": "Nottingham Forest vs Arsenal",
+        "moment": "Matchday together at City Ground",
+        "stay": "Premier Inn Manchester Airport Heald Green",
+        "driving": "Driving details in timeline"
+      },
+      "1019": {
+        "highlight": "Manchester → Belfast",
+        "stay": "The Flint · Belfast",
+        "driving": "Car return + flight day"
+      },
+      "1020": {
+        "highlight": "Giant’s Causeway day tour",
+        "stay": "Academy Plaza Hotel · Dublin",
+        "driving": "McComb’s Coach Travel"
+      },
+      "1021": {
+        "highlight": "Dublin city day",
+        "stay": "Academy Plaza Hotel · Dublin",
+        "driving": "Walk / local transport"
+      },
+      "1022": {
+        "highlight": "Dublin + final shopping",
+        "stay": "Academy Plaza Hotel · Dublin",
+        "driving": "Walk / local transport"
+      },
+      "1023": {
+        "highlight": "Dublin → Doha",
+        "stay": "Overnight transit · Doha",
+        "driving": "Airport transfer day"
+      },
+      "1024": {
+        "highlight": "Doha → Bangkok",
+        "stay": "The Standard, Bangkok Mahanakhon",
+        "driving": "Airport transfer day"
+      },
+      "1025": {
+        "highlight": "The Standard hotel day",
+        "moment": "A deliberately slow final stay",
+        "stay": "The Standard, Bangkok Mahanakhon",
+        "driving": "No driving planned"
+      },
+      "1026": {
+        "highlight": "Bangkok → Taipei",
+        "stay": "Home · Taipei",
+        "driving": "Airport transfer day"
+      }
+    }
   },
   "panels": [
     {
