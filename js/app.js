@@ -13,6 +13,8 @@
     if (travelMount && window.TripData.meta.travelControl) {
         travelMount.outerHTML = window.TripComponents.renderTravelControl(window.TripData.meta.travelControl);
     }
+    const weatherMount = document.getElementById('weather-control-mount');
+    if (weatherMount) weatherMount.outerHTML = window.TripComponents.renderWeatherControl();
 }());
 
 function getTripClock(date = new Date()) {
@@ -290,7 +292,7 @@ const appNavButtons = Array.from(document.querySelectorAll('[data-hub]'));
 const dayButtons = Array.from(document.querySelectorAll('.tab'));
 
 function setHubMode(hub) {
-    document.body.classList.remove('app-hub-home', 'app-hub-itinerary', 'app-hub-map', 'app-hub-travel', 'app-hub-guide', 'app-hub-journal');
+    document.body.classList.remove('app-hub-home', 'app-hub-itinerary', 'app-hub-map', 'app-hub-travel', 'app-hub-weather', 'app-hub-guide', 'app-hub-journal');
     document.body.classList.add(`app-hub-${hub}`);
 }
 
@@ -305,6 +307,7 @@ function showHub(hub) {
         home: 'home-hub',
         map: 'journey-map-center',
         travel: 'travel-control-center',
+        weather: 'weather-control-center',
         guide: 'guide-hub',
         journal: 'journal-hub'
     };
@@ -322,6 +325,7 @@ function showHub(hub) {
     setHubMode(hub);
     setActiveHub(hub);
     if (hub === 'map') window.setTimeout(() => window.JourneyMap?.refresh(), 60);
+    if (hub === 'weather') window.setTimeout(() => window.TripWeather?.refresh(), 60);
 
     const target = document.getElementById(targetByHub[hub] || 'home-hub');
     if (target) {
