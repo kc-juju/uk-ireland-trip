@@ -355,40 +355,45 @@ document.querySelectorAll('[data-open-day]').forEach(button => {
     });
 });
 
-function getTimelineCategory(title, detail) {
-    const text = `${title} ${detail}`.toLowerCase();
-    if (/flight|航班|起飛|抵達機場|airport|qr\d|br\d|tg\d|ei\d/.test(text)) return '✈️ Flight';
-    if (/train|火車|rail|waverley/.test(text)) return '🚆 Train';
-    if (/drive|driving|開車|取車|還車|rental|alamo|car /.test(text)) return '🚗 Driving';
-    if (/hotel|airbnb|check-in|住宿|飯店/.test(text)) return '🏨 Hotel';
-    if (/lunch|dinner|breakfast|餐|tea rooms|afternoon tea/.test(text)) return '🍽 Food';
+function getTimelineCategory(title) {
+    const text = title.toLowerCase();
+    if (/雲西|arex|\btrain\b|火車|waverley|rail/.test(text)) return '🚆 Train';
+    if (/取車|還車|driv|開車|rental|alamo|carbost|fort augustus/.test(text)) return '🚗 Driving';
+    if (/lunch|dinner|breakfast|午餐|晚餐|早餐|tea rooms|afternoon tea|café|coffee/.test(text)) return '🍽 Food';
+    if (/shop|shopping|採買|olive young|daiso/.test(text)) return '🛍 Shopping';
     if (/castle|museum|cathedral|palace|causeway|glencoe|skye|university|景點/.test(text)) return '🏰 Attraction';
     if (/forest|arsenal|football|match|球賽/.test(text)) return '⚽ Football';
-    if (/shop|shopping|採買/.test(text)) return '🛍 Shopping';
     if (/photo|拍照|sunset|日落/.test(text)) return '📸 Photo';
+    if (/tpe|icn|doh|bkk|qr\d|br\d|tg\d|ei\d|airport|機場|航班|登機|出境|lounge|抵達仁川|抵達 doha/.test(text)) return '✈️ Flight';
     return '💍 Honeymoon';
 }
 
-function timelineLocation(item, fallback) {
-    const map = item.querySelector('.map-link');
-    if (map?.textContent.trim()) return map.textContent.trim().replace(/^📍\s*/, '');
-    return fallback || 'See today’s route';
+function timelineLocation(item) {
+    const explicit = item.dataset.location || item.querySelector('[data-location]')?.dataset.location;
+    if (explicit) return explicit;
+    const title = item.querySelector('.event-title')?.textContent.trim() || '';
+    if (/雲西站/.test(title)) return '雲西站';
+    if (/仁川.*T1/.test(title)) return '仁川 T1';
+    if (/Doha/.test(title)) return 'Doha';
+    if (/TPE/.test(title)) return 'Taipei Taoyuan';
+    if (/ICN/.test(title)) return 'Incheon';
+    return '';
 }
 
-function enhanceTimelineItems(panel, fallbackLocation) {
+function enhanceTimelineItems(panel) {
     panel.querySelectorAll('.timeline-item').forEach(item => {
         if (item.dataset.timelineReady) return;
         item.dataset.timelineReady = 'true';
         const title = item.querySelector('.event-title');
         const detail = item.querySelector('.event-detail');
         if (!title) return;
-        const category = getTimelineCategory(title.textContent, detail?.textContent || '');
-        const location = timelineLocation(item, fallbackLocation);
+        const category = getTimelineCategory(title.textContent);
+        const location = timelineLocation(item);
         const meta = document.createElement('div');
         meta.className = 'timeline-meta';
-        meta.innerHTML = `<span class="timeline-category">${category}</span><span class="timeline-location">📍 ${location}</span>`;
+        meta.innerHTML = `<span class="timeline-category">${category}</span>${location ? `<span class="timeline-location">📍 ${location}</span>` : ''}`;
         title.insertAdjacentElement('afterend', meta);
-        if (detail) {
+        if (detail && detail.textContent.trim()) {
             detail.classList.add('timeline-detail', 'is-collapsed');
             const toggle = document.createElement('button');
             toggle.type = 'button';
@@ -412,19 +417,18 @@ function addDailySummary(panel, presentation) {
     const firstTimeline = panel.querySelector('.timeline-item');
     const time = firstTimeline?.querySelector('.time')?.textContent.trim() || 'See timeline';
     const title = firstTimeline?.querySelector('.event-title')?.textContent.trim() || presentation.highlight;
-    const route = header.querySelector('.route')?.textContent.trim() || '';
     const sun = header.querySelector('.sun-times')?.textContent.trim() || 'Weather: check before departure';
+    const summaryTitle = panel.id === '1009' ? 'Flight Day' : presentation.highlight;
     const summary = document.createElement('section');
     summary.className = 'daily-summary';
     summary.innerHTML = `
-        <div class="daily-summary-heading"><div><span>DAILY SUMMARY</span><h3>${presentation.highlight}</h3></div><span class="daily-summary-badge">${getTimelineCategory(title, route)}</span></div>
+        <div class="daily-summary-heading"><div><span>DAY BRIEF</span><h3>${summaryTitle}</h3></div><span class="daily-summary-badge">${getTimelineCategory(title)}</span></div>
         <div class="daily-summary-grid">
-            <div><small>ROUTE</small><b>${route || title}</b></div>
             <div><small>NEXT</small><b>${time}<br>${title}</b></div>
+            <div><small>GETTING AROUND</small><b>${presentation.driving}</b></div>
             <div><small>TONIGHT</small><b>🏨 ${presentation.stay}</b></div>
         </div>
         <div class="daily-summary-weather">🌦 ${sun}</div>
-        <div class="daily-highlight"><span>⭐ DAY HIGHLIGHT</span><b>${presentation.highlight}</b></div>
         ${presentation.moment ? `<div class="honeymoon-moment"><span>💍 Honeymoon Moment</span><b>${presentation.moment}</b></div>` : ''}`;
     header.insertAdjacentElement('afterend', summary);
 }
@@ -461,8 +465,13 @@ function enhanceDailyPanels() {
     const presentation = window.TripData?.meta?.dailyPresentation || {};
     document.querySelectorAll('.tab-content:not(#overview)').forEach(panel => {
         const header = panel.querySelector('.day-header');
-        const route = header?.querySelector('.route')?.textContent.trim() || '';
         const entry = presentation[panel.id] || { highlight: header?.querySelector('h2')?.textContent.trim() || 'Today’s plan', stay: 'See full itinerary', driving: 'See route in timeline' };
+        if (panel.id === '1009') {
+            const title = header?.querySelector('h2');
+            const route = header?.querySelector('.route');
+            if (title) title.textContent = '✈️ Flight Day';
+            if (route) route.textContent = 'TPE · ICN · DOH';
+        }
         addDailySummary(panel, entry);
         const summary = panel.querySelector('.daily-summary');
         const timelineCards = Array.from(panel.children).filter(child => child.classList?.contains('card') && child.querySelector('.timeline'));
@@ -471,7 +480,7 @@ function enhanceDailyPanels() {
             timelineAnchor.insertAdjacentElement('afterend', card);
             timelineAnchor = card;
         });
-        enhanceTimelineItems(panel, route);
+        enhanceTimelineItems(panel);
         addDailyFooter(panel, entry);
         const cards = Array.from(panel.children).filter(child => child.classList?.contains('card'));
         cards.forEach(card => {
