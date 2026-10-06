@@ -25,3 +25,13 @@ The browser loads the data file first, then `components.js`, then the relevant p
 - Navigation, selected-day state, progressive disclosure behavior: edit `js/app.js`.
 
 Keep the content data and UI templates separate. This preserves the current GitHub Pages deployment model while making itinerary updates safer and easier to review.
+
+## Printable booklet
+
+`downloads/uk-ireland-honeymoon-print-booklet.pdf` is an A4 landscape PDF imposed for duplex printing. Print at 100% with **short-edge flipping**, then fold each sheet to make an A5 booklet.
+
+After itinerary data changes, regenerate it with the bundled PDF runtime:
+
+```bash
+/home/jim841019g/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/generate_print_booklet.py
+```
