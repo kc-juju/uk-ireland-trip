@@ -15,7 +15,99 @@
     }
 }());
 
+function getTripClock(date = new Date()) {
+    const today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const start = new Date(2026, 9, 9);
+    const end = new Date(2026, 9, 26);
+    const msPerDay = 24 * 60 * 60 * 1000;
+    if (today < start) {
+        return { phase: 'before', day: '1009', daysToGo: Math.ceil((start - today) / msPerDay) };
+    }
+    if (today > end) return { phase: 'after', day: '1026', dayNumber: 18 };
+    const dayNumber = Math.floor((today - start) / msPerDay) + 1;
+    return { phase: 'during', day: `10${String(dayNumber + 8).padStart(2, '0')}`, dayNumber };
+}
 
+function syncTripDashboard() {
+    const clock = getTripClock();
+    const home = document.getElementById('home-hub');
+    if (!home) return;
+    const primary = home.querySelector('.progress-line strong');
+    const secondary = home.querySelector('.progress-line span');
+    const meter = home.querySelector('.progress-meter');
+    const meterFill = meter?.querySelector('span');
+    const label = home.querySelector('.home-status-card p');
+    const journeyLabel = home.querySelector('.today-journey .eyebrow');
+    const journeyHeading = home.querySelector('#today-journey-title');
+    const planButtons = home.querySelectorAll('[data-open-day]');
+    const locations = home.querySelectorAll('.location-block strong');
+    const facts = home.querySelector('.journey-facts');
+    const highlight = home.querySelector('.highlight-card');
+    const next = home.querySelector('.next-event-card');
+    const alertText = home.querySelector('.travel-alert p');
+    const setPlanDay = day => planButtons.forEach(button => { button.dataset.openDay = day; });
+    const setCard = (card, eyebrow, title, detail) => {
+        if (!card) return;
+        const cardEyebrow = card.querySelector('.eyebrow');
+        const cardTitle = card.querySelector('h2, h3');
+        const cardDetail = card.querySelector('p');
+        if (cardEyebrow) cardEyebrow.textContent = eyebrow;
+        if (cardTitle) cardTitle.textContent = title;
+        if (cardDetail) cardDetail.textContent = detail;
+    };
+
+    if (clock.phase === 'before') {
+        if (primary) primary.textContent = `${clock.daysToGo} DAYS`;
+        if (secondary) secondary.textContent = ' / TO GO';
+        if (label) label.textContent = 'Countdown to departure';
+        if (meter) meter.setAttribute('aria-label', `${clock.daysToGo} days until departure`);
+        if (meterFill) meterFill.style.width = '0%';
+        if (journeyLabel) journeyLabel.textContent = 'NEXT JOURNEY';
+        if (journeyHeading) journeyHeading.textContent = 'Taipei → Seoul';
+        if (locations[0]) locations[0].textContent = 'Taipei';
+        if (locations[1]) locations[1].textContent = 'Seoul';
+        if (facts) facts.innerHTML = '<span>✈️ 10/09</span><span>Long-haul flight begins</span>';
+        setCard(highlight, '✈️ HONEYMOON BEGINS', 'Taipei → Seoul', '10/09 · 旅程第一段航班');
+        setCard(next, 'NEXT', '✈️ Departure from Taipei', `In ${clock.daysToGo} days`);
+        if (alertText) alertText.textContent = `Departure in ${clock.daysToGo} days · check passports and travel essentials`;
+        setPlanDay('1009');
+        return;
+    }
+    if (clock.phase === 'after') {
+        if (primary) primary.textContent = 'COMPLETE';
+        if (secondary) secondary.textContent = ' / 18 DAYS';
+        if (label) label.textContent = 'Honeymoon journey complete';
+        if (meter) meter.setAttribute('aria-label', 'Honeymoon journey complete');
+        if (meterFill) meterFill.style.width = '100%';
+        if (journeyLabel) journeyLabel.textContent = 'JOURNEY MEMORY';
+        if (journeyHeading) journeyHeading.textContent = 'United Kingdom × Ireland';
+        if (locations[0]) locations[0].textContent = 'Taipei';
+        if (locations[1]) locations[1].textContent = 'Memories';
+        if (facts) facts.innerHTML = '<span>💍 18 DAYS</span><span>Our honeymoon, together</span>';
+        setCard(highlight, '💍 HONEYMOON JOURNAL', 'A journey to remember', 'United Kingdom × Ireland · 2026');
+        setCard(next, 'MEMORIES', 'Open the travel journal', 'Revisit each day’s route and notes');
+        if (alertText) alertText.textContent = 'This honeymoon journey is complete.';
+        setPlanDay('1026');
+        return;
+    }
+    if (primary) primary.textContent = `DAY ${String(clock.dayNumber).padStart(2, '0')}`;
+    if (secondary) secondary.textContent = ' / 18';
+    if (label) label.textContent = 'Trip Progress';
+    if (meter) meter.setAttribute('aria-label', `Trip progress: day ${clock.dayNumber} of 18`);
+    if (meterFill) meterFill.style.width = `${(clock.dayNumber / 18) * 100}%`;
+    if (journeyLabel) journeyLabel.textContent = "TODAY'S JOURNEY";
+    const route = document.querySelector(`#${clock.day} .day-header .route`)?.textContent.trim() || `Day ${clock.dayNumber} itinerary`;
+    if (journeyHeading) journeyHeading.textContent = route;
+    if (locations[0]) locations[0].textContent = `Day ${String(clock.dayNumber).padStart(2, '0')}`;
+    if (locations[1]) locations[1].textContent = 'Open today’s timeline';
+    if (facts) facts.innerHTML = '<span>🗓 Confirmed itinerary</span><span>Details in Today’s Plan</span>';
+    setCard(highlight, '⭐ DAY HIGHLIGHT', route, 'Open today’s timeline for confirmed times and bookings.');
+    setCard(next, 'NEXT', 'Open today’s plan', 'Use the itinerary for the next confirmed event.');
+    if (alertText) alertText.textContent = `Day ${clock.dayNumber} of 18 · check today’s timeline before leaving.`;
+    setPlanDay(clock.day);
+}
+
+syncTripDashboard();
 
 function showTab(id, button) {
 

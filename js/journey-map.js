@@ -8,6 +8,9 @@
     const sheet = center.querySelector('.location-sheet');
     const mapElement = canvas;
     const icons = { city:'🏙', attraction:'🏰', hotel:'🏨', food:'🍽', football:'⚽', scenic:'📸', airport:'✈', train:'🚆', driving:'🚗' };
+    const clock = typeof getTripClock === 'function' ? getTripClock() : { phase:'during', day:data.todayDay };
+    const todayDay = clock.day;
+    const todayLabel = clock.phase === 'before' ? 'Next · Day 01' : clock.phase === 'after' ? 'Final day · Day 18' : `Today · Day ${String(clock.dayNumber).padStart(2, '0')}`;
     const locations = new Map(data.places.map(place => [place.id, place]));
     let activeDay = 'all';
     let activeFilter = 'all';
@@ -34,12 +37,12 @@
     }
 
     function visiblePlace(place) {
-        if (activeDay === 'today' && place.day !== data.todayDay) return false;
+        if (activeDay === 'today' && place.day !== todayDay) return false;
         if (activeDay !== 'all' && activeDay !== 'today') {
             const day = data.highlandsDays.find(item => item.id === activeDay);
             if (day && !day.points.includes(place.id)) return false;
         }
-        if (activeFilter === 'today') return place.day === data.todayDay;
+        if (activeFilter === 'today') return place.day === todayDay;
         if (activeFilter === 'saved') return place.saved;
         return activeFilter === 'all' || place.kind === activeFilter;
     }
@@ -99,6 +102,9 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap contributors' }).addTo(leafletMap);
         refreshLayers(true);
     }
+
+    const todayDayButton = center.querySelector('[data-map-day="today"]');
+    if (todayDayButton) todayDayButton.textContent = todayLabel;
 
     center.querySelectorAll('[data-map-filter]').forEach(button => button.addEventListener('click', () => {
         activeFilter = button.dataset.mapFilter;
