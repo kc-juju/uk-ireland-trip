@@ -5,6 +5,10 @@
         throw new Error('Trip data or UI components are unavailable.');
     }
     mount.innerHTML = window.TripComponents.renderApp(window.TripData);
+    const travelMount = document.getElementById('travel-control-mount');
+    if (travelMount && window.TripData.meta.travelControl) {
+        travelMount.outerHTML = window.TripComponents.renderTravelControl(window.TripData.meta.travelControl);
+    }
 }());
 
 
@@ -204,7 +208,7 @@ function showHub(hub) {
     const targetByHub = {
         home: 'home-hub',
         map: 'route-map',
-        travel: 'flight-summary',
+        travel: 'travel-control-center',
         guide: 'guide-hub',
         journal: 'journal-hub'
     };

@@ -30,6 +30,15 @@
         return `<nav class="bottom-nav" aria-label="主要導覽">${items}</nav>`;
     }
 
+    function renderTravelControl(travel) {
+        const route = (stops, label) => `<div class="journey-line"><span>${label}</span>${stops.map(stop => `<b>${stop}</b>`).join('<i>↓</i>')}</div>`;
+        const flights = travel.flights.map(flight => `<article class="travel-flight-card"><div class="travel-flight-head"><span>${flight.code}</span><small>${flight.airline}</small></div><h3>${flight.from} → ${flight.to}</h3><p>${flight.route}</p><div class="travel-flight-time"><b>${flight.time.split(' → ')[0]}</b><i>→</i><b>${flight.time.split(' → ')[1]}</b></div><div class="travel-flight-meta"><span>${flight.duration}</span><span>${flight.cabin}</span><span>${flight.aircraft}</span></div><details><summary>Flight detail</summary><ul>${flight.detail.map(item => `<li>${item}</li>`).join('')}</ul>${flight.code === 'QR863' || flight.code === 'QR27' ? '<a class="map-link" href="qatar-dining-guide.html">Open Qatar dining guide ↗</a>' : ''}</details></article>`).join('');
+        const connections = travel.connections.map(connection => `<article class="connection-card"><h3>⏱ ${connection.duration} Connection</h3><dl><div><dt>Airport</dt><dd>${connection.airport}</dd></div><div><dt>Terminal</dt><dd>${connection.terminal}</dd></div><div><dt>Lounge</dt><dd>${connection.lounge}</dd></div><div><dt>Next flight</dt><dd>${connection.next}</dd></div></dl><p><b>Recommended:</b> ${connection.actions}</p></article>`).join('');
+        const trains = travel.trains.map(train => `<article class="transport-row"><span>🚆</span><div><b>${train.route}</b><small>${train.time} · ${train.status}</small><p>${train.note}</p></div></article>`).join('');
+        const transfers = travel.transfers.map(item => `<li>${item}</li>`).join('');
+        return `<section id="travel-control-center" class="travel-control-center"><div class="travel-page-intro"><div><div class="eyebrow">TRAVEL CONTROL CENTER</div><h2>每一段移動，都在這裡。</h2><p>Flights · Trains · Rental Car · Transfers · Airports · Lounges</p></div><span>2026<br><small>HONEYMOON</small></span></div><section class="journey-timelines" aria-label="Flight overview">${route(travel.outbound, 'OUTBOUND')} ${route(travel.return, 'RETURN')}</section><section class="travel-section"><div class="travel-section-heading"><div><div class="eyebrow">FLIGHT OVERVIEW</div><h2>Flight control</h2></div><span>${travel.flights.length} FLIGHTS</span></div><div class="travel-flight-grid">${flights}</div></section><section class="travel-section"><div class="travel-section-heading"><div><div class="eyebrow">CONNECTIONS</div><h2>Long layovers, planned</h2></div></div><div class="connection-grid">${connections}</div></section><section class="travel-operations"><article class="rental-card"><div class="eyebrow">RENTAL CAR</div><h2>🚗 ${travel.rental.company}</h2><div class="rental-times"><div><span>PICKUP</span><b>${travel.rental.pickup}</b></div><div><span>RETURN</span><b>${travel.rental.return}</b></div></div><ul>${travel.rental.facts.map(item => `<li>${item}</li>`).join('')}</ul></article><article class="train-transfer-card"><div class="eyebrow">RAIL & TRANSFERS</div><h2>🚆 Ground connections</h2>${trains}<ul class="transfer-list">${transfers}</ul></article></section><p class="travel-data-note">Airport terminal, lounge and seat details are shown only where recorded in the itinerary. Unconfirmed fields stay marked as such.</p></section>`;
+    }
+
     function renderDiningGuide(data) {
         const meta = data.meta;
         return `<header class="hero"><div class="wrap"><div class="eyebrow">${meta.eyebrow}</div><h1>${meta.title}</h1><p>${meta.subtitle}</p><a class="back" href="index.html">${meta.backLabel}</a></div></header><main class="container">${data.contentHtml}</main>`;
@@ -44,6 +53,7 @@ ${renderTabs(data.panels)}
 <main class="container">${data.panels.map(panel => panel.html).join('\n')}<div class="footer">${data.meta.footer}</div></main>
 ${renderBottomNavigation(data.meta.navigation)}`;
         },
-        renderDiningGuide
+        renderDiningGuide,
+        renderTravelControl
     };
 }());
