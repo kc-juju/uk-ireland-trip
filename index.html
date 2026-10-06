@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>2026 英國・愛爾蘭蜜月</title>
+<title>2026 英國・愛爾蘭蜜月｜Honeymoon Travel Journal</title>
+<meta name="theme-color" content="#173f35">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -1673,6 +1677,246 @@ body {
         order: -1;
     }
 }
+
+/* ==================================================
+   2026 HONEYMOON JOURNAL APP SHELL
+================================================== */
+:root {
+    --ink: #132b25;
+    --forest: #173f35;
+    --forest-deep: #0f2922;
+    --navy: #14283a;
+    --ivory: #f6f1e7;
+    --paper: #fffdf8;
+    --sage: #aab8a0;
+    --sage-soft: #e9eee4;
+    --gold: #b89857;
+    --gold-soft: #f1e7cf;
+    --line: rgba(20, 40, 32, .14);
+    --bg: var(--ivory);
+    --card: var(--paper);
+    --text: var(--ink);
+    --muted: #627068;
+    --border: var(--line);
+    --accent: var(--forest);
+    --accent-light: var(--sage-soft);
+}
+
+body {
+    font-family: "DM Sans", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: .005em;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(184, 152, 87, .11), transparent 23rem),
+        linear-gradient(90deg, rgba(23,63,53,.025) 1px, transparent 1px),
+        var(--ivory);
+    background-size: auto, 28px 28px, auto;
+}
+
+h1, h2, h3, .hero h1, .day-header h2, .section-heading h2 {
+    font-family: "Cormorant Garamond", "Noto Serif TC", Georgia, serif;
+    letter-spacing: -.025em;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 525px;
+    padding: 0;
+    color: var(--paper);
+    background: var(--forest-deep);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(11, 31, 26, .95) 0%, rgba(11,31,26,.78) 45%, rgba(11,31,26,.32) 75%, rgba(11,31,26,.18));
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, .96fr) minmax(350px, .7fr);
+    max-width: 1200px;
+    min-height: 455px;
+    padding: 78px 34px 96px;
+}
+
+.hero-copy { align-self: end; max-width: 650px; }
+.eyebrow, .dashboard-kicker {
+    color: var(--gold);
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+.hero h1 {
+    max-width: 610px;
+    margin: 12px 0 10px;
+    color: #fffdf7;
+    font-size: clamp(3.1rem, 5vw, 4.75rem);
+    font-weight: 600;
+    line-height: .84;
+}
+.hero h1 span { display: block; font-size: .53em; margin-bottom: 13px; letter-spacing: .01em; }
+.hero p { max-width: 450px; margin: 18px 0 0; color: rgba(255,253,247,.77); font-size: 1rem; }
+.hero-visual {
+    position: absolute;
+    inset: 0 0 0 44%;
+    background: linear-gradient(90deg, rgba(15,41,34,.36), rgba(15,41,34,.05)), url("assets/trip/edinburgh.jpg") center / cover no-repeat;
+    filter: saturate(.8) contrast(.98);
+}
+.hero-visual-label {
+    position: absolute;
+    right: 32px;
+    top: 34px;
+    color: rgba(255,255,255,.9);
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    line-height: 1.55;
+    text-align: right;
+}
+.hero-visual-label span { color: var(--gold); }
+.trip-summary { gap: 8px; margin-top: 27px; }
+.summary-pill {
+    padding: 7px 11px;
+    border: 1px solid rgba(255,253,247,.24);
+    border-radius: 999px;
+    color: rgba(255,253,247,.94);
+    background: rgba(255,253,247,.07);
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+}
+
+.journal-nav {
+    position: absolute;
+    z-index: 2;
+    right: max(22px, calc((100vw - 1132px) / 2));
+    bottom: 26px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    background: rgba(15,41,34,.44);
+    backdrop-filter: blur(10px);
+}
+.journal-nav button {
+    border: 0;
+    border-radius: 999px;
+    padding: 8px 11px;
+    color: rgba(255,255,255,.75);
+    background: transparent;
+    cursor: pointer;
+    font: 600 .73rem/1 "DM Sans", sans-serif;
+}
+.journal-nav button:hover, .journal-nav button.active { color: var(--forest); background: var(--ivory); }
+
+.container { max-width: 1120px; padding: 34px 22px 120px; }
+.tabs-wrapper {
+    top: 0;
+    border: 0;
+    background: rgba(246,241,231,.86);
+    box-shadow: 0 1px 0 var(--line);
+}
+.tabs { max-width: 1120px; gap: 6px; padding: 11px 20px; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 7px 11px;
+    color: #65736a;
+    background: transparent;
+    font-size: .76rem;
+    font-weight: 700;
+}
+.tab:hover { color: var(--forest); background: var(--sage-soft); }
+.tab.active { color: #fff; border-color: var(--forest); background: var(--forest); }
+body:not(.app-itinerary) .tabs-wrapper { display: none; }
+
+.home-dashboard { display: grid; gap: 26px; margin-bottom: 42px; }
+.home-dashboard > *, .journal-welcome > *, .dashboard-grid > *, .section-heading > * { min-width: 0; }
+.journal-welcome { display: grid; grid-template-columns: minmax(0, 1fr) 110px; gap: 22px; align-items: end; padding: 20px 2px 5px; }
+.journal-welcome h2 { max-width: 650px; margin: 7px 0 9px; font-size: clamp(2.25rem, 4vw, 3.3rem); line-height: .95; color: var(--forest); }
+.journal-welcome p { max-width: 650px; margin: 0; color: var(--muted); font-size: .93rem; }
+.journal-stamp { display: grid; place-content: center; width: 96px; height: 96px; border: 1px solid var(--gold); border-radius: 50%; color: var(--forest); font: 700 1.7rem/.8 "Cormorant Garamond", serif; text-align: center; transform: rotate(-8deg); }
+.journal-stamp span { margin-top: 6px; font: 700 .5rem/1 "DM Sans", sans-serif; letter-spacing: .12em; }
+.dashboard-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 14px; }
+.dashboard-card { border: 1px solid var(--line); border-radius: 22px; padding: 25px; background: var(--paper); box-shadow: 0 13px 34px rgba(31,51,42,.06); }
+.dashboard-route { color: #fff; background: linear-gradient(120deg, rgba(15,41,34,.94), rgba(23,63,53,.82)), url("assets/trip/loch-ness.jpg") center / cover; }
+.dashboard-route .dashboard-kicker { color: #e8cf97; }
+.dashboard-route h3 { max-width: 510px; margin: 7px 0 18px; font-size: clamp(1.85rem, 3vw, 2.55rem); line-height: .96; }
+.text-action { display: inline-flex; gap: 12px; align-items: center; border: 0; padding: 0; color: inherit; background: transparent; cursor: pointer; font: 700 .82rem/1 "DM Sans", sans-serif; }
+.text-action span { font-size: 1.15em; transition: transform .2s; }
+.text-action:hover span { transform: translateX(4px); }
+.dashboard-stats { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.dashboard-stats > div { display: grid; grid-template-columns: 56px 1fr; gap: 11px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.dashboard-stats > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.dashboard-stats strong { color: var(--forest); font: 700 2.6rem/.8 "Cormorant Garamond", serif; }
+.dashboard-stats span { color: var(--muted); font-size: .77rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 13px; }
+.section-heading h2 { margin: 5px 0 0; color: var(--forest); font-size: 2rem; line-height: .95; }
+.section-count { color: var(--gold); font-size: .67rem; font-weight: 700; letter-spacing: .12em; white-space: nowrap; }
+.moment-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+.moment-card { position: relative; overflow: hidden; min-height: 195px; padding: 20px; border: 0; border-radius: 20px; color: #fff; text-align: left; cursor: pointer; background: #203f35 center / cover; }
+.moment-card::before { content:""; position:absolute; inset:0; background: linear-gradient(0deg, rgba(8,28,23,.84), rgba(8,28,23,.08)); }
+.moment-card > * { position: relative; z-index: 1; display: block; }
+.castle-moment { background-image: url("assets/trip/edinburgh-castle.jpg"); }
+.match-moment { background-image: url("assets/city-ground-nottingham.jpg"); }
+.coast-moment { background-image: url("assets/trip/belfast.png"); }
+.moment-date { color: #e9cf97; font-size: .65rem; font-weight: 700; letter-spacing: .13em; }
+.moment-card strong { margin-top: 45px; font: 600 1.8rem/.9 "Cormorant Garamond", serif; }
+.moment-card strong + span { margin-top: 8px; color: rgba(255,255,255,.82); font-size: .73rem; }
+.route-story { padding: 25px; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(135deg, rgba(234,238,228,.78), rgba(255,253,248,.95)); }
+.route-track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
+.route-track li { position: relative; min-width: 0; padding: 0 10px 0 0; }
+.route-track li:not(:last-child)::after { content:""; position:absolute; top:8px; right:0; width: 22px; border-top: 1px solid var(--gold); }
+.route-track span { display: block; margin-bottom: 13px; color: var(--gold); font-size: .67rem; font-weight: 700; }
+.route-track b { display: block; color: var(--forest); font-size: .82rem; line-height: 1.35; }
+.route-track small { display:block; margin-top: 6px; color: var(--muted); font-size: .68rem; line-height: 1.4; }
+.quick-links { display:grid; grid-template-columns: repeat(3,1fr); gap:12px; }
+.quick-links a { display:grid; grid-template-columns: 27px 1fr auto; column-gap:10px; align-items:center; padding:17px; color:var(--forest); border:1px solid var(--line); border-radius:17px; background:var(--paper); text-decoration:none; transition:transform .2s, box-shadow .2s; }
+.quick-links a:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(31,51,42,.08); }
+.quick-links a > span { grid-row: span 2; font-size:1.35rem; }
+.quick-links b { font-size:.84rem; }.quick-links small { color:var(--muted); font-size:.68rem; }.quick-links i { grid-column:3; grid-row:span 2; font-style:normal; }
+.journal-note { padding: 28px 30px; border-left: 2px solid var(--gold); background: rgba(255,253,248,.68); }
+.journal-note p { max-width:700px; margin:8px 0 0; color:var(--forest); font:600 clamp(1.35rem,2.5vw,1.85rem)/1.1 "Cormorant Garamond", serif; }
+
+.day-header { position:relative; margin: 12px 0 18px; padding: 23px 24px; overflow:hidden; border:1px solid var(--line); border-radius:20px; color:#fff; background:linear-gradient(110deg,rgba(15,41,34,.95),rgba(23,63,53,.78)),url("assets/trip/edinburgh.jpg") center/cover; }
+.day-header::after { content:""; position:absolute; right:-24px; bottom:-56px; width:130px; height:130px; border:1px solid rgba(232,207,151,.65); border-radius:50%; }
+.day-header > * { position:relative; z-index:1; }.day-header .date,.day-header .route,.sun-times { color:rgba(255,255,255,.78); }.day-header h2 { margin:3px 0 5px; font-size:clamp(2.1rem,5vw,3.4rem); line-height:.9; }
+.card { border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: 0 8px 25px rgba(31,51,42,.045); }
+.card h3 { color:var(--forest); font-size:1.45rem; line-height:1; }
+.badge { padding:4px 8px; font-size:.69rem; font-weight:700; letter-spacing:.02em; }.confirmed { color:#195743; background:#e5f0e7; }.pending {color:#855d19;background:#f8efd8;}.alt{color:#23537b;background:#e4eef5;}.flight{color:#4d3c73;background:#eee8f7;}.warning{color:#8e3d31;background:#f7e8e4;}
+.note { border-radius: 12px; }.note-blue{background:#edf3f1;border-left-color:#508071}.note-green{background:#edf3e8;border-left-color:#719460}.note-yellow{background:#fbf3de;border-left-color:#b89857}.note-purple{background:#f1edf5;border-left-color:#76638f}.note-red{background:#f7ebe8;border-left-color:#a85749}
+.map-link { color:#1b5d4b; text-underline-offset:3px; }.map-link:hover {color:#a27d37;}.stay-card {border-color:var(--line);background:#fffdf8}.stay-card.confirmed-stay{border-color:#b7c8b1;background:linear-gradient(135deg,#f5f8f1,#fffdf8)}
+.overview-table { border-color:var(--line); }.overview-table th {color:var(--forest);background:#edf1ea;}
+.flight-badge { color:#805c1d; background:#f2e8d2; border-color:transparent; }
+
+.day-brief { display:none; }.progressive-toggle { display:none; }
+.bottom-nav { display:none; }
+
+@media (max-width: 760px) {
+    body { background-size:auto, 22px 22px, auto; padding-bottom:78px; }
+    .hero { min-height: 455px; }.hero-inner { display:block; min-height:455px; padding: 115px 21px 110px; }.hero-visual { inset:0; background-position:63% center; }.hero::after { background:linear-gradient(0deg,rgba(8,28,23,.96),rgba(8,28,23,.69) 54%,rgba(8,28,23,.28)); }.hero-copy {position:relative;z-index:1;}.hero h1{font-size:3.45rem;max-width:355px;}.hero h1 span{font-size:.5em;margin-bottom:11px;}.hero p{font-size:.86rem;}.hero-visual-label{right:20px;top:19px;font-size:.58rem}.trip-summary{margin-top:19px}.summary-pill{font-size:.59rem;padding:6px 8px}.journal-nav{display:none}
+    .container { padding:22px 14px 104px; }.tabs-wrapper{position:sticky;top:0;z-index:48}.tabs{padding:10px 13px}.tab{font-size:.73rem;padding:8px 10px}
+    .home-dashboard { gap:22px; margin-bottom:30px; }.journal-welcome { grid-template-columns:minmax(0,1fr) 72px; gap:13px; padding:6px 2px 0; }.journal-welcome h2 {font-size:2.3rem}.journal-welcome p{font-size:.85rem;line-height:1.65}.journal-stamp{width:70px;height:70px;font-size:1.3rem}.journal-stamp span{font-size:.4rem}
+    .dashboard-grid{grid-template-columns:1fr;gap:10px}.dashboard-card{border-radius:18px;padding:21px}.dashboard-route h3{font-size:2rem}.dashboard-stats{grid-template-columns:repeat(3,1fr);gap:4px}.dashboard-stats>div{display:block;padding:0;border:0}.dashboard-stats strong{display:block;font-size:2.25rem}.dashboard-stats span{font-size:.56rem;line-height:1.25}
+    .section-heading h2{font-size:1.85rem}.moment-scroll{display:flex;gap:12px;overflow:auto;margin:0 -14px;padding:0 14px 7px;scroll-snap-type:x mandatory;scrollbar-width:none}.moment-scroll::-webkit-scrollbar{display:none}.moment-card{flex:0 0 77%;min-height:202px;scroll-snap-align:start}.moment-card strong{margin-top:56px;font-size:2rem}.route-story{margin:0 -2px;padding:20px 18px;border-radius:18px}.route-track{grid-template-columns:1fr;gap:0;margin-top:16px}.route-track li{display:grid;grid-template-columns:31px 1fr;column-gap:11px;padding:0 0 16px}.route-track li:not(:last-child)::after{top:25px;left:11px;right:auto;width:1px;height:22px;border-top:0;border-left:1px solid var(--gold)}.route-track span{grid-row:span 2;margin:0}.route-track b{font-size:.86rem}.route-track small{grid-column:2;margin-top:3px}.quick-links{grid-template-columns:1fr;gap:8px}.quick-links a{padding:14px 15px}.journal-note{padding:23px 20px}.journal-note p{font-size:1.5rem}
+    .day-header{margin:2px 0 14px;padding:20px 18px;border-radius:17px}.day-header h2{font-size:2.2rem}.day-header .date{font-size:.78rem}.sun-times{font-size:.7rem}.card{padding:18px 16px;border-radius:16px}.card h3{font-size:1.35rem}
+    .timeline-item{grid-template-columns:71px minmax(0,1fr);gap:10px;padding-bottom:18px}.timeline-item::before{left:65px;top:24px}.timeline-dot{left:60px;width:10px;height:10px}.time{padding-right:10px;font-size:.72rem}.event{padding-left:6px}.event-title{font-size:.98rem}.event-detail{font-size:.84rem}.flight-card.day-flight{border-radius:15px}
+    .day-brief{display:grid;grid-template-columns:1fr auto;gap:13px;align-items:end;padding:16px 2px 4px}.day-brief-label{color:var(--gold);font-size:.65rem;font-weight:700;letter-spacing:.13em}.day-brief-focus{margin-top:4px;color:var(--forest);font:600 1.32rem/1.02 "Cormorant Garamond",serif}.day-brief-route{margin-top:6px;color:var(--muted);font-size:.76rem}.day-brief button{border:1px solid var(--forest);border-radius:999px;padding:8px 10px;color:var(--forest);background:transparent;font:700 .67rem/1 "DM Sans",sans-serif}
+    .tab-content:not(#overview) .card.progressive-card.is-collapsed > :not(h3,.progressive-toggle){display:none}.tab-content:not(#overview) .card.progressive-card.is-collapsed{padding-bottom:14px}.progressive-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:3px;border:0;padding:6px 0;color:var(--forest);background:transparent;font:700 .76rem/1 "DM Sans",sans-serif;cursor:pointer}.progressive-toggle::after{content:"↓";font-size:1rem}.progressive-card:not(.is-collapsed) .progressive-toggle::after{content:"↑"}
+    .bottom-nav{position:fixed;z-index:80;left:10px;right:10px;bottom:max(10px, env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,1fr);padding:7px 4px 5px;border:1px solid rgba(20,40,32,.14);border-radius:20px;background:rgba(255,253,248,.94);box-shadow:0 12px 32px rgba(15,41,34,.16);backdrop-filter:blur(16px)}.bottom-nav-item{display:grid;place-items:center;gap:2px;min-width:0;border:0;border-radius:13px;padding:5px 2px;color:#6a746c;background:transparent;cursor:pointer}.bottom-nav-item span{font:500 1.25rem/1 "Cormorant Garamond",serif}.bottom-nav-item b{max-width:100%;overflow:hidden;font:700 .52rem/1 "DM Sans",sans-serif;letter-spacing:-.02em;white-space:nowrap}.bottom-nav-item.active{color:var(--forest);background:var(--sage-soft)}
+}
+
+@media (min-width:761px){body.app-itinerary .tabs-wrapper{display:block}.bottom-nav{display:none}}
+
 </style>
 </head>
 
@@ -1682,17 +1926,28 @@ body {
 
 <header class="hero">
 <div class="hero-inner">
-    <h1>🇬🇧🇮🇪 2026 英國・愛爾蘭蜜月</h1>
-    <p>Football × Scottish Highlands 自駕 × Honeymoon Slow Travel</p>
-
-    <div class="trip-summary">
-        <div class="summary-pill">📅 10/09 – 10/26</div>
-        <div class="summary-pill">🏙️ Manchester</div>
-        <div class="summary-pill">🏰 Edinburgh</div>
-        <div class="summary-pill">🏔️ Highlands × Skye</div>
-        <div class="summary-pill">☘️ Belfast × Dublin</div>
-        <div class="summary-pill">✈️ Qatar Airways</div>
+    <div class="hero-copy">
+        <div class="eyebrow">2026 HONEYMOON TRAVEL JOURNAL</div>
+        <h1><span>英國・愛爾蘭</span>
+            兩個人的秋日旅程</h1>
+        <p>Football · Scottish Highlands Road Trip · Slow Travel</p>
+        <div class="trip-summary" aria-label="旅程主題">
+            <div class="summary-pill">09–26 OCT</div>
+            <div class="summary-pill">18 DAYS</div>
+            <div class="summary-pill">UK · IRELAND · BANGKOK</div>
+        </div>
     </div>
+    <div class="hero-visual" aria-label="愛丁堡城堡與蘇格蘭高地旅行意象">
+        <div class="hero-visual-label">THE JOURNEY<br><span>BEGINS HERE</span></div>
+    </div>
+</div>
+<div class="journal-nav" aria-label="主要頁面">
+    <button type="button" data-hub="home">Home</button>
+    <button type="button" data-hub="itinerary">Itinerary</button>
+    <button type="button" data-hub="map">Map</button>
+    <button type="button" data-hub="travel">Travel</button>
+    <button type="button" data-hub="guide">Guide</button>
+    <button type="button" data-hub="journal">Journal</button>
 </div>
 </header>
 
@@ -1731,6 +1986,79 @@ body {
 
 <section id="overview" class="tab-content active">
 
+<div class="home-dashboard" id="home-hub">
+    <section class="journal-welcome">
+        <div>
+            <div class="eyebrow">OUR OCTOBER CHAPTER</div>
+            <h2>不是攻略，是我們一起走過的路。</h2>
+            <p>從首爾、多哈的長途飛行，走進 Manchester、Edinburgh 與 Scottish Highlands，再向 Belfast、Dublin 和 Bangkok 前進。這裡保留完整安排，也先把每一天最重要的事情放在眼前。</p>
+        </div>
+        <div class="journal-stamp" aria-label="2026 honeymoon">2026<br><span>HONEYMOON</span></div>
+    </section>
+
+    <section class="dashboard-grid" aria-label="旅行快覽">
+        <article class="dashboard-card dashboard-route">
+            <div class="dashboard-kicker">THE ROUTE</div>
+            <h3>Taipei → Seoul → Doha<br>→ Great Britain → Ireland<br>→ Bangkok → Taipei</h3>
+            <button class="text-action" type="button" data-hub="map">查看完整路線 <span>→</span></button>
+        </article>
+        <article class="dashboard-card dashboard-stats">
+            <div><strong>18</strong><span>Days together</span></div>
+            <div><strong>7</strong><span>Flight segments</span></div>
+            <div><strong>9</strong><span>Stays confirmed</span></div>
+        </article>
+    </section>
+
+    <section class="moment-section" aria-labelledby="moments-title">
+        <div class="section-heading">
+            <div><div class="eyebrow">ON THE HORIZON</div><h2 id="moments-title">已確認的幾個時刻</h2></div>
+            <button class="text-action" type="button" data-hub="itinerary">全部行程 <span>→</span></button>
+        </div>
+        <div class="moment-scroll">
+            <button class="moment-card castle-moment" type="button" data-open-day="1013">
+                <span class="moment-date">13 OCT · TUE</span>
+                <strong>Edinburgh Castle</strong>
+                <span>10:30–11:00 入場 · 已預約</span>
+            </button>
+            <button class="moment-card match-moment" type="button" data-open-day="1018">
+                <span class="moment-date">18 OCT · SUN</span>
+                <strong>Nottingham Forest<br>vs Arsenal</strong>
+                <span>City Ground · 已購票</span>
+            </button>
+            <button class="moment-card coast-moment" type="button" data-open-day="1020">
+                <span class="moment-date">20 OCT · TUE</span>
+                <strong>Giant’s Causeway</strong>
+                <span>McComb’s day tour · 已預訂</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="route-story" id="route-map">
+        <div class="section-heading">
+            <div><div class="eyebrow">ROUTE AT A GLANCE</div><h2>一路向西，再回到亞洲</h2></div>
+            <span class="section-count">13 STOPS</span>
+        </div>
+        <ol class="route-track">
+            <li><span>01</span><b>Taipei · Seoul · Doha</b><small>10/09–10/10 · 長途啟程</small></li>
+            <li><span>02</span><b>Manchester · Liverpool</b><small>10/10–10/12 · Football & Music</small></li>
+            <li><span>03</span><b>Edinburgh · Highlands · Skye</b><small>10/12–10/18 · Road trip chapter</small></li>
+            <li><span>04</span><b>Nottingham · Belfast · Dublin</b><small>10/18–10/23 · Matchday to Ireland</small></li>
+            <li><span>05</span><b>Doha · Bangkok · Taipei</b><small>10/23–10/26 · Final chapter</small></li>
+        </ol>
+    </section>
+
+    <section class="quick-links" id="travel-hub">
+        <a href="#flight-summary" data-hub="travel"><span>✈️</span><b>Travel</b><small>航班、轉機、租車與住宿</small><i>→</i></a>
+        <a href="#guide-hub" data-hub="guide"><span>📖</span><b>Guide</b><small>餐酒、PDF、採買與旅行備註</small><i>→</i></a>
+        <a href="#journal-hub" data-hub="journal"><span>📸</span><b>Journal</b><small>收藏這段旅程的起點</small><i>→</i></a>
+    </section>
+
+    <section class="journal-note" id="journal-hub">
+        <div class="eyebrow">A PRIVATE KIND OF LUXURY</div>
+        <p>慢一點走，留一點空白；把城堡、山路、球賽和深夜的機艙餐，都寫成只屬於兩個人的故事。</p>
+    </section>
+</div>
+
 <div class="day-header">
     <div class="date">2026/10/09 → 2026/10/26</div>
     <h2>🗺️ 整趟行程</h2>
@@ -1740,7 +2068,7 @@ body {
     </div>
 </div>
 
-<div class="card">
+<div class="card utility-card" id="guide-hub">
     <h3>📄 行程手冊 PDF</h3>
     <p>可直接用手機開啟閱讀；若要實體列印，請下載小冊版並以 A4、雙面、短邊翻轉、100% 列印。</p>
     <a class="map-link" href="downloads/uk-ireland-honeymoon-mobile-reading-guide.pdf" target="_blank" rel="noopener" download>📱 手機閱讀版 PDF ↗</a>
@@ -1752,7 +2080,7 @@ body {
      FLIGHT ANALYSIS
 ================================================== -->
 
-<div class="card">
+<div class="card" id="flight-summary">
 
 <div class="flight-section-title">
     <h3>✈️ 空中移動總覽</h3>
@@ -1822,7 +2150,7 @@ body {
      COMPLETE FLIGHT TABLE
 ================================================== -->
 
-<div class="card">
+<div class="card" id="flight-list">
 
 <div class="flight-section-title">
     <h3>✈️ 完整航班總表</h3>
@@ -2037,7 +2365,7 @@ body {
      ITINERARY SUMMARY
 ================================================== -->
 
-<div class="card">
+<div class="card" id="itinerary-summary">
 
 <h3>📋 行程摘要</h3>
 
@@ -2171,7 +2499,7 @@ body {
      ACCOMMODATION SUMMARY
 ================================================== -->
 
-<div class="card">
+<div class="card" id="stay-summary">
 
 <div class="flight-section-title">
     <h3>🏨 住宿總覽</h3>
@@ -5378,10 +5706,23 @@ Manchester T2 → Belfast City Airport<br>
 
 </main>
 
+<nav class="bottom-nav" aria-label="主要導覽">
+    <button type="button" class="bottom-nav-item active" data-hub="home"><span>⌂</span><b>Home</b></button>
+    <button type="button" class="bottom-nav-item" data-hub="itinerary"><span>◫</span><b>Itinerary</b></button>
+    <button type="button" class="bottom-nav-item" data-hub="map"><span>⌖</span><b>Map</b></button>
+    <button type="button" class="bottom-nav-item" data-hub="travel"><span>✈</span><b>Travel</b></button>
+    <button type="button" class="bottom-nav-item" data-hub="guide"><span>⌁</span><b>Guide</b></button>
+    <button type="button" class="bottom-nav-item" data-hub="journal"><span>◌</span><b>Journal</b></button>
+</nav>
 
 <script>
 
 function showTab(id, button) {
+
+    document.body.classList.toggle('app-itinerary', id !== 'overview');
+    if (typeof setActiveHub === 'function') {
+        setActiveHub(id === 'overview' ? 'home' : 'itinerary');
+    }
 
     const contents =
         document.querySelectorAll(".tab-content");
@@ -5547,6 +5888,102 @@ tabsContainer.addEventListener(
         passive: false
     }
 );
+
+
+/* Honeymoon journal app navigation and progressive detail layers. */
+const appNavButtons = Array.from(document.querySelectorAll('[data-hub]'));
+const dayButtons = Array.from(document.querySelectorAll('.tab'));
+
+function setActiveHub(hub) {
+    appNavButtons.forEach(button => button.classList.toggle('active', button.dataset.hub === hub));
+}
+
+function showHub(hub) {
+    const overviewButton = document.querySelector('.tab[onclick*="overview"]');
+    const targetByHub = {
+        home: 'home-hub',
+        map: 'route-map',
+        travel: 'flight-summary',
+        guide: 'guide-hub',
+        journal: 'journal-hub'
+    };
+
+    if (hub === 'itinerary') {
+        const firstDay = document.querySelector('.tab[onclick*="1009"]');
+        if (firstDay) showTab('1009', firstDay);
+        document.body.classList.add('app-itinerary');
+        setActiveHub('itinerary');
+        return;
+    }
+
+    if (overviewButton) showTab('overview', overviewButton);
+    document.body.classList.remove('app-itinerary');
+    setActiveHub(hub);
+
+    const target = document.getElementById(targetByHub[hub] || 'home-hub');
+    if (target) {
+        window.setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
+    }
+}
+
+appNavButtons.forEach(button => button.addEventListener('click', () => showHub(button.dataset.hub)));
+
+document.querySelectorAll('[data-open-day]').forEach(button => {
+    button.addEventListener('click', () => {
+        const id = button.dataset.openDay;
+        const tab = document.querySelector(`.tab[onclick*="${id}"]`);
+        if (tab) {
+            showTab(id, tab);
+            document.body.classList.add('app-itinerary');
+            setActiveHub('itinerary');
+        }
+    });
+});
+
+function enhanceDailyPanels() {
+    document.querySelectorAll('.tab-content:not(#overview)').forEach(panel => {
+        const header = panel.querySelector('.day-header');
+        const timelineTitle = panel.querySelector('.timeline .event-title');
+        if (header && !panel.querySelector('.day-brief')) {
+            const brief = document.createElement('aside');
+            brief.className = 'day-brief';
+            brief.innerHTML = `
+                <div>
+                    <div class="day-brief-label">TODAY AT A GLANCE</div>
+                    <div class="day-brief-focus">${timelineTitle ? timelineTitle.textContent.trim() : '查看今日安排'}</div>
+                    <div class="day-brief-route">${header.querySelector('.route') ? header.querySelector('.route').textContent.trim() : ''}</div>
+                </div>
+                <button type="button">完整安排</button>`;
+            brief.querySelector('button').addEventListener('click', () => {
+                const firstCard = panel.querySelector('.card');
+                firstCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            header.insertAdjacentElement('afterend', brief);
+        }
+
+        const cards = Array.from(panel.children).filter(child => child.classList?.contains('card'));
+        cards.forEach((card, index) => {
+            if (index < 2 || card.dataset.progressiveReady) return;
+            card.dataset.progressiveReady = 'true';
+            card.classList.add('progressive-card', 'is-collapsed');
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'progressive-toggle';
+            toggle.textContent = '展開細節';
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.addEventListener('click', () => {
+                const collapsed = card.classList.toggle('is-collapsed');
+                toggle.textContent = collapsed ? '展開細節' : '收合細節';
+                toggle.setAttribute('aria-expanded', String(!collapsed));
+            });
+            card.append(toggle);
+        });
+    });
+}
+
+enhanceDailyPanels();
+document.body.classList.remove('app-itinerary');
+setActiveHub('home');
 
 </script>
 
