@@ -12,6 +12,9 @@
 function showTab(id, button) {
 
     document.body.classList.toggle('app-itinerary', id !== 'overview');
+    if (id === 'overview' && typeof setHubMode === 'function') {
+        setHubMode('home');
+    }
     if (typeof setActiveHub === 'function') {
         setActiveHub(id === 'overview' ? 'home' : 'itinerary');
     }
@@ -186,11 +189,17 @@ tabsContainer.addEventListener(
 const appNavButtons = Array.from(document.querySelectorAll('[data-hub]'));
 const dayButtons = Array.from(document.querySelectorAll('.tab'));
 
+function setHubMode(hub) {
+    document.body.classList.remove('app-hub-home', 'app-hub-itinerary', 'app-hub-map', 'app-hub-travel', 'app-hub-guide', 'app-hub-journal');
+    document.body.classList.add(`app-hub-${hub}`);
+}
+
 function setActiveHub(hub) {
     appNavButtons.forEach(button => button.classList.toggle('active', button.dataset.hub === hub));
 }
 
 function showHub(hub) {
+    setHubMode(hub);
     const overviewButton = document.querySelector('.tab[onclick*="overview"]');
     const targetByHub = {
         home: 'home-hub',
@@ -210,6 +219,7 @@ function showHub(hub) {
 
     if (overviewButton) showTab('overview', overviewButton);
     document.body.classList.remove('app-itinerary');
+    setHubMode(hub);
     setActiveHub(hub);
 
     const target = document.getElementById(targetByHub[hub] || 'home-hub');
@@ -219,6 +229,14 @@ function showHub(hub) {
 }
 
 appNavButtons.forEach(button => button.addEventListener('click', () => showHub(button.dataset.hub)));
+
+document.querySelectorAll('[data-dashboard-target]').forEach(button => {
+    button.addEventListener('click', () => {
+        showHub('travel');
+        const target = document.getElementById(button.dataset.dashboardTarget);
+        if (target) window.setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
+    });
+});
 
 document.querySelectorAll('[data-open-day]').forEach(button => {
     button.addEventListener('click', () => {
@@ -275,4 +293,5 @@ function enhanceDailyPanels() {
 
 enhanceDailyPanels();
 document.body.classList.remove('app-itinerary');
+setHubMode('home');
 setActiveHub('home');

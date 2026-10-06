@@ -1,7 +1,7 @@
 /* UI layer: turns trusted itinerary data into the page shell. */
 (function () {
     function renderHero(hero, navigation) {
-        const summary = hero.summary.map(item => `<div class="summary-pill">${item}</div>`).join('');
+        const summary = hero.summary?.length ? `<div class="trip-summary" aria-label="旅程主題">${hero.summary.map(item => `<div class="summary-pill">${item}</div>`).join('')}</div>` : '';
         const nav = navigation.map(item => `<button type="button" data-hub="${item.id}">${item.label}</button>`).join('');
         return `
 <header class="hero">
@@ -10,7 +10,7 @@
             <div class="eyebrow">${hero.eyebrow}</div>
             <h1><span>${hero.region}</span>${hero.title}</h1>
             <p>${hero.subtitle}</p>
-            <div class="trip-summary" aria-label="旅程主題">${summary}</div>
+            ${summary}
         </div>
         <div class="hero-visual" aria-label="愛丁堡城堡與蘇格蘭高地旅行意象">
             <div class="hero-visual-label">${hero.visualLabel[0]}<br><span>${hero.visualLabel[1]}</span></div>
