@@ -411,6 +411,34 @@ function enhanceTimelineItems(panel) {
     });
 }
 
+const routeDisplayLabels = {
+    '1009': '✈️ Flight Day',
+    '1015': '🏔️ Skye Road Trip',
+    '1017': '🏔️ Highlands Road Trip',
+    '1018': '⚽ Matchday Journey',
+    '1020': '🌊 Giant’s Causeway Day'
+};
+
+function simplifyLongRouteHeader(panel, header) {
+    if (!header || header.dataset.routeSimplified) return;
+    const title = header.querySelector('h2');
+    const route = header.querySelector('.route');
+    if (!title || !route || (title.textContent.match(/→/g) || []).length < 2) return;
+    const parts = title.textContent.replace(/^[^\p{L}\p{N}]+/u, '').split('→').map(item => item.trim()).filter(Boolean);
+    if (parts.length < 3) return;
+    const start = parts[0];
+    const end = parts.at(-1);
+    const stops = parts.slice(1, -1);
+    title.textContent = routeDisplayLabels[panel.id] || 'Travel Day';
+    route.classList.add('route-endpoints');
+    route.innerHTML = `<span>${start}</span><i>to</i><span>${end}</span>`;
+    const stopList = document.createElement('div');
+    stopList.className = 'route-stops';
+    stopList.innerHTML = `<small>STOPS</small>${stops.map(stop => `<span>${stop}</span>`).join('')}`;
+    route.insertAdjacentElement('afterend', stopList);
+    header.dataset.routeSimplified = 'true';
+}
+
 function addDailySummary(panel, presentation) {
     const header = panel.querySelector('.day-header');
     if (!header || panel.querySelector('.daily-summary')) return;
@@ -418,7 +446,7 @@ function addDailySummary(panel, presentation) {
     const time = firstTimeline?.querySelector('.time')?.textContent.trim() || 'See timeline';
     const title = firstTimeline?.querySelector('.event-title')?.textContent.trim() || presentation.highlight;
     const sun = header.querySelector('.sun-times')?.textContent.trim() || 'Weather: check before departure';
-    const summaryTitle = panel.id === '1009' ? 'Flight Day' : presentation.highlight;
+    const summaryTitle = routeDisplayLabels[panel.id] || presentation.highlight;
     const summary = document.createElement('section');
     summary.className = 'daily-summary';
     summary.innerHTML = `
@@ -466,12 +494,7 @@ function enhanceDailyPanels() {
     document.querySelectorAll('.tab-content:not(#overview)').forEach(panel => {
         const header = panel.querySelector('.day-header');
         const entry = presentation[panel.id] || { highlight: header?.querySelector('h2')?.textContent.trim() || 'Today’s plan', stay: 'See full itinerary', driving: 'See route in timeline' };
-        if (panel.id === '1009') {
-            const title = header?.querySelector('h2');
-            const route = header?.querySelector('.route');
-            if (title) title.textContent = '✈️ Flight Day';
-            if (route) route.textContent = 'TPE · ICN · DOH';
-        }
+        simplifyLongRouteHeader(panel, header);
         addDailySummary(panel, entry);
         const summary = panel.querySelector('.daily-summary');
         const timelineCards = Array.from(panel.children).filter(child => child.classList?.contains('card') && child.querySelector('.timeline'));

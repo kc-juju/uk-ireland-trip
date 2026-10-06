@@ -1985,3 +1985,12 @@ body.app-hub-weather #overview > :not(#weather-control-center) { display:none; }
     .tab-content:not(#overview) .time { padding-right:5px; font-size:.68rem; line-height:1.35; }
     .tab-content:not(#overview) .event { padding:11px 12px; }
 }
+
+/* Multi-stop days read as a route card, not as a sentence made of arrows. */
+.day-header .route.route-endpoints { display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin-top:8px; color:var(--forest); font:600 1.1rem/1 "Cormorant Garamond",serif; }
+.day-header .route-endpoints span { padding:6px 9px; border:1px solid rgba(23,63,53,.17); border-radius:999px; background:rgba(255,253,248,.76); }
+.day-header .route-endpoints i { color:var(--gold); font:700 .68rem/1 "DM Sans",sans-serif; font-style:normal; letter-spacing:.07em; text-transform:uppercase; }
+.route-stops { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:11px; }
+.route-stops small { margin-right:2px; color:var(--gold); font:800 .58rem/1 "DM Sans",sans-serif; letter-spacing:.13em; }
+.route-stops span { padding:5px 8px; border-radius:999px; color:#506459; background:rgba(226,234,222,.76); font-size:.68rem; line-height:1.2; }
+@media (max-width:760px) { .day-header .route.route-endpoints { gap:7px; font-size:1rem; }.day-header .route-endpoints span { padding:6px 8px; }.route-stops { margin-top:9px; }.route-stops span { font-size:.63rem; } }
