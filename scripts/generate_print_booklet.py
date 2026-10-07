@@ -436,7 +436,10 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         title_lines = wrap(surface, day_title, day_title_font, 19, A5_W - 2 * MARGIN, 2)
         # Keep first pages compact in the monochrome edition. A second title
         # line earns only the room it needs instead of a fixed photo-height header.
-        header_height = (106 + max(0, len(title_lines) - 1) * 23) if MONOCHROME else 158
+        # Leave comparable space above the title and below the final timeline
+        # item on monochrome daily pages; the denser timeline can still extend
+        # safely to the footer when needed.
+        header_height = (126 + max(0, len(title_lines) - 1) * 23) if MONOCHROME else 158
         header_bottom = A5_H - header_height
         draw_cover_image(surface, day["photo"], 0, header_bottom, A5_W, header_height)
         if not MONOCHROME:
@@ -553,7 +556,9 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "TRAVEL CONTROL", MARGIN, A5_H - 42, GOLD)
     draw_section_title(surface, "Flight", "航班總覽", MARGIN, A5_H - 76)
-    y = A5_H - 116
+    # Seven flight cards need the same visual breathing room above and below
+    # the group. Anchor the list as a whole rather than just its first row.
+    y = A5_H - (142 if MONOCHROME else 116)
     for flight in data["meta"]["travelControl"]["flights"]:
         surface.setFillColor(IVORY)
         surface.roundRect(MARGIN, y - 46, A5_W - 2 * MARGIN, 44, 6, stroke=0, fill=1)
@@ -620,15 +625,18 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
         surface.drawRightString(A5_W - MARGIN, A5_H - 72, f"{segment + 1} / 2")
     y = A5_H - (98 if MONOCHROME else 112)
     row_height = 43 if MONOCHROME else 58
-    line_offset = 34 if MONOCHROME else 41
+    line_offset = 40 if MONOCHROME else 41
     day_font_size = 6.6 if MONOCHROME else 7
     hotel_font_size = 7.8 if MONOCHROME else 8.7
     description_font_size = 6.1 if MONOCHROME else 6.8
     description_y_offset = 24 if MONOCHROME else 26
-    for hotel in rows:
-        surface.setStrokeColor(themed("#D6D7CE", "#D2D2D2"))
-        surface.setLineWidth(0.6)
-        surface.line(MARGIN, y - line_offset, A5_W - MARGIN, y - line_offset)
+    for index, hotel in enumerate(rows):
+        # Centre each divider between the description above and the next
+        # hotel's label. The last row closes naturally into the footer.
+        if index < len(rows) - 1:
+            surface.setStrokeColor(themed("#D6D7CE", "#D2D2D2"))
+            surface.setLineWidth(0.6)
+            surface.line(MARGIN, y - line_offset, A5_W - MARGIN, y - line_offset)
         surface.setFillColor(GREEN)
         surface.setFont(FONT_SERIF_BOLD, day_font_size)
         day_label = f"DAY {int(hotel['start']):02d}" if hotel["start"] == hotel["end"] else f"DAYS {int(hotel['start']):02d}–{int(hotel['end']):02d}"
@@ -657,7 +665,8 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
         ("05", "Belfast / Dublin", "海岸導覽與愛爾蘭城市"),
         ("06", "Doha / Bangkok / Taipei", "空中體驗與慢慢回家"),
     ]
-    y = A5_H - 132
+    # Align the six-stop timeline's visible top and bottom whitespace.
+    y = A5_H - (106 if MONOCHROME else 132)
     for index, (number, title, detail) in enumerate(stops):
         if index < len(stops) - 1:
             surface.setStrokeColor(themed("#8FA69B", "#A0A0A0"))
@@ -683,15 +692,16 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     surface.setFillColor(IVORY)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    draw_cover_image(surface, "assets/trip/loch-ness.jpg", 0, A5_H - 178, A5_W, 178)
+    road_field_height = 212 if MONOCHROME else 178
+    draw_cover_image(surface, "assets/trip/loch-ness.jpg", 0, A5_H - road_field_height, A5_W, road_field_height)
     if not MONOCHROME:
         surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
-        surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
+        surface.rect(0, A5_H - road_field_height, A5_W, road_field_height, stroke=0, fill=1)
     draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
     draw_section_title(surface, "Highlands Road Trip", "公路旅行章節", MARGIN, A5_H - 76, 20, INK if MONOCHROME else colors.white)
-    # Centre the five cards within the grey road-trip field; the prior top
-    # anchor left a noticeably larger gap below the final card.
-    y = A5_H - (236 if MONOCHROME else 216)
+    # Centre the five cards between the title block and footer, while keeping
+    # them inside the road-trip field in the monochrome edition.
+    y = A5_H - (202 if MONOCHROME else 216)
     for day in [day for day in days if "1014" <= day["id"] <= "1018"]:
         surface.setFillColor(PAPER)
         surface.roundRect(MARGIN, y - 45, A5_W - 2 * MARGIN, 43, 6, stroke=0, fill=1)
@@ -750,7 +760,8 @@ def render_city_index(_: dict, page_number: int) -> PdfReader:
         ("10/20–22", "Dublin", "愛爾蘭城市日"),
         ("10/23–26", "Doha & Bangkok", "貴賓室、飛行與慢旅"),
     ]
-    y = A5_H - 121
+    # The six chapter cards share the same top and bottom breathing room.
+    y = A5_H - (156 if MONOCHROME else 121)
     for date, city, mood in chapters:
         surface.setFillColor(MIST)
         surface.roundRect(MARGIN, y - 50, A5_W - 2 * MARGIN, 48, 6, stroke=0, fill=1)
