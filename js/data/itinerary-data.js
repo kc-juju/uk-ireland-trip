@@ -157,10 +157,10 @@ window.TripData = {
             "code": "QR863",
             "route": "ICN → DOH · Dinner",
             "menu": [
-              "Starter · tuna tataki",
-              "KoChun · Korean sea bass",
-              "JUJU · duck leg confit",
-              "Later if hungry · kimchi fried rice"
+              "Starter · tuna tataki｜炙燻鮪魚塔塔",
+              "KoChun · Korean sea bass｜韓式炙烤海鱸",
+              "JUJU · duck leg confit｜油封鴨腿",
+              "Later if hungry · kimchi fried rice｜牛肉泡菜炒飯"
             ],
             "drinks": [
               "Joseph Perrier Rosé · small pour",
@@ -175,10 +175,10 @@ window.TripData = {
             "code": "QR27",
             "route": "DOH → MAN · Breakfast + later meal",
             "menu": [
-              "Start · mango smoothie + Greek yoghurt",
-              "Share · Qatari breakfast + omelette",
-              "Share one Bachour cruffin",
-              "Later · Thai green curry with prawns"
+              "Start · mango smoothie + Greek yoghurt｜芒果椰子冰沙＋希臘優格",
+              "Share · Qatari breakfast + omelette｜卡達早餐＋歐姆蛋",
+              "Share one Bachour cruffin｜焦糖牛奶可頌瑪芬",
+              "Later · Thai green curry with prawns｜泰式綠咖哩大蝦"
             ],
             "drinks": [
               "Henriot Blanc de Blancs · reserve for this flight",
@@ -194,20 +194,20 @@ window.TripData = {
             "code": "QR863",
             "route": "ICN → DOH · Dinner menu",
             "sections": [
-              {"title": "STARTERS", "items": ["Ginseng chicken soup", "Tapas with garlic bread", "Smoked tuna tataki with citrus vinaigrette"]},
-              {"title": "MAIN COURSE", "items": ["Beef tenderloin bulgogi", "Duck leg confit", "Korean-style grilled Chilean sea bass", "Vegetable japchae dumplings"]},
-              {"title": "DINE ANYTIME", "items": ["Tea-smoked sea bass with egg fried noodles", "Smoked salmon on ciabatta", "Caesar salad with Parmesan", "Kimchi fried rice with beef"]},
-              {"title": "CHEESE & SWEET", "items": ["Cheddar · Red Leicester · Stilton · Grainex", "Chocolate fondant cake", "Seasonal fruit or gourmet ice cream", "White roll · multigrain · ciabatta"]}
+              {"title": "STARTERS", "items": ["Ginseng chicken soup｜人蔘雞湯", "Tapas with garlic bread｜蒜香麵包小點", "Smoked tuna tataki｜炙燻鮪魚塔塔"]},
+              {"title": "MAIN COURSE", "items": ["Beef tenderloin bulgogi｜牛菲力韓式烤肉", "Duck leg confit｜油封鴨腿", "Korean sea bass｜韓式炙烤智利海鱸", "Japchae dumplings｜雜菜冬粉餃"]},
+              {"title": "DINE ANYTIME", "items": ["Tea-smoked sea bass noodles｜茶燻海鱸魚蛋炒麵", "Smoked salmon ciabatta｜煙燻鮭魚巧巴達", "Caesar salad｜帕瑪森凱薩沙拉", "Kimchi fried rice with beef｜牛肉泡菜炒飯"]},
+              {"title": "CHEESE & SWEET", "items": ["Cheddar / Red Leicester / Stilton / Grainex｜起司拼盤", "Chocolate fondant｜巧克力熔岩蛋糕", "Fruit or ice cream｜水果或精選冰淇淋", "Roll / multigrain / ciabatta｜麵包選擇"]}
             ]
           },
           {
             "code": "QR27",
             "route": "DOH → MAN · Breakfast + later menu",
             "sections": [
-              {"title": "REFRESHING & STARTERS", "items": ["Mango and coconut smoothie", "Fresh orange or cold-pressed juice", "Greek yoghurt with peach and cherry", "Seasonal fruit or granola"]},
-              {"title": "BREAKFAST MAIN", "items": ["Chive and cream-cheese omelette", "Qatari breakfast with pita", "Warm almond and oat porridge"]},
-              {"title": "BACHOUR BAKERY", "items": ["Dulce de leche cruffin", "Butter croissant", "Sugar brioche", "Bachour cinnamon roll"]},
-              {"title": "DINE ANYTIME", "items": ["Thai green curry with prawns and kingfish", "Smoked chicken and Emmental sandwich", "Burrata salad with cherry tomatoes", "Bachour Tuscan roll"]}
+              {"title": "REFRESHING & STARTERS", "items": ["Mango coconut smoothie｜芒果椰子冰沙", "Fresh or cold-pressed juice｜鮮榨或冷壓果汁", "Greek yoghurt with peach and cherry｜希臘優格佐蜜桃櫻桃醬", "Fruit or granola｜水果或穀麥"]},
+              {"title": "BREAKFAST MAIN", "items": ["Chive cream-cheese omelette｜香蔥奶油起司歐姆蛋", "Qatari breakfast with pita｜卡達式皮塔餅早餐", "Warm almond oat porridge｜熱杏仁燕麥粥"]},
+              {"title": "BACHOUR BAKERY", "items": ["Dulce de leche cruffin｜焦糖牛奶可頌瑪芬", "Butter croissant｜奶油可頌", "Sugar brioche｜糖霜布里歐", "Bachour cinnamon roll｜Bachour 肉桂捲"]},
+              {"title": "DINE ANYTIME", "items": ["Thai green curry with prawns and kingfish｜泰式綠咖哩佐烤大蝦與青甘魚", "Smoked chicken Emmental sandwich｜煙燻雞肉艾曼塔起司三明治", "Burrata salad with cherry tomatoes｜布拉塔起司番茄沙拉", "Bachour Tuscan roll｜Bachour 托斯卡尼麵包捲"]}
             ]
           }
         ]
