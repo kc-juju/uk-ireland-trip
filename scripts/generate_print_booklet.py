@@ -366,22 +366,27 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 
     continuation = group_index > 0
     if not continuation:
-        draw_cover_image(surface, day["photo"], 0, A5_H - 158, A5_W, 158)
+        title_lines = wrap(surface, display_day_title(day), FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
+        # Keep first pages compact in the monochrome edition. A second title
+        # line earns only the room it needs instead of a fixed photo-height header.
+        header_height = (106 + max(0, len(title_lines) - 1) * 23) if MONOCHROME else 158
+        header_bottom = A5_H - header_height
+        draw_cover_image(surface, day["photo"], 0, header_bottom, A5_W, header_height)
         if not MONOCHROME:
             surface.setFillColor(themed_overlay(0.04, 0.12, 0.12, 0.65))
-            surface.rect(0, A5_H - 158, A5_W, 158, stroke=0, fill=1)
+            surface.rect(0, header_bottom, A5_W, header_height, stroke=0, fill=1)
         header_ink = INK if MONOCHROME else colors.white
         draw_kicker(surface, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}", MARGIN, A5_H - 36, header_ink)
         surface.setFillColor(header_ink)
         surface.setFont(FONT_CJK, 19)
-        title_lines = wrap(surface, display_day_title(day), FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
-        title_y = A5_H - 65
+        title_y = A5_H - (60 if MONOCHROME else 65)
         for line in title_lines:
             surface.drawString(MARGIN, title_y, line)
             title_y -= 23
         route = day["route"] or day["presentation"].get("highlight", "")
-        draw_wrapped(surface, route, MARGIN, A5_H - 135, A5_W - 2 * MARGIN, size=7.5, leading=9.5, color=MUTED if MONOCHROME else colors.white, limit=2)
-        fact_y = A5_H - 176
+        route_y = header_bottom + 17 if MONOCHROME else A5_H - 135
+        draw_wrapped(surface, route, MARGIN, route_y, A5_W - 2 * MARGIN, size=7.5, leading=9.5, color=MUTED if MONOCHROME else colors.white, limit=2)
+        fact_y = header_bottom - 18 if MONOCHROME else A5_H - 176
         draw_fact(surface, "Day highlight", day["presentation"].get("highlight", ""), MARGIN, fact_y, 176, MIST)
         draw_fact(surface, "Tonight", day["presentation"].get("stay", ""), MARGIN + 189, fact_y, 176, themed("#EDE4CE", "#E7E7E7"))
         y = fact_y - 62
@@ -431,26 +436,6 @@ def render_cover(_: dict, page_number: int) -> PdfReader:
     surface.drawString(MARGIN, 248, "× IRELAND")
     surface.setFont(FONT_CJK, 24)
     surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
-    if MONOCHROME:
-        # A small itinerary stamp gives the image-free cover a focal point
-        # while keeping the page largely white for home printing.
-        stamp_x, stamp_y, stamp_w, stamp_h = A5_W - MARGIN - 111, 304, 96, 88
-        surface.setFillColor(PAPER)
-        surface.setStrokeColor(colors.HexColor("#303030"))
-        surface.setLineWidth(0.8)
-        surface.roundRect(stamp_x, stamp_y, stamp_w, stamp_h, 3, stroke=1, fill=1)
-        surface.setStrokeColor(colors.HexColor("#B8B8B8"))
-        surface.setLineWidth(0.55)
-        surface.line(stamp_x + 10, stamp_y + 25, stamp_x + stamp_w - 10, stamp_y + 25)
-        surface.setFillColor(MUTED)
-        surface.setFont(FONT_SERIF_BOLD, 6.5)
-        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 68, "TRAVEL EDITION")
-        surface.setFillColor(INK)
-        surface.setFont(FONT_SERIF, 15)
-        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 46, "09 — 26")
-        surface.setFillColor(MUTED)
-        surface.setFont(FONT_SERIF_BOLD, 6.7)
-        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 13, "OCTOBER 2026")
     surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawString(MARGIN, 169, "09 OCTOBER — 26 OCTOBER")
@@ -500,7 +485,7 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     draw_kicker(surface, "TRAVEL CONTROL", MARGIN, A5_H - 42, GOLD)
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "空中移動總覽")
+    surface.drawString(MARGIN, A5_H - 76, "航班總覽")
     y = A5_H - 116
     for flight in data["meta"]["travelControl"]["flights"]:
         surface.setFillColor(IVORY)
@@ -578,8 +563,9 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
         surface.drawString(MARGIN, y - 12, day_label)
         surface.setFillColor(INK)
         surface.setFont(FONT_CJK, 8.7)
-        surface.drawString(MARGIN + 50, y - 12, hotel["name"])
-        draw_wrapped(surface, hotel["description"], MARGIN + 50, y - 26, A5_W - 2 * MARGIN - 50, size=6.8, leading=8, limit=1, color=MUTED)
+        hotel_x = MARGIN + 64
+        surface.drawString(hotel_x, y - 12, hotel["name"])
+        draw_wrapped(surface, hotel["description"], hotel_x, y - 26, A5_W - MARGIN - hotel_x, size=6.8, leading=8, limit=1, color=MUTED)
         y -= 58
     draw_footer(surface, page_number)
     return finish_page(surface, buffer)
@@ -589,14 +575,10 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     surface.setFillColor(PAPER if MONOCHROME else GREEN)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    if MONOCHROME:
-        surface.setStrokeColor(INK)
-        surface.setLineWidth(0.9)
-        surface.line(MARGIN, A5_H - 56, A5_W - MARGIN, A5_H - 56)
     draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#303030"))
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 78, "蜜月的移動節奏")
+    surface.drawString(MARGIN, A5_H - 78, "旅程路線總覽")
     stops = [
         ("01", "Taipei / Seoul / Doha", "航班與轉機"),
         ("02", "Manchester / Liverpool", "城市、球場與音樂"),
@@ -653,10 +635,6 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
         surface.drawString(MARGIN + 58, y - 14, title_lines[0] if title_lines else "—")
         draw_wrapped(surface, day["presentation"].get("driving", day["route"]), MARGIN + 58, y - 29, A5_W - 2 * MARGIN - 68, size=7, leading=8.5, limit=1, color=MUTED)
         y -= 53
-    surface.setFillColor(themed("#E2E6D9", "#E6E6E6"))
-    surface.roundRect(MARGIN, 85, A5_W - 2 * MARGIN, 62, 7, stroke=0, fill=1)
-    draw_kicker(surface, "ROAD-TRIP RULE", MARGIN + 12, 128, GREEN)
-    draw_wrapped(surface, "天氣、停車與路況比『多塞一個點』重要。若延誤，先縮短可選景點，不壓縮飯店、加油、用餐與安全緩衝。", MARGIN + 12, 111, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
     draw_footer(surface, page_number, "HIGHLANDS ROAD TRIP")
     return finish_page(surface, buffer)
 
