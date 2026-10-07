@@ -500,13 +500,14 @@ def render_cover(_: dict, page_number: int) -> PdfReader:
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 28)
     surface.drawString(MARGIN, 280, "UNITED KINGDOM")
-    surface.setFont(FONT_SERIF, 21)
-    surface.drawString(MARGIN, 248, "× IRELAND")
-    surface.setFont(FONT_CJK, 24)
-    surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
+    surface.setFont(FONT_SERIF, 28 if MONOCHROME else 21)
+    surface.drawString(MARGIN, 240 if MONOCHROME else 248, "× IRELAND")
+    if not MONOCHROME:
+        surface.setFont(FONT_CJK, 24)
+        surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
     surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
     surface.setFont(FONT_SERIF, 10)
-    surface.drawString(MARGIN, 169, "09 OCTOBER — 26 OCTOBER")
+    surface.drawString(MARGIN, 194 if MONOCHROME else 169, "09 OCTOBER — 26 OCTOBER")
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 8)
     surface.drawString(MARGIN, 65, "KC & JUJU · A HONEYMOON JOURNAL")
@@ -617,7 +618,7 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
     rows = hotels if MONOCHROME else hotels[segment * 6 : (segment + 1) * 6]
     if not MONOCHROME:
         surface.drawRightString(A5_W - MARGIN, A5_H - 72, f"{segment + 1} / 2")
-    y = A5_H - (110 if MONOCHROME else 112)
+    y = A5_H - (98 if MONOCHROME else 112)
     row_height = 43 if MONOCHROME else 58
     line_offset = 34 if MONOCHROME else 41
     day_font_size = 6.6 if MONOCHROME else 7
@@ -688,7 +689,9 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
         surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
     draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
     draw_section_title(surface, "Highlands Road Trip", "公路旅行章節", MARGIN, A5_H - 76, 20, INK if MONOCHROME else colors.white)
-    y = A5_H - 216
+    # Centre the five cards within the grey road-trip field; the prior top
+    # anchor left a noticeably larger gap below the final card.
+    y = A5_H - (236 if MONOCHROME else 216)
     for day in [day for day in days if "1014" <= day["id"] <= "1018"]:
         surface.setFillColor(PAPER)
         surface.roundRect(MARGIN, y - 45, A5_W - 2 * MARGIN, 43, 6, stroke=0, fill=1)
@@ -725,9 +728,10 @@ def render_bookings(data: dict, page_number: int) -> PdfReader:
             detail = f"{place['time']} · {detail}"
         draw_wrapped(surface, detail, MARGIN + 17, y - 21, A5_W - 2 * MARGIN - 17, size=6.9, leading=8.3, limit=1, color=MUTED)
         y -= 47
-    surface.setFillColor(themed("#EFE5D4", "#EAEAEA"))
-    surface.roundRect(MARGIN, 66, A5_W - 2 * MARGIN, 50, 7, stroke=0, fill=1)
-    draw_wrapped(surface, "手冊只列出已確認的固定安排；現場請以官方通知、電子票券與網站最新版為準。", MARGIN + 12, 97, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
+    if not MONOCHROME:
+        surface.setFillColor(themed("#EFE5D4", "#EAEAEA"))
+        surface.roundRect(MARGIN, 66, A5_W - 2 * MARGIN, 50, 7, stroke=0, fill=1)
+        draw_wrapped(surface, "手冊只列出已確認的固定安排；現場請以官方通知、電子票券與網站最新版為準。", MARGIN + 12, 97, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
     draw_footer(surface, page_number)
     return finish_page(surface, buffer)
 
