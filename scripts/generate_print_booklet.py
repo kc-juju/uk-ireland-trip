@@ -351,6 +351,26 @@ def draw_kicker(surface: canvas.Canvas, value: str, x: float, y: float, color: c
     surface.drawString(x, y, value.upper())
 
 
+def heading_font(value: str) -> str:
+    """Use the booklet serif only for English headings in the mono edition."""
+    return FONT_SERIF if MONOCHROME and not re.search(r"[\u4e00-\u9fff]", value) else FONT_CJK
+
+
+def draw_section_title(
+    surface: canvas.Canvas,
+    english: str,
+    chinese: str,
+    x: float,
+    y: float,
+    size: float = 22,
+    color: colors.Color | None = None,
+) -> None:
+    value = english if MONOCHROME else chinese
+    surface.setFillColor(color or INK)
+    surface.setFont(heading_font(value), size)
+    surface.drawString(x, y, value)
+
+
 def themed(hex_value: str, grayscale: str) -> colors.Color:
     """Use a real neutral tint in the monochrome reading edition."""
     return colors.HexColor(grayscale if MONOCHROME else hex_value)
@@ -412,7 +432,8 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
     continuation = group_index > 0
     if not continuation:
         day_title = book_title_case(display_day_title(day))
-        title_lines = wrap(surface, day_title, FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
+        day_title_font = heading_font(day_title)
+        title_lines = wrap(surface, day_title, day_title_font, 19, A5_W - 2 * MARGIN, 2)
         # Keep first pages compact in the monochrome edition. A second title
         # line earns only the room it needs instead of a fixed photo-height header.
         header_height = (106 + max(0, len(title_lines) - 1) * 23) if MONOCHROME else 158
@@ -424,7 +445,7 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         header_ink = INK if MONOCHROME else colors.white
         draw_kicker(surface, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}", MARGIN, A5_H - 36, header_ink)
         surface.setFillColor(header_ink)
-        surface.setFont(FONT_CJK, 19)
+        surface.setFont(day_title_font, 19)
         title_y = A5_H - (60 if MONOCHROME else 65)
         for line in title_lines:
             surface.drawString(MARGIN, title_y, line)
@@ -452,8 +473,9 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
             header_ink = colors.white
         draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, INK if MONOCHROME else themed("#EFDFAF", "#E0E0E0"))
         surface.setFillColor(header_ink)
-        surface.setFont(FONT_CJK, 15)
-        surface.drawString(MARGIN, A5_H - 62, book_title_case(display_day_title(day)))
+        continuation_title = book_title_case(display_day_title(day))
+        surface.setFont(heading_font(continuation_title), 15)
+        surface.drawString(MARGIN, A5_H - 62, continuation_title)
         y = A5_H - 124
         draw_kicker(surface, "TIMELINE", MARGIN, y, GREEN)
         y -= 20
@@ -529,9 +551,7 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     surface.setFillColor(PAPER)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "TRAVEL CONTROL", MARGIN, A5_H - 42, GOLD)
-    surface.setFillColor(INK)
-    surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "Flight" if MONOCHROME else "航班總覽")
+    draw_section_title(surface, "Flight", "航班總覽", MARGIN, A5_H - 76)
     y = A5_H - 116
     for flight in data["meta"]["travelControl"]["flights"]:
         surface.setFillColor(IVORY)
@@ -590,9 +610,7 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
     surface.setFillColor(PAPER)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "REST WELL", MARGIN, A5_H - 42, GOLD)
-    surface.setFillColor(INK)
-    surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "Hotel" if MONOCHROME else "住宿總覽")
+    draw_section_title(surface, "Hotel", "住宿總覽", MARGIN, A5_H - 76)
     surface.setFillColor(MUTED)
     surface.setFont(FONT_CJK, 7.4)
     hotels = build_stays(days)
@@ -629,9 +647,7 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
     surface.setFillColor(PAPER if MONOCHROME else GREEN)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#303030"))
-    surface.setFillColor(INK if MONOCHROME else colors.white)
-    surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 78, "Journey Overview" if MONOCHROME else "旅程路線總覽")
+    draw_section_title(surface, "Journey Overview", "旅程路線總覽", MARGIN, A5_H - 78, color=INK if MONOCHROME else colors.white)
     stops = [
         ("01", "Taipei / Seoul / Doha", "航班與轉機"),
         ("02", "Manchester / Liverpool", "城市、球場與音樂"),
@@ -671,9 +687,7 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
         surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
         surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
     draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
-    surface.setFillColor(INK if MONOCHROME else colors.white)
-    surface.setFont(FONT_CJK, 20)
-    surface.drawString(MARGIN, A5_H - 76, "Highlands Road Trip" if MONOCHROME else "公路旅行章節")
+    draw_section_title(surface, "Highlands Road Trip", "公路旅行章節", MARGIN, A5_H - 76, 20, INK if MONOCHROME else colors.white)
     y = A5_H - 216
     for day in [day for day in days if "1014" <= day["id"] <= "1018"]:
         surface.setFillColor(PAPER)
@@ -697,9 +711,7 @@ def render_bookings(data: dict, page_number: int) -> PdfReader:
     surface.setFillColor(PAPER)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "FIXED MOMENTS", MARGIN, A5_H - 42, GOLD)
-    surface.setFillColor(INK)
-    surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "Booked Moments" if MONOCHROME else "已確認的重要安排")
+    draw_section_title(surface, "Booked Moments", "已確認的重要安排", MARGIN, A5_H - 76)
     saved = [place for place in data["meta"]["journeyMap"]["places"] if place.get("saved")]
     y = A5_H - 116
     for place in saved[:9]:
@@ -725,9 +737,7 @@ def render_city_index(_: dict, page_number: int) -> PdfReader:
     surface.setFillColor(PAPER)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_kicker(surface, "CITY CHAPTERS", MARGIN, A5_H - 42, GOLD)
-    surface.setFillColor(INK)
-    surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "City Chapters" if MONOCHROME else "城市篇章索引")
+    draw_section_title(surface, "City Chapters", "城市篇章索引", MARGIN, A5_H - 76)
     chapters = [
         ("10/10–11", "Manchester & Liverpool", "工業、球場、音樂"),
         ("10/12–13", "Edinburgh", "Old Town、Castle、Afternoon Tea"),
