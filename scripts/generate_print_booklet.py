@@ -219,6 +219,8 @@ def draw_wrapped(
     color: colors.Color = INK,
     limit: int | None = None,
 ) -> tuple[float, list[str]]:
+    if MONOCHROME:
+        text = printable_detail(text)
     lines = wrap(surface, text, font, size, width, limit)
     surface.setFillColor(color)
     surface.setFont(font, size)
@@ -297,6 +299,48 @@ def display_day_title(day: dict) -> str:
     return short_title(day["presentation"].get("highlight") or day["title"])
 
 
+def book_title_case(value: str) -> str:
+    """Apply restrained book-style title case to English print headings."""
+    if not MONOCHROME or not re.search(r"[A-Za-z]", value):
+        return value
+    small_words = {"a", "an", "and", "as", "at", "but", "by", "for", "from", "in", "of", "on", "or", "per", "the", "to", "via", "vs", "with"}
+    tokens = re.split(r"(\s+)", value)
+    word_positions = [index for index, token in enumerate(tokens) if re.search(r"[A-Za-z]", token)]
+    if not word_positions:
+        return value
+    first, last = word_positions[0], word_positions[-1]
+    for index in word_positions:
+        token = tokens[index]
+        match = re.match(r"^(.*?)([A-Za-z][A-Za-z'’.-]*)([^A-Za-z]*)$", token)
+        if not match:
+            continue
+        prefix, word, suffix = match.groups()
+        lower = word.lower()
+        if word.isupper() or any(char.isdigit() for char in word):
+            styled = word
+        elif lower in small_words and index not in {first, last}:
+            styled = lower
+        else:
+            styled = lower[:1].upper() + lower[1:]
+        tokens[index] = f"{prefix}{styled}{suffix}"
+    return "".join(tokens)
+
+
+def printable_detail(value: str) -> str:
+    """Remove screen-only navigation cues and closing full stops in the mono PDF."""
+    if not MONOCHROME:
+        return value
+    text = value or ""
+    navigation = r"(?:Google\s*Maps|導航|地圖|官方資訊)\s*↗?"
+    text = re.sub(rf"\s*[·•]\s*{navigation}", "", text)
+    text = re.sub(rf"\s*{navigation}", "", text)
+    text = text.replace("↗", "")
+    text = text.replace("。", "；")
+    text = re.sub(r"\s*[；;。.!！]+\s*$", "", text)
+    text = re.sub(r"\s{2,}", " ", text)
+    return text.strip()
+
+
 def display_day_date(value: str) -> str:
     return re.sub(r"[（(].*?[）)]", "", value).strip()
 
@@ -334,8 +378,9 @@ def draw_timeline_event(surface: canvas.Canvas, event: dict, y: float) -> float:
     # not let a long range wrap in the middle of the end time.
     dot_x, content_x = 78, 98
     content_w = A5_W - content_x - MARGIN
-    title_lines = wrap(surface, event["title"], FONT_CJK, 8.5, content_w, 2)
-    detail_lines = wrap(surface, event["detail"], FONT_CJK, 7.05, content_w, 3) if event["detail"] else []
+    title_lines = wrap(surface, book_title_case(event["title"]), FONT_CJK, 8.5, content_w, 2)
+    detail = printable_detail(event["detail"])
+    detail_lines = wrap(surface, detail, FONT_CJK, 7.05, content_w, 3) if detail else []
     time = event["time"].strip()
     range_match = re.match(r"^(.*?)([–-])(.*)$", time)
     if range_match:
@@ -366,7 +411,8 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 
     continuation = group_index > 0
     if not continuation:
-        title_lines = wrap(surface, display_day_title(day), FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
+        day_title = book_title_case(display_day_title(day))
+        title_lines = wrap(surface, day_title, FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
         # Keep first pages compact in the monochrome edition. A second title
         # line earns only the room it needs instead of a fixed photo-height header.
         header_height = (106 + max(0, len(title_lines) - 1) * 23) if MONOCHROME else 158
@@ -407,9 +453,9 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, INK if MONOCHROME else themed("#EFDFAF", "#E0E0E0"))
         surface.setFillColor(header_ink)
         surface.setFont(FONT_CJK, 15)
-        surface.drawString(MARGIN, A5_H - 62, display_day_title(day))
+        surface.drawString(MARGIN, A5_H - 62, book_title_case(display_day_title(day)))
         y = A5_H - 124
-        draw_kicker(surface, f"TIMELINE · PART {group_index + 1} OF {group_count}", MARGIN, y, GREEN)
+        draw_kicker(surface, "TIMELINE", MARGIN, y, GREEN)
         y -= 20
 
     for event in group:
@@ -485,7 +531,7 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     draw_kicker(surface, "TRAVEL CONTROL", MARGIN, A5_H - 42, GOLD)
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "航班總覽")
+    surface.drawString(MARGIN, A5_H - 76, "Flight" if MONOCHROME else "航班總覽")
     y = A5_H - 116
     for flight in data["meta"]["travelControl"]["flights"]:
         surface.setFillColor(IVORY)
@@ -546,27 +592,34 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
     draw_kicker(surface, "REST WELL", MARGIN, A5_H - 42, GOLD)
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "住宿總覽")
+    surface.drawString(MARGIN, A5_H - 76, "Hotel" if MONOCHROME else "住宿總覽")
     surface.setFillColor(MUTED)
     surface.setFont(FONT_CJK, 7.4)
-    surface.drawRightString(A5_W - MARGIN, A5_H - 72, f"{segment + 1} / 2")
     hotels = build_stays(days)
-    rows = hotels[segment * 6 : (segment + 1) * 6]
-    y = A5_H - 112
+    rows = hotels if MONOCHROME else hotels[segment * 6 : (segment + 1) * 6]
+    if not MONOCHROME:
+        surface.drawRightString(A5_W - MARGIN, A5_H - 72, f"{segment + 1} / 2")
+    y = A5_H - (110 if MONOCHROME else 112)
+    row_height = 43 if MONOCHROME else 58
+    line_offset = 34 if MONOCHROME else 41
+    day_font_size = 6.6 if MONOCHROME else 7
+    hotel_font_size = 7.8 if MONOCHROME else 8.7
+    description_font_size = 6.1 if MONOCHROME else 6.8
+    description_y_offset = 24 if MONOCHROME else 26
     for hotel in rows:
         surface.setStrokeColor(themed("#D6D7CE", "#D2D2D2"))
         surface.setLineWidth(0.6)
-        surface.line(MARGIN, y - 41, A5_W - MARGIN, y - 41)
+        surface.line(MARGIN, y - line_offset, A5_W - MARGIN, y - line_offset)
         surface.setFillColor(GREEN)
-        surface.setFont(FONT_SERIF_BOLD, 7)
+        surface.setFont(FONT_SERIF_BOLD, day_font_size)
         day_label = f"DAY {int(hotel['start']):02d}" if hotel["start"] == hotel["end"] else f"DAYS {int(hotel['start']):02d}–{int(hotel['end']):02d}"
         surface.drawString(MARGIN, y - 12, day_label)
         surface.setFillColor(INK)
-        surface.setFont(FONT_CJK, 8.7)
+        surface.setFont(FONT_CJK, hotel_font_size)
         hotel_x = MARGIN + 64
         surface.drawString(hotel_x, y - 12, hotel["name"])
-        draw_wrapped(surface, hotel["description"], hotel_x, y - 26, A5_W - MARGIN - hotel_x, size=6.8, leading=8, limit=1, color=MUTED)
-        y -= 58
+        draw_wrapped(surface, hotel["description"], hotel_x, y - description_y_offset, A5_W - MARGIN - hotel_x, size=description_font_size, leading=7.2 if MONOCHROME else 8, limit=1, color=MUTED)
+        y -= row_height
     draw_footer(surface, page_number)
     return finish_page(surface, buffer)
 
@@ -578,7 +631,7 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
     draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#303030"))
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 78, "旅程路線總覽")
+    surface.drawString(MARGIN, A5_H - 78, "Journey Overview" if MONOCHROME else "旅程路線總覽")
     stops = [
         ("01", "Taipei / Seoul / Doha", "航班與轉機"),
         ("02", "Manchester / Liverpool", "城市、球場與音樂"),
@@ -620,7 +673,7 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
     draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 20)
-    surface.drawString(MARGIN, A5_H - 76, "公路旅行章節")
+    surface.drawString(MARGIN, A5_H - 76, "Highlands Road Trip" if MONOCHROME else "公路旅行章節")
     y = A5_H - 216
     for day in [day for day in days if "1014" <= day["id"] <= "1018"]:
         surface.setFillColor(PAPER)
@@ -630,7 +683,7 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
         surface.drawString(MARGIN + 10, y - 14, f"DAY {day_number(day['id']):02d}")
         surface.setFillColor(INK)
         surface.setFont(FONT_CJK, 8.7)
-        title = display_day_title(day)
+        title = book_title_case(display_day_title(day))
         title_lines = wrap(surface, title, FONT_CJK, 8.7, A5_W - 2 * MARGIN - 68, 1)
         surface.drawString(MARGIN + 58, y - 14, title_lines[0] if title_lines else "—")
         draw_wrapped(surface, day["presentation"].get("driving", day["route"]), MARGIN + 58, y - 29, A5_W - 2 * MARGIN - 68, size=7, leading=8.5, limit=1, color=MUTED)
@@ -646,7 +699,7 @@ def render_bookings(data: dict, page_number: int) -> PdfReader:
     draw_kicker(surface, "FIXED MOMENTS", MARGIN, A5_H - 42, GOLD)
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "已確認的重要安排")
+    surface.drawString(MARGIN, A5_H - 76, "Booked Moments" if MONOCHROME else "已確認的重要安排")
     saved = [place for place in data["meta"]["journeyMap"]["places"] if place.get("saved")]
     y = A5_H - 116
     for place in saved[:9]:
@@ -674,7 +727,7 @@ def render_city_index(_: dict, page_number: int) -> PdfReader:
     draw_kicker(surface, "CITY CHAPTERS", MARGIN, A5_H - 42, GOLD)
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
-    surface.drawString(MARGIN, A5_H - 76, "城市篇章索引")
+    surface.drawString(MARGIN, A5_H - 76, "City Chapters" if MONOCHROME else "城市篇章索引")
     chapters = [
         ("10/10–11", "Manchester & Liverpool", "工業、球場、音樂"),
         ("10/12–13", "Edinburgh", "Old Town、Castle、Afternoon Tea"),
@@ -736,12 +789,20 @@ def render_back_cover(_: dict, page_number: int) -> PdfReader:
     surface.setStrokeColor(themed("#E8D7A8", "#333333"))
     surface.setLineWidth(0.8)
     surface.line(MARGIN, 165, A5_W - MARGIN, 165)
-    surface.setFillColor(INK if MONOCHROME else colors.white)
-    surface.setFont(FONT_CJK, 24)
-    surface.drawCentredString(A5_W / 2, 220, "旅程的節奏，留給兩個人。")
-    surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
-    surface.setFont(FONT_SERIF, 10)
-    surface.drawCentredString(A5_W / 2, 190, "HAVE A SLOW, BEAUTIFUL HONEYMOON.")
+    if MONOCHROME:
+        surface.setFillColor(INK)
+        surface.setFont(FONT_SERIF, 13)
+        surface.drawCentredString(A5_W / 2, 220, "KC & JUJU")
+        surface.setFillColor(MUTED)
+        surface.setFont(FONT_SERIF, 7.5)
+        surface.drawCentredString(A5_W / 2, 193, "UK & IRELAND · OCTOBER 2026")
+    else:
+        surface.setFillColor(colors.white)
+        surface.setFont(FONT_CJK, 24)
+        surface.drawCentredString(A5_W / 2, 220, "旅程的節奏，留給兩個人。")
+        surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
+        surface.setFont(FONT_SERIF, 10)
+        surface.drawCentredString(A5_W / 2, 190, "HAVE A SLOW, BEAUTIFUL HONEYMOON.")
     surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 7)
     surface.drawCentredString(A5_W / 2, 50, "2026 UK & IRELAND · KC & JUJU")
@@ -777,12 +838,13 @@ def build_specs(data: dict, days: list[dict], *, include_collage: bool, pad_for_
         ("cover", data),
         ("flights", data),
         ("stays", (days, 0)),
-        ("stays", (days, 1)),
         ("journey", data),
         ("highlands", days),
         ("bookings", data),
         ("cities", data),
     ]
+    if not MONOCHROME:
+        specs.insert(3, ("stays", (days, 1)))
     if include_collage:
         specs.append(("collage", data))
     for day in days:
@@ -803,8 +865,9 @@ def build_specs(data: dict, days: list[dict], *, include_collage: bool, pad_for_
 def event_height(event: dict) -> float:
     """Mirror the timeline renderer so a long day never runs into its footer."""
     content_w = A5_W - 98 - MARGIN
-    title_lines = wrap(None, event["title"], FONT_CJK, 8.5, content_w, 2)
-    detail_lines = wrap(None, event["detail"], FONT_CJK, 7.05, content_w, 3) if event["detail"] else []
+    title_lines = wrap(None, book_title_case(event["title"]), FONT_CJK, 8.5, content_w, 2)
+    detail = printable_detail(event["detail"])
+    detail_lines = wrap(None, detail, FONT_CJK, 7.05, content_w, 3) if detail else []
     time = event["time"].strip()
     time_count = 2 if re.match(r"^.*?([–-]).*$", time) else len(wrap(None, time, FONT_CJK, 7.2, 42, 2))
     return max(28, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8, time_count * 8.6 + 9) + 4
@@ -817,7 +880,7 @@ def group_events_for_pages(events: list[dict]) -> list[list[dict]]:
     groups: list[list[dict]] = []
     current: list[dict] = []
     used = 0.0
-    capacity = 238.0  # first page has image, facts and the timeline heading
+    capacity = 305.0 if MONOCHROME else 238.0
     for event in events:
         required = event_height(event)
         if current and used + required > capacity:
