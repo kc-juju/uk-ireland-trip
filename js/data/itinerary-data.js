@@ -149,6 +149,69 @@ window.TripData = {
       }
     },
     "travelControl": {
+      "businessDining": {
+        "title": "Qatar Business Dining",
+        "subtitle": "QR863 與 QR27 的點餐、餐酒與休息節奏",
+        "flights": [
+          {
+            "code": "QR863",
+            "route": "ICN → DOH · Dinner",
+            "menu": [
+              "Starter · tuna tataki",
+              "KoChun · Korean sea bass",
+              "JUJU · duck leg confit",
+              "Later if hungry · kimchi fried rice"
+            ],
+            "drinks": [
+              "Joseph Perrier Rosé · small pour",
+              "Isabel Sauvignon Blanc · sea bass",
+              "Margaux 2017 · small tasting pour",
+              "Cheese + Taylor’s 20yo Tawny",
+              "Optional · G&Tea"
+            ],
+            "note": "Dinner is the main experience. Do not force a second meal or finish every drink"
+          },
+          {
+            "code": "QR27",
+            "route": "DOH → MAN · Breakfast + later meal",
+            "menu": [
+              "Start · mango smoothie + Greek yoghurt",
+              "Share · Qatari breakfast + omelette",
+              "Share one Bachour cruffin",
+              "Later · Thai green curry with prawns"
+            ],
+            "drinks": [
+              "Henriot Blanc de Blancs · reserve for this flight",
+              "Barsac 2018 · after curry",
+              "One cocktail · Aviator / Old Smoke / Carousel",
+              "Optional · James Hennessy"
+            ],
+            "note": "Prioritise water, coffee, tea and rest between meals; skip the extra pastries"
+          }
+        ],
+        "menus": [
+          {
+            "code": "QR863",
+            "route": "ICN → DOH · Dinner menu",
+            "sections": [
+              {"title": "STARTERS", "items": ["Ginseng chicken soup", "Tapas with garlic bread", "Smoked tuna tataki with citrus vinaigrette"]},
+              {"title": "MAIN COURSE", "items": ["Beef tenderloin bulgogi", "Duck leg confit", "Korean-style grilled Chilean sea bass", "Vegetable japchae dumplings"]},
+              {"title": "DINE ANYTIME", "items": ["Tea-smoked sea bass with egg fried noodles", "Smoked salmon on ciabatta", "Caesar salad with Parmesan", "Kimchi fried rice with beef"]},
+              {"title": "CHEESE & SWEET", "items": ["Cheddar · Red Leicester · Stilton · Grainex", "Chocolate fondant cake", "Seasonal fruit or gourmet ice cream", "White roll · multigrain · ciabatta"]}
+            ]
+          },
+          {
+            "code": "QR27",
+            "route": "DOH → MAN · Breakfast + later menu",
+            "sections": [
+              {"title": "REFRESHING & STARTERS", "items": ["Mango and coconut smoothie", "Fresh orange or cold-pressed juice", "Greek yoghurt with peach and cherry", "Seasonal fruit or granola"]},
+              {"title": "BREAKFAST MAIN", "items": ["Chive and cream-cheese omelette", "Qatari breakfast with pita", "Warm almond and oat porridge"]},
+              {"title": "BACHOUR BAKERY", "items": ["Dulce de leche cruffin", "Butter croissant", "Sugar brioche", "Bachour cinnamon roll"]},
+              {"title": "DINE ANYTIME", "items": ["Thai green curry with prawns and kingfish", "Smoked chicken and Emmental sandwich", "Burrata salad with cherry tomatoes", "Bachour Tuscan roll"]}
+            ]
+          }
+        ]
+      },
       "outbound": [
         "TPE",
         "ICN",

@@ -582,6 +582,109 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     return finish_page(surface, buffer)
 
 
+def render_business_dining(data: dict, page_number: int) -> PdfReader:
+    """Make the Qatar order strategy usable without opening the web guide."""
+    surface, buffer = page_canvas()
+    surface.setFillColor(PAPER)
+    surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
+    plan = data["meta"]["travelControl"]["businessDining"]
+    draw_kicker(surface, "IN THE AIR", MARGIN, A5_H - 42, GOLD)
+    draw_section_title(surface, plan["title"], "卡達商務艙餐酒策略", MARGIN, A5_H - 76, 19)
+    surface.setFillColor(MUTED)
+    surface.setFont(FONT_CJK, 7.2)
+    surface.drawString(MARGIN, A5_H - 94, plan["subtitle"])
+
+    def draw_dining_items(items: list[str], x: float, start_y: float, width: float) -> float:
+        """Keep each choice as its own readable checklist line."""
+        item_y = start_y
+        for item in items:
+            item_y, _ = draw_wrapped(
+                surface,
+                item,
+                x,
+                item_y,
+                width,
+                size=6.25,
+                leading=7.35,
+                limit=2,
+                color=INK,
+            )
+            item_y -= 1.4
+        return item_y
+
+    y = A5_H - 159
+    card_height = 154
+    for flight in plan["flights"]:
+        surface.setFillColor(IVORY)
+        surface.roundRect(MARGIN, y - card_height, A5_W - 2 * MARGIN, card_height, 7, stroke=0, fill=1)
+        surface.setFillColor(GREEN)
+        surface.setFont(FONT_SERIF_BOLD, 10)
+        surface.drawString(MARGIN + 12, y - 18, flight["code"])
+        surface.setFillColor(INK)
+        surface.setFont(FONT_CJK, 7.5)
+        surface.drawString(MARGIN + 58, y - 18, flight["route"])
+
+        menu_x, drinks_x = MARGIN + 12, MARGIN + 194
+        surface.setFillColor(MUTED)
+        surface.setFont(FONT_SERIF_BOLD, 6.2)
+        surface.drawString(menu_x, y - 35, "MENU HIGHLIGHTS")
+        surface.drawString(drinks_x, y - 35, "DRINK FLOW")
+        menu_y = draw_dining_items(flight["menu"], menu_x, y - 47, 164)
+        drinks_y = draw_dining_items(flight["drinks"], drinks_x, y - 47, 184)
+        note_y = min(menu_y, drinks_y) - 3
+        surface.setStrokeColor(themed("#D6D7CE", "#D2D2D2"))
+        surface.setLineWidth(0.45)
+        surface.line(MARGIN + 12, note_y + 4, A5_W - MARGIN - 12, note_y + 4)
+        draw_wrapped(surface, flight["note"], MARGIN + 12, note_y - 7, A5_W - 2 * MARGIN - 24, size=6.2, leading=7.2, limit=2, color=MUTED)
+        y -= card_height + 14
+    draw_footer(surface, page_number, "QATAR BUSINESS DINING")
+    return finish_page(surface, buffer)
+
+
+def render_business_menu(menu: dict, page_number: int) -> PdfReader:
+    """Print each Qatar food menu as a compact two-by-two reference page."""
+    surface, buffer = page_canvas()
+    surface.setFillColor(PAPER)
+    surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
+    draw_kicker(surface, "IN THE AIR", MARGIN, A5_H - 42, GOLD)
+    surface.setFillColor(INK)
+    surface.setFont(FONT_SERIF, 19)
+    surface.drawString(MARGIN, A5_H - 76, f"{menu['code']} Menu")
+    surface.setFillColor(MUTED)
+    surface.setFont(FONT_CJK, 7.2)
+    surface.drawString(MARGIN, A5_H - 94, menu["route"])
+
+    card_width, card_height = 176, 147
+    positions = [
+        (MARGIN, A5_H - 145),
+        (MARGIN + 189, A5_H - 145),
+        (MARGIN, A5_H - 313),
+        (MARGIN + 189, A5_H - 313),
+    ]
+    for section, (x, y) in zip(menu["sections"], positions):
+        surface.setFillColor(IVORY)
+        surface.roundRect(x, y - card_height, card_width, card_height, 7, stroke=0, fill=1)
+        surface.setFillColor(GREEN)
+        surface.setFont(FONT_SERIF_BOLD, 6.6)
+        surface.drawString(x + 11, y - 18, section["title"])
+        item_y = y - 34
+        for item in section["items"]:
+            item_y, _ = draw_wrapped(
+                surface,
+                item,
+                x + 11,
+                item_y,
+                card_width - 22,
+                size=6.4,
+                leading=7.5,
+                limit=2,
+                color=INK,
+            )
+            item_y -= 3
+    draw_footer(surface, page_number, f"{menu['code']} · QATAR BUSINESS MENU")
+    return finish_page(surface, buffer)
+
+
 STAY_LOCATIONS = {
     "Overnight transit · Doha": "Doha · 機場轉機休息",
     "Hotel ibis Manchester Centre Princess Street": "Manchester city centre",
@@ -874,6 +977,11 @@ def build_specs(data: dict, days: list[dict], *, include_collage: bool, pad_for_
         ("bookings", data),
         ("cities", data),
     ]
+    if MONOCHROME:
+        # The compact card keeps the actionable order plan in the printable
+        # guide while the full menus remain available on the web guide.
+        menu_specs = [("dining-menu", menu) for menu in data["meta"]["travelControl"]["businessDining"]["menus"]]
+        specs[2:2] = [("dining", data), *menu_specs]
     if not MONOCHROME:
         specs.insert(3, ("stays", (days, 1)))
     if include_collage:
@@ -931,6 +1039,10 @@ def render_specs(specs: list[tuple[str, object]]) -> list[PdfReader]:
             readers.append(render_cover(payload, page_number))
         elif kind == "flights":
             readers.append(render_flights(payload, page_number))
+        elif kind == "dining":
+            readers.append(render_business_dining(payload, page_number))
+        elif kind == "dining-menu":
+            readers.append(render_business_menu(payload, page_number))
         elif kind == "stays":
             days, segment = payload
             readers.append(render_stays(days, segment, page_number))
