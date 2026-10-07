@@ -230,17 +230,28 @@ def draw_wrapped(
 
 def draw_cover_image(surface: canvas.Canvas, relpath: str | None, x: float, y: float, width: float, height: float) -> None:
     if MONOCHROME:
-        # The monochrome edition uses paper-white fields and a restrained
-        # diagonal-line motif instead of toner-heavy photo or black fills.
+        # The monochrome edition uses paper-white editorial fields. Corner
+        # marks and one small index tab retain hierarchy without photo ink,
+        # heavy fills, or a repeating background texture.
         surface.setFillColor(PAPER)
         surface.rect(x, y, width, height, stroke=0, fill=1)
-        surface.setStrokeColor(colors.HexColor("#A7A7A7"))
-        surface.setLineWidth(0.45)
-        for step in range(-int(height), int(width) + int(height), 24):
-            surface.line(x + step, y, x + step + height, y + height)
-        surface.setStrokeColor(INK)
-        surface.setLineWidth(0.8)
-        surface.rect(x, y, width, height, stroke=1, fill=0)
+        crop = min(20, max(10, min(width, height) / 8))
+        inset = min(14, max(8, min(width, height) / 12))
+        surface.setStrokeColor(colors.HexColor("#282828"))
+        surface.setLineWidth(0.75)
+        # Two open crop marks create a quiet printed-journal feel without
+        # boxing the content into a large, dark panel.
+        surface.line(x + inset, y + height - inset, x + inset + crop, y + height - inset)
+        surface.line(x + inset, y + height - inset, x + inset, y + height - inset - crop)
+        surface.line(x + width - inset, y + inset, x + width - inset - crop, y + inset)
+        surface.line(x + width - inset, y + inset, x + width - inset, y + inset + crop)
+        tab = min(20, max(12, min(width, height) / 7))
+        tab_x = x + width - inset - tab
+        tab_y = y + height - inset - tab
+        surface.setFillColor(colors.HexColor("#E0E0E0"))
+        surface.roundRect(tab_x, tab_y, tab, tab, 2, stroke=0, fill=1)
+        surface.setFillColor(INK)
+        surface.circle(tab_x + tab / 2, tab_y + tab / 2, 2.1, stroke=0, fill=1)
         return
     if not relpath or not (ROOT / relpath).exists():
         surface.setFillColor(GREEN)
@@ -420,6 +431,26 @@ def render_cover(_: dict, page_number: int) -> PdfReader:
     surface.drawString(MARGIN, 248, "× IRELAND")
     surface.setFont(FONT_CJK, 24)
     surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
+    if MONOCHROME:
+        # A small itinerary stamp gives the image-free cover a focal point
+        # while keeping the page largely white for home printing.
+        stamp_x, stamp_y, stamp_w, stamp_h = A5_W - MARGIN - 111, 304, 96, 88
+        surface.setFillColor(PAPER)
+        surface.setStrokeColor(colors.HexColor("#303030"))
+        surface.setLineWidth(0.8)
+        surface.roundRect(stamp_x, stamp_y, stamp_w, stamp_h, 3, stroke=1, fill=1)
+        surface.setStrokeColor(colors.HexColor("#B8B8B8"))
+        surface.setLineWidth(0.55)
+        surface.line(stamp_x + 10, stamp_y + 25, stamp_x + stamp_w - 10, stamp_y + 25)
+        surface.setFillColor(MUTED)
+        surface.setFont(FONT_SERIF_BOLD, 6.5)
+        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 68, "TRAVEL EDITION")
+        surface.setFillColor(INK)
+        surface.setFont(FONT_SERIF, 15)
+        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 46, "09 — 26")
+        surface.setFillColor(MUTED)
+        surface.setFont(FONT_SERIF_BOLD, 6.7)
+        surface.drawCentredString(stamp_x + stamp_w / 2, stamp_y + 13, "OCTOBER 2026")
     surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawString(MARGIN, 169, "09 OCTOBER — 26 OCTOBER")
