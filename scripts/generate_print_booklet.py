@@ -311,11 +311,11 @@ def draw_timeline_event(surface: canvas.Canvas, event: dict, y: float) -> float:
     dot_x, content_x = 78, 98
     content_w = A5_W - content_x - MARGIN
     title_lines = wrap(surface, event["title"], FONT_CJK, 8.5, content_w, 2)
-    detail_lines = wrap(surface, event["detail"], FONT_CJK, 7.05, content_w, 2) if event["detail"] else []
+    detail_lines = wrap(surface, event["detail"], FONT_CJK, 7.05, content_w, 3) if event["detail"] else []
     time = event["time"].strip()
     range_match = re.match(r"^(.*?)([–-])(.*)$", time)
     if range_match:
-        time_lines = [range_match.group(1).strip(), f"{range_match.group(2)}{range_match.group(3).strip()}"]
+        time_lines = [f"{range_match.group(1).strip()}{range_match.group(2)}", range_match.group(3).strip()]
     else:
         time_lines = wrap(surface, time, FONT_CJK, 7.2, 42, 2)
     height = max(28, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8, len(time_lines) * 8.6 + 9)
@@ -374,13 +374,6 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 
     for event in group:
         y = draw_timeline_event(surface, event, y)
-
-    if group_index == group_count - 1 and day["notes"] and y > 85:
-        note = day["notes"][0]
-        surface.setFillColor(themed("#F0EEE6", "#EFEFEF"))
-        surface.roundRect(MARGIN, 50, A5_W - 2 * MARGIN, min(44, y - 56), 6, stroke=0, fill=1)
-        draw_kicker(surface, "TRAVEL NOTE", MARGIN + 10, min(82, y - 12), ROSE)
-        draw_wrapped(surface, note, MARGIN + 10, min(69, y - 25), A5_W - 2 * MARGIN - 20, size=7.1, leading=8.8, limit=2, color=INK)
 
     draw_footer(surface, page_number, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}")
     return finish_page(surface, buffer)
@@ -771,7 +764,7 @@ def event_height(event: dict) -> float:
     """Mirror the timeline renderer so a long day never runs into its footer."""
     content_w = A5_W - 98 - MARGIN
     title_lines = wrap(None, event["title"], FONT_CJK, 8.5, content_w, 2)
-    detail_lines = wrap(None, event["detail"], FONT_CJK, 7.05, content_w, 2) if event["detail"] else []
+    detail_lines = wrap(None, event["detail"], FONT_CJK, 7.05, content_w, 3) if event["detail"] else []
     time = event["time"].strip()
     time_count = 2 if re.match(r"^.*?([–-]).*$", time) else len(wrap(None, time, FONT_CJK, 7.2, 42, 2))
     return max(28, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8, time_count * 8.6 + 9) + 4
