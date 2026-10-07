@@ -229,7 +229,20 @@ def draw_wrapped(
 
 
 def draw_cover_image(surface: canvas.Canvas, relpath: str | None, x: float, y: float, width: float, height: float) -> None:
-    if MONOCHROME or not relpath or not (ROOT / relpath).exists():
+    if MONOCHROME:
+        # The monochrome edition uses paper-white fields and a restrained
+        # diagonal-line motif instead of toner-heavy photo or black fills.
+        surface.setFillColor(PAPER)
+        surface.rect(x, y, width, height, stroke=0, fill=1)
+        surface.setStrokeColor(colors.HexColor("#A7A7A7"))
+        surface.setLineWidth(0.45)
+        for step in range(-int(height), int(width) + int(height), 24):
+            surface.line(x + step, y, x + step + height, y + height)
+        surface.setStrokeColor(INK)
+        surface.setLineWidth(0.8)
+        surface.rect(x, y, width, height, stroke=1, fill=0)
+        return
+    if not relpath or not (ROOT / relpath).exists():
         surface.setFillColor(GREEN)
         surface.rect(x, y, width, height, stroke=0, fill=1)
         surface.setStrokeColor(SAGE)
@@ -343,10 +356,12 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
     continuation = group_index > 0
     if not continuation:
         draw_cover_image(surface, day["photo"], 0, A5_H - 158, A5_W, 158)
-        surface.setFillColor(themed_overlay(0.04, 0.12, 0.12, 0.65))
-        surface.rect(0, A5_H - 158, A5_W, 158, stroke=0, fill=1)
-        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}", MARGIN, A5_H - 36, colors.white)
-        surface.setFillColor(colors.white)
+        if not MONOCHROME:
+            surface.setFillColor(themed_overlay(0.04, 0.12, 0.12, 0.65))
+            surface.rect(0, A5_H - 158, A5_W, 158, stroke=0, fill=1)
+        header_ink = INK if MONOCHROME else colors.white
+        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}", MARGIN, A5_H - 36, header_ink)
+        surface.setFillColor(header_ink)
         surface.setFont(FONT_CJK, 19)
         title_lines = wrap(surface, display_day_title(day), FONT_CJK, 19, A5_W - 2 * MARGIN, 2)
         title_y = A5_H - 65
@@ -354,7 +369,7 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
             surface.drawString(MARGIN, title_y, line)
             title_y -= 23
         route = day["route"] or day["presentation"].get("highlight", "")
-        draw_wrapped(surface, route, MARGIN, A5_H - 135, A5_W - 2 * MARGIN, size=7.5, leading=9.5, color=colors.white, limit=2)
+        draw_wrapped(surface, route, MARGIN, A5_H - 135, A5_W - 2 * MARGIN, size=7.5, leading=9.5, color=MUTED if MONOCHROME else colors.white, limit=2)
         fact_y = A5_H - 176
         draw_fact(surface, "Day highlight", day["presentation"].get("highlight", ""), MARGIN, fact_y, 176, MIST)
         draw_fact(surface, "Tonight", day["presentation"].get("stay", ""), MARGIN + 189, fact_y, 176, themed("#EDE4CE", "#E7E7E7"))
@@ -362,10 +377,19 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         draw_kicker(surface, "THE DAY, AT A GLANCE", MARGIN, y, GREEN)
         y -= 20
     else:
-        surface.setFillColor(GREEN)
-        surface.rect(0, A5_H - 94, A5_W, 94, stroke=0, fill=1)
-        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, themed("#EFDFAF", "#E0E0E0"))
-        surface.setFillColor(colors.white)
+        if MONOCHROME:
+            surface.setFillColor(PAPER)
+            surface.rect(0, A5_H - 94, A5_W, 94, stroke=0, fill=1)
+            surface.setStrokeColor(INK)
+            surface.setLineWidth(0.9)
+            surface.line(0, A5_H - 94, A5_W, A5_H - 94)
+            header_ink = INK
+        else:
+            surface.setFillColor(GREEN)
+            surface.rect(0, A5_H - 94, A5_W, 94, stroke=0, fill=1)
+            header_ink = colors.white
+        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, INK if MONOCHROME else themed("#EFDFAF", "#E0E0E0"))
+        surface.setFillColor(header_ink)
         surface.setFont(FONT_CJK, 15)
         surface.drawString(MARGIN, A5_H - 62, display_day_title(day))
         y = A5_H - 124
@@ -382,23 +406,24 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 def render_cover(_: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     draw_cover_image(surface, "assets/trip/edinburgh.jpg", 0, 0, A5_W, A5_H)
-    surface.setFillColor(themed_overlay(0.05, 0.12, 0.13, 0.73))
-    surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    surface.setStrokeColor(themed("#D9C693", "#B7B7B7"))
+    if not MONOCHROME:
+        surface.setFillColor(themed_overlay(0.05, 0.12, 0.13, 0.73))
+        surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
+    surface.setStrokeColor(themed("#D9C693", "#252525"))
     surface.setLineWidth(1.2)
     surface.line(MARGIN, A5_H - 48, A5_W - MARGIN, A5_H - 48)
-    draw_kicker(surface, "OUR HONEYMOON · 2026", MARGIN, A5_H - 34, themed("#E8D7A8", "#CCCCCC"))
-    surface.setFillColor(colors.white)
+    draw_kicker(surface, "OUR HONEYMOON · 2026", MARGIN, A5_H - 34, themed("#E8D7A8", "#333333"))
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 28)
     surface.drawString(MARGIN, 280, "UNITED KINGDOM")
     surface.setFont(FONT_SERIF, 21)
     surface.drawString(MARGIN, 248, "× IRELAND")
     surface.setFont(FONT_CJK, 24)
     surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
-    surface.setFillColor(themed("#E8D7A8", "#CCCCCC"))
+    surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawString(MARGIN, 169, "09 OCTOBER — 26 OCTOBER")
-    surface.setFillColor(colors.white)
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 8)
     surface.drawString(MARGIN, 65, "KC & JUJU · A HONEYMOON JOURNAL")
     return finish_page(surface, buffer)
@@ -531,10 +556,14 @@ def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
 
 def render_journey(data: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
-    surface.setFillColor(GREEN)
+    surface.setFillColor(PAPER if MONOCHROME else GREEN)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#D0D0D0"))
-    surface.setFillColor(colors.white)
+    if MONOCHROME:
+        surface.setStrokeColor(INK)
+        surface.setLineWidth(0.9)
+        surface.line(MARGIN, A5_H - 56, A5_W - MARGIN, A5_H - 56)
+    draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#303030"))
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 22)
     surface.drawString(MARGIN, A5_H - 78, "蜜月的移動節奏")
     stops = [
@@ -556,7 +585,7 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
         surface.setFillColor(themed("#EDE8DB", "#EEEEEE"))
         surface.setFont(FONT_SERIF_BOLD, 7)
         surface.drawString(MARGIN + 32, y - 25, number)
-        surface.setFillColor(colors.white)
+        surface.setFillColor(INK if MONOCHROME else colors.white)
         surface.setFont(FONT_CJK, 10)
         surface.drawString(MARGIN + 32, y - 43, title)
         surface.setFillColor(themed("#C7D2C9", "#C8C8C8"))
@@ -572,10 +601,11 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
     surface.setFillColor(IVORY)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_cover_image(surface, "assets/trip/loch-ness.jpg", 0, A5_H - 178, A5_W, 178)
-    surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
-    surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
-    draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#E0E0E0"))
-    surface.setFillColor(colors.white)
+    if not MONOCHROME:
+        surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
+        surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
+    draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 20)
     surface.drawString(MARGIN, A5_H - 76, "公路旅行章節")
     y = A5_H - 216
@@ -691,18 +721,19 @@ def render_collage(_: dict, page_number: int) -> PdfReader:
 def render_back_cover(_: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     draw_cover_image(surface, "assets/trip/bangkok.jpg", 0, 0, A5_W, A5_H)
-    surface.setFillColor(themed_overlay(0.06, 0.13, 0.12, 0.72))
-    surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    surface.setStrokeColor(themed("#E8D7A8", "#CCCCCC"))
+    if not MONOCHROME:
+        surface.setFillColor(themed_overlay(0.06, 0.13, 0.12, 0.72))
+        surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
+    surface.setStrokeColor(themed("#E8D7A8", "#333333"))
     surface.setLineWidth(0.8)
     surface.line(MARGIN, 165, A5_W - MARGIN, 165)
-    surface.setFillColor(colors.white)
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_CJK, 24)
     surface.drawCentredString(A5_W / 2, 220, "旅程的節奏，留給兩個人。")
-    surface.setFillColor(themed("#E8D7A8", "#CCCCCC"))
+    surface.setFillColor(themed("#E8D7A8", "#5F5F5F"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawCentredString(A5_W / 2, 190, "HAVE A SLOW, BEAUTIFUL HONEYMOON.")
-    surface.setFillColor(colors.white)
+    surface.setFillColor(INK if MONOCHROME else colors.white)
     surface.setFont(FONT_SERIF, 7)
     surface.drawCentredString(A5_W / 2, 50, "2026 UK & IRELAND · KC & JUJU")
     return finish_page(surface, buffer)
