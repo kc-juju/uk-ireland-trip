@@ -27,6 +27,7 @@ from reportlab.pdfgen import canvas
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "js" / "data" / "itinerary-data.js"
 OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-a4-folded-booklet.pdf"
+BW_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-black-white-reading-guide.pdf"
 
 A5_W, A5_H = 419.528, 595.276
 A4_W, A4_H = 841.89, 595.276
@@ -42,6 +43,7 @@ PAPER = colors.HexColor("#FFFDF8")
 MIST = colors.HexColor("#E6E7DE")
 MUTED = colors.HexColor("#667170")
 ROSE = colors.HexColor("#8C5B59")
+MONOCHROME = False
 
 FONT_CJK = "BookletCJK"
 FONT_SERIF = "BookletSerif"
@@ -118,6 +120,22 @@ def extract_events(markup: str) -> list[dict[str, str]]:
         detail = match_first(chunk, r'<div class="event-detail">(.*?)</div>')
         if time or title:
             events.append({"time": time or "—", "title": title or "行程安排", "detail": detail})
+    # A small number of existing itinerary days use a compact bullet schedule
+    # instead of timeline markup.  Preserve those plans in the booklet rather
+    # than leaving a mostly empty daily page.
+    if not events:
+        for item in re.findall(r"<li[^>]*>(.*?)</li>", markup, re.S | re.I):
+            text = clean_text(item)
+            if not text:
+                continue
+            time_match = re.match(r"^((?:約\s*)?\d{1,2}:\d{2}(?:\s*[–-]\s*\d{1,2}:\d{2})?)\s*(.*)$", text)
+            events.append(
+                {
+                    "time": time_match.group(1) if time_match else "—",
+                    "title": time_match.group(2).lstrip("、· ") if time_match else text,
+                    "detail": "",
+                }
+            )
     return events
 
 
@@ -125,7 +143,7 @@ def extract_notes(markup: str) -> list[str]:
     notes = []
     for content in re.findall(r'<div class="note[^\"]*">(.*?)</div>', markup, re.S | re.I):
         text = clean_text(content)
-        if len(text) > 18:
+        if len(text) > 18 and not re.search(r"honeymoon\s+complete|回家啦", text, re.I):
             notes.append(text)
     return notes
 
@@ -166,7 +184,9 @@ def finish_page(surface: canvas.Canvas, buffer: BytesIO) -> PdfReader:
 
 
 def wrap(surface: canvas.Canvas, text: str, font: str, size: float, width: float, limit: int | None = None) -> list[str]:
-    surface.setFont(font, size)
+    # Measurement uses pdfmetrics directly; keeping ``surface`` in the
+    # signature preserves callers while allowing pagination before a page is
+    # created.
     normalized = re.sub(r"\s+", " ", text).strip()
     if not normalized:
         return []
@@ -209,7 +229,7 @@ def draw_wrapped(
 
 
 def draw_cover_image(surface: canvas.Canvas, relpath: str | None, x: float, y: float, width: float, height: float) -> None:
-    if not relpath or not (ROOT / relpath).exists():
+    if MONOCHROME or not relpath or not (ROOT / relpath).exists():
         surface.setFillColor(GREEN)
         surface.rect(x, y, width, height, stroke=0, fill=1)
         surface.setStrokeColor(SAGE)
@@ -232,7 +252,7 @@ def draw_cover_image(surface: canvas.Canvas, relpath: str | None, x: float, y: f
 
 
 def draw_footer(surface: canvas.Canvas, page_number: int, label: str = "2026 UK & IRELAND · HONEYMOON") -> None:
-    surface.setStrokeColor(colors.HexColor("#B9B5AB"))
+    surface.setStrokeColor(themed("#B9B5AB", "#B8B8B8"))
     surface.setLineWidth(0.45)
     surface.line(MARGIN, 21, A5_W - MARGIN, 21)
     surface.setFillColor(MUTED)
@@ -263,6 +283,19 @@ def draw_kicker(surface: canvas.Canvas, value: str, x: float, y: float, color: c
     surface.drawString(x, y, value.upper())
 
 
+def themed(hex_value: str, grayscale: str) -> colors.Color:
+    """Use a real neutral tint in the monochrome reading edition."""
+    return colors.HexColor(grayscale if MONOCHROME else hex_value)
+
+
+def themed_overlay(red: float, green: float, blue: float, alpha: float) -> colors.Color:
+    """Keep translucent overlays neutral in the black-and-white edition."""
+    if MONOCHROME:
+        luminance = (red + green + blue) / 3
+        return colors.Color(luminance, luminance, luminance, alpha=alpha)
+    return colors.Color(red, green, blue, alpha=alpha)
+
+
 def draw_fact(surface: canvas.Canvas, label: str, value: str, x: float, y: float, width: float, tint: colors.Color) -> None:
     surface.setFillColor(tint)
     surface.roundRect(x, y - 38, width, 38, 6, stroke=0, fill=1)
@@ -273,19 +306,27 @@ def draw_fact(surface: canvas.Canvas, label: str, value: str, x: float, y: float
 
 
 def draw_timeline_event(surface: canvas.Canvas, event: dict, y: float) -> float:
-    dot_x, content_x = 68, 86
-    time_x, content_w = 28, A5_W - content_x - MARGIN
+    # A dedicated, two-line time column makes ranges readable at A5 size.  Do
+    # not let a long range wrap in the middle of the end time.
+    dot_x, content_x = 78, 98
+    content_w = A5_W - content_x - MARGIN
     title_lines = wrap(surface, event["title"], FONT_CJK, 8.5, content_w, 2)
     detail_lines = wrap(surface, event["detail"], FONT_CJK, 7.05, content_w, 2) if event["detail"] else []
-    height = max(26, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8)
-    surface.setStrokeColor(colors.HexColor("#B5BDB5"))
+    time = event["time"].strip()
+    range_match = re.match(r"^(.*?)([–-])(.*)$", time)
+    if range_match:
+        time_lines = [range_match.group(1).strip(), f"{range_match.group(2)}{range_match.group(3).strip()}"]
+    else:
+        time_lines = wrap(surface, time, FONT_CJK, 7.2, 42, 2)
+    height = max(28, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8, len(time_lines) * 8.6 + 9)
+    surface.setStrokeColor(themed("#B5BDB5", "#B8B8B8"))
     surface.setLineWidth(0.6)
     surface.line(dot_x, y + 3, dot_x, y - height + 2)
     surface.setFillColor(GOLD)
     surface.circle(dot_x, y, 2.5, stroke=0, fill=1)
     surface.setFillColor(MUTED)
     surface.setFont(FONT_CJK, 7.2)
-    for index, line in enumerate(wrap(surface, event["time"], FONT_CJK, 7.2, 34, 2)):
+    for index, line in enumerate(time_lines):
         surface.drawRightString(dot_x - 10, y - index * 8.4, line)
     next_y, _ = draw_wrapped(surface, "\n".join(title_lines), content_x, y + 1, content_w, size=8.5, leading=10, color=INK)
     if detail_lines:
@@ -302,7 +343,7 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
     continuation = group_index > 0
     if not continuation:
         draw_cover_image(surface, day["photo"], 0, A5_H - 158, A5_W, 158)
-        surface.setFillColor(colors.Color(0.04, 0.12, 0.12, alpha=0.65))
+        surface.setFillColor(themed_overlay(0.04, 0.12, 0.12, 0.65))
         surface.rect(0, A5_H - 158, A5_W, 158, stroke=0, fill=1)
         draw_kicker(surface, f"DAY {day_number(day['id']):02d} · {display_day_date(day['date'])}", MARGIN, A5_H - 36, colors.white)
         surface.setFillColor(colors.white)
@@ -316,14 +357,14 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         draw_wrapped(surface, route, MARGIN, A5_H - 135, A5_W - 2 * MARGIN, size=7.5, leading=9.5, color=colors.white, limit=2)
         fact_y = A5_H - 176
         draw_fact(surface, "Day highlight", day["presentation"].get("highlight", ""), MARGIN, fact_y, 176, MIST)
-        draw_fact(surface, "Tonight", day["presentation"].get("stay", ""), MARGIN + 189, fact_y, 176, colors.HexColor("#EDE4CE"))
+        draw_fact(surface, "Tonight", day["presentation"].get("stay", ""), MARGIN + 189, fact_y, 176, themed("#EDE4CE", "#E7E7E7"))
         y = fact_y - 62
         draw_kicker(surface, "THE DAY, AT A GLANCE", MARGIN, y, GREEN)
         y -= 20
     else:
         surface.setFillColor(GREEN)
         surface.rect(0, A5_H - 94, A5_W, 94, stroke=0, fill=1)
-        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, colors.HexColor("#EFDFAF"))
+        draw_kicker(surface, f"DAY {day_number(day['id']):02d} · CONTINUED", MARGIN, A5_H - 34, themed("#EFDFAF", "#E0E0E0"))
         surface.setFillColor(colors.white)
         surface.setFont(FONT_CJK, 15)
         surface.drawString(MARGIN, A5_H - 62, display_day_title(day))
@@ -336,7 +377,7 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 
     if group_index == group_count - 1 and day["notes"] and y > 85:
         note = day["notes"][0]
-        surface.setFillColor(colors.HexColor("#F0EEE6"))
+        surface.setFillColor(themed("#F0EEE6", "#EFEFEF"))
         surface.roundRect(MARGIN, 50, A5_W - 2 * MARGIN, min(44, y - 56), 6, stroke=0, fill=1)
         draw_kicker(surface, "TRAVEL NOTE", MARGIN + 10, min(82, y - 12), ROSE)
         draw_wrapped(surface, note, MARGIN + 10, min(69, y - 25), A5_W - 2 * MARGIN - 20, size=7.1, leading=8.8, limit=2, color=INK)
@@ -348,12 +389,12 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
 def render_cover(_: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     draw_cover_image(surface, "assets/trip/edinburgh.jpg", 0, 0, A5_W, A5_H)
-    surface.setFillColor(colors.Color(0.05, 0.12, 0.13, alpha=0.73))
+    surface.setFillColor(themed_overlay(0.05, 0.12, 0.13, 0.73))
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    surface.setStrokeColor(colors.HexColor("#D9C693"))
+    surface.setStrokeColor(themed("#D9C693", "#B7B7B7"))
     surface.setLineWidth(1.2)
     surface.line(MARGIN, A5_H - 48, A5_W - MARGIN, A5_H - 48)
-    draw_kicker(surface, "OUR HONEYMOON · 2026", MARGIN, A5_H - 34, colors.HexColor("#E8D7A8"))
+    draw_kicker(surface, "OUR HONEYMOON · 2026", MARGIN, A5_H - 34, themed("#E8D7A8", "#CCCCCC"))
     surface.setFillColor(colors.white)
     surface.setFont(FONT_SERIF, 28)
     surface.drawString(MARGIN, 280, "UNITED KINGDOM")
@@ -361,14 +402,12 @@ def render_cover(_: dict, page_number: int) -> PdfReader:
     surface.drawString(MARGIN, 248, "× IRELAND")
     surface.setFont(FONT_CJK, 24)
     surface.drawString(MARGIN, 204, "2026 英國・愛爾蘭蜜月")
-    surface.setFillColor(colors.HexColor("#E8D7A8"))
+    surface.setFillColor(themed("#E8D7A8", "#CCCCCC"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawString(MARGIN, 169, "09 OCTOBER — 26 OCTOBER")
     surface.setFillColor(colors.white)
-    surface.setFont(FONT_CJK, 9)
-    surface.drawString(MARGIN, 78, "A4 雙面短邊翻轉 · 對摺成 A5 小冊")
-    surface.setFont(FONT_SERIF, 7.5)
-    surface.drawString(MARGIN, 60, "FULL TIMELINE EDITION · PRINT GUIDE")
+    surface.setFont(FONT_SERIF, 8)
+    surface.drawString(MARGIN, 65, "KC & JUJU · A HONEYMOON JOURNAL")
     return finish_page(surface, buffer)
 
 
@@ -397,7 +436,7 @@ def render_print_guide(_: dict, page_number: int) -> PdfReader:
         surface.drawString(MARGIN + 34, y + 2, title)
         draw_wrapped(surface, body, MARGIN + 34, y - 15, A5_W - MARGIN - 34, size=8.2, leading=11, color=MUTED, limit=3)
         y -= 110
-    surface.setFillColor(colors.HexColor("#E3E6D8"))
+    surface.setFillColor(themed("#E3E6D8", "#E5E5E5"))
     surface.roundRect(MARGIN, 88, A5_W - 2 * MARGIN, 54, 7, stroke=0, fill=1)
     draw_kicker(surface, "ON THE ROAD", MARGIN + 12, 123, GREEN)
     draw_wrapped(surface, "固定預約優先；天氣、交通或體力有變時，先縮短可選景點，不犧牲用餐、飯店與交通緩衝。", MARGIN + 12, 107, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
@@ -431,7 +470,42 @@ def render_flights(data: dict, page_number: int) -> PdfReader:
     return finish_page(surface, buffer)
 
 
-def render_stays(data: dict, page_number: int) -> PdfReader:
+STAY_LOCATIONS = {
+    "Overnight transit · Doha": "Doha · 機場轉機休息",
+    "Hotel ibis Manchester Centre Princess Street": "Manchester city centre",
+    "Premier Inn Edinburgh City Centre": "York Place / St James Quarter · Edinburgh",
+    "Airbnb · Fort William": "7 Laggan Road, Inverlochy, Scotland PH33 6NP",
+    "Isle of Skye Airbnb · Carbost": "5 Fernilea, Carbost, Scotland IV47 8SJ",
+    "The Golden Jubilee Conference Hotel": "Beardmore Street, Clydebank G81 4SA",
+    "Premier Inn Manchester Airport Heald Green": "Finney Lane, Manchester SK8 3QH",
+    "The Flint · Belfast": "48 Howard Street, Belfast BT1 6PG",
+    "Academy Plaza Hotel · Dublin": "Dublin · O’Connell Street area",
+    "The Standard, Bangkok Mahanakhon": "114 Naradhiwas Rajanagarindra Rd, Silom, Bangkok 10500",
+}
+
+
+def build_stays(days: list[dict]) -> list[dict[str, str]]:
+    """Create one row per continuous overnight base from the actual day data."""
+    stays: list[dict[str, str]] = []
+    for day in days:
+        stay = day["presentation"].get("stay", "").strip()
+        if not stay or stay.startswith("Home"):
+            continue
+        if stays and stays[-1]["name"] == stay and int(stays[-1]["end"]) == day_number(day["id"]) - 1:
+            stays[-1]["end"] = str(day_number(day["id"]))
+            continue
+        stays.append(
+            {
+                "start": str(day_number(day["id"])),
+                "end": str(day_number(day["id"])),
+                "name": stay,
+                "description": STAY_LOCATIONS.get(stay, "住宿資訊請見每日行程"),
+            }
+        )
+    return stays
+
+
+def render_stays(days: list[dict], segment: int, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     surface.setFillColor(PAPER)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
@@ -439,20 +513,25 @@ def render_stays(data: dict, page_number: int) -> PdfReader:
     surface.setFillColor(INK)
     surface.setFont(FONT_CJK, 22)
     surface.drawString(MARGIN, A5_H - 76, "住宿總覽")
-    hotels = [place for place in data["meta"]["journeyMap"]["places"] if place["kind"] == "hotel"]
+    surface.setFillColor(MUTED)
+    surface.setFont(FONT_CJK, 7.4)
+    surface.drawRightString(A5_W - MARGIN, A5_H - 72, f"{segment + 1} / 2")
+    hotels = build_stays(days)
+    rows = hotels[segment * 6 : (segment + 1) * 6]
     y = A5_H - 112
-    for hotel in hotels:
-        surface.setStrokeColor(colors.HexColor("#D6D7CE"))
+    for hotel in rows:
+        surface.setStrokeColor(themed("#D6D7CE", "#D2D2D2"))
         surface.setLineWidth(0.6)
         surface.line(MARGIN, y - 41, A5_W - MARGIN, y - 41)
         surface.setFillColor(GREEN)
         surface.setFont(FONT_SERIF_BOLD, 7)
-        surface.drawString(MARGIN, y - 12, f"DAY {day_number(hotel['day']):02d}")
+        day_label = f"DAY {int(hotel['start']):02d}" if hotel["start"] == hotel["end"] else f"DAYS {int(hotel['start']):02d}–{int(hotel['end']):02d}"
+        surface.drawString(MARGIN, y - 12, day_label)
         surface.setFillColor(INK)
         surface.setFont(FONT_CJK, 8.7)
         surface.drawString(MARGIN + 50, y - 12, hotel["name"])
         draw_wrapped(surface, hotel["description"], MARGIN + 50, y - 26, A5_W - 2 * MARGIN - 50, size=6.8, leading=8, limit=1, color=MUTED)
-        y -= 47
+        y -= 58
     draw_footer(surface, page_number)
     return finish_page(surface, buffer)
 
@@ -461,7 +540,7 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     surface.setFillColor(GREEN)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, colors.HexColor("#E6D49B"))
+    draw_kicker(surface, "THE WHOLE STORY", MARGIN, A5_H - 44, themed("#E6D49B", "#D0D0D0"))
     surface.setFillColor(colors.white)
     surface.setFont(FONT_CJK, 22)
     surface.drawString(MARGIN, A5_H - 78, "蜜月的移動節奏")
@@ -474,22 +553,23 @@ def render_journey(data: dict, page_number: int) -> PdfReader:
         ("06", "Doha / Bangkok / Taipei", "空中體驗與慢慢回家"),
     ]
     y = A5_H - 132
-    for number, title, detail in stops:
-        surface.setStrokeColor(colors.HexColor("#8FA69B"))
-        surface.setLineWidth(0.55)
-        surface.line(MARGIN + 14, y - 40, MARGIN + 14, y - 101)
+    for index, (number, title, detail) in enumerate(stops):
+        if index < len(stops) - 1:
+            surface.setStrokeColor(themed("#8FA69B", "#A0A0A0"))
+            surface.setLineWidth(0.55)
+            surface.line(MARGIN + 14, y - 40, MARGIN + 14, y - 96)
         surface.setFillColor(GOLD)
         surface.circle(MARGIN + 14, y - 28, 6, stroke=0, fill=1)
-        surface.setFillColor(colors.HexColor("#EDE8DB"))
+        surface.setFillColor(themed("#EDE8DB", "#EEEEEE"))
         surface.setFont(FONT_SERIF_BOLD, 7)
         surface.drawString(MARGIN + 32, y - 25, number)
         surface.setFillColor(colors.white)
         surface.setFont(FONT_CJK, 10)
         surface.drawString(MARGIN + 32, y - 43, title)
-        surface.setFillColor(colors.HexColor("#C7D2C9"))
+        surface.setFillColor(themed("#C7D2C9", "#C8C8C8"))
         surface.setFont(FONT_CJK, 7.5)
         surface.drawString(MARGIN + 32, y - 59, detail)
-        y -= 77
+        y -= 68
     draw_footer(surface, page_number, "OUR HONEYMOON · JOURNEY OVERVIEW")
     return finish_page(surface, buffer)
 
@@ -499,9 +579,9 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
     surface.setFillColor(IVORY)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
     draw_cover_image(surface, "assets/trip/loch-ness.jpg", 0, A5_H - 178, A5_W, 178)
-    surface.setFillColor(colors.Color(0.05, 0.16, 0.13, alpha=0.58))
+    surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
     surface.rect(0, A5_H - 178, A5_W, 178, stroke=0, fill=1)
-    draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, colors.HexColor("#F2DEA2"))
+    draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#E0E0E0"))
     surface.setFillColor(colors.white)
     surface.setFont(FONT_CJK, 20)
     surface.drawString(MARGIN, A5_H - 76, "公路旅行章節")
@@ -513,11 +593,13 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
         surface.setFont(FONT_SERIF_BOLD, 7.2)
         surface.drawString(MARGIN + 10, y - 14, f"DAY {day_number(day['id']):02d}")
         surface.setFillColor(INK)
-        surface.setFont(FONT_CJK, 9)
-        surface.drawString(MARGIN + 58, y - 14, short_title(day["title"]))
+        surface.setFont(FONT_CJK, 8.7)
+        title = display_day_title(day)
+        title_lines = wrap(surface, title, FONT_CJK, 8.7, A5_W - 2 * MARGIN - 68, 1)
+        surface.drawString(MARGIN + 58, y - 14, title_lines[0] if title_lines else "—")
         draw_wrapped(surface, day["presentation"].get("driving", day["route"]), MARGIN + 58, y - 29, A5_W - 2 * MARGIN - 68, size=7, leading=8.5, limit=1, color=MUTED)
         y -= 53
-    surface.setFillColor(colors.HexColor("#E2E6D9"))
+    surface.setFillColor(themed("#E2E6D9", "#E6E6E6"))
     surface.roundRect(MARGIN, 85, A5_W - 2 * MARGIN, 62, 7, stroke=0, fill=1)
     draw_kicker(surface, "ROAD-TRIP RULE", MARGIN + 12, 128, GREEN)
     draw_wrapped(surface, "天氣、停車與路況比『多塞一個點』重要。若延誤，先縮短可選景點，不壓縮飯店、加油、用餐與安全緩衝。", MARGIN + 12, 111, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
@@ -546,7 +628,7 @@ def render_bookings(data: dict, page_number: int) -> PdfReader:
             detail = f"{place['time']} · {detail}"
         draw_wrapped(surface, detail, MARGIN + 17, y - 21, A5_W - 2 * MARGIN - 17, size=6.9, leading=8.3, limit=1, color=MUTED)
         y -= 47
-    surface.setFillColor(colors.HexColor("#EFE5D4"))
+    surface.setFillColor(themed("#EFE5D4", "#EAEAEA"))
     surface.roundRect(MARGIN, 66, A5_W - 2 * MARGIN, 50, 7, stroke=0, fill=1)
     draw_wrapped(surface, "手冊只列出已確認的固定安排；現場請以官方通知、電子票券與網站最新版為準。", MARGIN + 12, 97, A5_W - 2 * MARGIN - 24, size=8, leading=10.5, limit=3, color=INK)
     draw_footer(surface, page_number)
@@ -616,15 +698,15 @@ def render_collage(_: dict, page_number: int) -> PdfReader:
 def render_back_cover(_: dict, page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     draw_cover_image(surface, "assets/trip/bangkok.jpg", 0, 0, A5_W, A5_H)
-    surface.setFillColor(colors.Color(0.06, 0.13, 0.12, alpha=0.72))
+    surface.setFillColor(themed_overlay(0.06, 0.13, 0.12, 0.72))
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    surface.setStrokeColor(colors.HexColor("#E8D7A8"))
+    surface.setStrokeColor(themed("#E8D7A8", "#CCCCCC"))
     surface.setLineWidth(0.8)
     surface.line(MARGIN, 165, A5_W - MARGIN, 165)
     surface.setFillColor(colors.white)
     surface.setFont(FONT_CJK, 24)
     surface.drawCentredString(A5_W / 2, 220, "旅程的節奏，留給兩個人。")
-    surface.setFillColor(colors.HexColor("#E8D7A8"))
+    surface.setFillColor(themed("#E8D7A8", "#CCCCCC"))
     surface.setFont(FONT_SERIF, 10)
     surface.drawCentredString(A5_W / 2, 190, "HAVE A SLOW, BEAUTIFUL HONEYMOON.")
     surface.setFillColor(colors.white)
@@ -656,57 +738,140 @@ def impose_booklet(a5_pages: list[PdfReader]) -> PdfWriter:
     return writer
 
 
-def main() -> None:
-    data = load_trip_data()
-    days = build_days(data)
+def build_specs(data: dict, days: list[dict], *, include_collage: bool, pad_for_booklet: bool) -> list[tuple[str, object]]:
+    """Shared content order for the visual booklet and no-photo reading edition."""
     specs: list[tuple[str, object]] = [
         ("cover", data),
-        ("print", data),
         ("flights", data),
-        ("stays", data),
+        ("stays", (days, 0)),
+        ("stays", (days, 1)),
         ("journey", data),
         ("highlands", days),
         ("bookings", data),
         ("cities", data),
-        ("collage", data),
     ]
+    if include_collage:
+        specs.append(("collage", data))
     for day in days:
-        groups = [day["events"][index : index + 6] for index in range(0, len(day["events"]), 6)] or [[]]
+        groups = group_events_for_pages(day["events"]) or [[]]
         for index, group in enumerate(groups):
             specs.append(("day", (day, group, index, len(groups))))
     specs.append(("back", data))
 
-    # Keep the back cover as the final page while making a valid multiple of four.
-    while len(specs) % 4:
-        specs.insert(-1, ("cities", data))
+    # The print-imposed file needs a full set of four reading pages.  The
+    # digital reading edition remains in natural reading order and needs no
+    # duplicated filler pages.
+    if pad_for_booklet:
+        while len(specs) % 4:
+            specs.insert(-1, ("blank", data))
+    return specs
 
-    a5_readers: list[PdfReader] = []
-    total_pages = len(specs)
+
+def event_height(event: dict) -> float:
+    """Mirror the timeline renderer so a long day never runs into its footer."""
+    content_w = A5_W - 98 - MARGIN
+    title_lines = wrap(None, event["title"], FONT_CJK, 8.5, content_w, 2)
+    detail_lines = wrap(None, event["detail"], FONT_CJK, 7.05, content_w, 2) if event["detail"] else []
+    time = event["time"].strip()
+    time_count = 2 if re.match(r"^.*?([–-]).*$", time) else len(wrap(None, time, FONT_CJK, 7.2, 42, 2))
+    return max(28, 7 + len(title_lines) * 10 + len(detail_lines) * 8.8, time_count * 8.6 + 9) + 4
+
+
+def group_events_for_pages(events: list[dict]) -> list[list[dict]]:
+    """Split by rendered height, not by event count, to protect every footer."""
+    if not events:
+        return []
+    groups: list[list[dict]] = []
+    current: list[dict] = []
+    used = 0.0
+    capacity = 238.0  # first page has image, facts and the timeline heading
+    for event in events:
+        required = event_height(event)
+        if current and used + required > capacity:
+            groups.append(current)
+            current, used, capacity = [], 0.0, 370.0  # continuation page
+        current.append(event)
+        used += required
+    if current:
+        groups.append(current)
+    return groups
+
+
+def render_specs(specs: list[tuple[str, object]]) -> list[PdfReader]:
+    readers: list[PdfReader] = []
     for page_number, (kind, payload) in enumerate(specs, start=1):
         if kind == "cover":
-            a5_readers.append(render_cover(payload, page_number))
-        elif kind == "print":
-            a5_readers.append(render_print_guide(payload, page_number))
+            readers.append(render_cover(payload, page_number))
         elif kind == "flights":
-            a5_readers.append(render_flights(payload, page_number))
+            readers.append(render_flights(payload, page_number))
         elif kind == "stays":
-            a5_readers.append(render_stays(payload, page_number))
+            days, segment = payload
+            readers.append(render_stays(days, segment, page_number))
         elif kind == "journey":
-            a5_readers.append(render_journey(payload, page_number))
+            readers.append(render_journey(payload, page_number))
         elif kind == "highlands":
-            a5_readers.append(render_highlands(payload, page_number))
+            readers.append(render_highlands(payload, page_number))
         elif kind == "bookings":
-            a5_readers.append(render_bookings(payload, page_number))
+            readers.append(render_bookings(payload, page_number))
         elif kind == "cities":
-            a5_readers.append(render_city_index(payload, page_number))
+            readers.append(render_city_index(payload, page_number))
+        elif kind == "blank":
+            surface, buffer = page_canvas()
+            surface.setFillColor(PAPER)
+            surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
+            readers.append(finish_page(surface, buffer))
         elif kind == "collage":
-            a5_readers.append(render_collage(payload, page_number))
+            readers.append(render_collage(payload, page_number))
         elif kind == "day":
-            a5_readers.append(render_day_page(*payload, page_number))
+            readers.append(render_day_page(*payload, page_number))
         elif kind == "back":
-            a5_readers.append(render_back_cover(payload, page_number))
+            readers.append(render_back_cover(payload, page_number))
         else:
             raise ValueError(f"Unknown page type: {kind}")
+    return readers
+
+
+def create_black_white_reading_edition(data: dict, days: list[dict]) -> int:
+    """Produce a light, image-free digital edition in natural reading order."""
+    global INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME
+    original = (INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME)
+    try:
+        INK = colors.HexColor("#111111")
+        NAVY = colors.HexColor("#202020")
+        GREEN = colors.HexColor("#161616")
+        SAGE = colors.HexColor("#8C8C8C")
+        GOLD = colors.HexColor("#454545")
+        IVORY = colors.HexColor("#F6F6F6")
+        PAPER = colors.white
+        MIST = colors.HexColor("#E8E8E8")
+        MUTED = colors.HexColor("#606060")
+        ROSE = colors.HexColor("#505050")
+        MONOCHROME = True
+        readers = render_specs(build_specs(data, days, include_collage=False, pad_for_booklet=False))
+        writer = PdfWriter()
+        for reader in readers:
+            writer.add_page(reader.pages[0])
+        writer.add_metadata(
+            {
+                "/Title": "2026 UK & Ireland Honeymoon - Black and White Reading Guide",
+                "/Author": "KC & JUJU",
+                "/Subject": "Image-free, black and white digital reading edition.",
+            }
+        )
+        with BW_OUTPUT.open("wb") as destination:
+            writer.write(destination)
+        return len(writer.pages)
+    finally:
+        INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME = original
+
+
+def main() -> None:
+    data = load_trip_data()
+    days = build_days(data)
+    specs = build_specs(data, days, include_collage=True, pad_for_booklet=True)
+
+    a5_readers = render_specs(specs)
+    total_pages = len(a5_readers)
 
     booklet = impose_booklet(a5_readers)
     booklet.add_metadata(
@@ -718,7 +883,9 @@ def main() -> None:
     )
     with OUTPUT.open("wb") as destination:
         booklet.write(destination)
+    bw_page_count = create_black_white_reading_edition(data, days)
     print(f"Created {OUTPUT} with {total_pages} A5 reading pages on {len(booklet.pages)} A4 spreads")
+    print(f"Created {BW_OUTPUT} with {bw_page_count} A5 reading pages")
 
 
 if __name__ == "__main__":

@@ -30,6 +30,8 @@ Keep the content data and UI templates separate. This preserves the current GitH
 
 `downloads/uk-ireland-honeymoon-a4-folded-booklet.pdf` is an A4 landscape PDF imposed for duplex printing. Print at 100% with **short-edge flipping**, then fold each sheet to make an A5 booklet.
 
+`downloads/uk-ireland-honeymoon-black-white-reading-guide.pdf` is the image-free black-and-white edition in normal reading order, intended for screens or low-ink printing.
+
 After itinerary data changes, regenerate it with the bundled PDF runtime:
 
 ```bash
