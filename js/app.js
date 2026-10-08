@@ -46,6 +46,7 @@ function syncTripDashboard() {
     const facts = home.querySelector('.journey-facts');
     const highlight = home.querySelector('.highlight-card');
     const next = home.querySelector('.next-event-card');
+    const nextTime = next?.querySelector('.next-event-time');
     const alertText = home.querySelector('.travel-alert p');
     const setPlanDay = day => planButtons.forEach(button => { button.dataset.openDay = day; });
     const setCard = (card, eyebrow, title, detail) => {
@@ -70,8 +71,10 @@ function syncTripDashboard() {
         if (locations[1]) locations[1].textContent = 'Seoul';
         if (facts) facts.innerHTML = '<span>✈️ 10/09</span><span>Long-haul flight begins</span>';
         setCard(highlight, '✈️ HONEYMOON BEGINS', 'Taipei → Seoul', '10/09 · 旅程第一段航班');
-        setCard(next, 'NEXT', '✈️ Departure from Taipei', `In ${clock.daysToGo} days`);
-        if (alertText) alertText.textContent = `Departure in ${clock.daysToGo} days · check passports and travel essentials`;
+        if (nextTime) nextTime.textContent = '07:30';
+        const dayLabel = clock.daysToGo === 1 ? 'day' : 'days';
+        setCard(next, 'NEXT', '✈️ Departure from Taipei', `In ${clock.daysToGo} ${dayLabel}`);
+        if (alertText) alertText.textContent = `Departure in ${clock.daysToGo} ${dayLabel} · check passports and travel essentials`;
         setPlanDay('1009');
         return;
     }
