@@ -480,12 +480,8 @@ def render_day_page(day: dict, group: list[dict], group_index: int, group_count:
         surface.setFont(heading_font(continuation_title), 15)
         surface.drawString(MARGIN, A5_H - 62, continuation_title)
         y = A5_H - 124
-        # Short continuations should not cling to the header and leave an
-        # oversized empty lower half. Centre their event group in the usable
-        # timeline field while retaining room for the footer.
-        if MONOCHROME and len(group) <= 3:
-            group_height = sum(event_height(event) for event in group)
-            y = (y + 52 + group_height) / 2
+        # Continuation timelines share one fixed start, regardless of event
+        # count, so short pages align with the denser continuation pages.
         draw_kicker(surface, "TIMELINE", MARGIN, y, GREEN)
         y -= 20
 
