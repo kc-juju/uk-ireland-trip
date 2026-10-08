@@ -801,16 +801,19 @@ def render_highlands(days: list[dict], page_number: int) -> PdfReader:
     surface, buffer = page_canvas()
     surface.setFillColor(IVORY)
     surface.rect(0, 0, A5_W, A5_H, stroke=0, fill=1)
-    road_field_height = 212 if MONOCHROME else 178
+    # Match the compact monochrome daily-page header.  The previous taller
+    # field pushed the five road-trip cards visibly down the page.
+    road_field_height = 126 if MONOCHROME else 178
     draw_cover_image(surface, "assets/trip/loch-ness.jpg", 0, A5_H - road_field_height, A5_W, road_field_height)
     if not MONOCHROME:
         surface.setFillColor(themed_overlay(0.05, 0.16, 0.13, 0.58))
         surface.rect(0, A5_H - road_field_height, A5_W, road_field_height, stroke=0, fill=1)
     draw_kicker(surface, "SCOTTISH HIGHLANDS", MARGIN, A5_H - 38, themed("#F2DEA2", "#303030"))
     draw_section_title(surface, "Highlands Road Trip", "公路旅行章節", MARGIN, A5_H - 76, 20, INK if MONOCHROME else colors.white)
-    # Centre the five cards between the title block and footer, while keeping
-    # them inside the road-trip field in the monochrome edition.
-    y = A5_H - (202 if MONOCHROME else 216)
+    # Align the first road-trip card with the daily-page fact cards; this
+    # gives the header and the card stack the same visual rhythm as page 11+
+    # in the monochrome edition.
+    y = A5_H - (142 if MONOCHROME else 216)
     for day in [day for day in days if "1014" <= day["id"] <= "1018"]:
         surface.setFillColor(PAPER)
         surface.roundRect(MARGIN, y - 45, A5_W - 2 * MARGIN, 43, 6, stroke=0, fill=1)
