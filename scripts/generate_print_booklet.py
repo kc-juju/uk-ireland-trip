@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "js" / "data" / "itinerary-data.js"
 OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-a4-folded-booklet.pdf"
 BW_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-black-white-reading-guide.pdf"
+BW_BOOKLET_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-black-white-a4-folded-booklet.pdf"
 
 A5_W, A5_H = 419.528, 595.276
 A4_W, A4_H = 841.89, 595.276
@@ -1069,8 +1070,8 @@ def render_specs(specs: list[tuple[str, object]]) -> list[PdfReader]:
     return readers
 
 
-def create_black_white_reading_edition(data: dict, days: list[dict]) -> int:
-    """Produce a light, image-free digital edition in natural reading order."""
+def create_black_white_editions(data: dict, days: list[dict]) -> tuple[int, int]:
+    """Produce matching natural-reading and A4-folded monochrome editions."""
     global INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME
     original = (INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME)
     try:
@@ -1086,10 +1087,10 @@ def create_black_white_reading_edition(data: dict, days: list[dict]) -> int:
         ROSE = colors.HexColor("#505050")
         MONOCHROME = True
         readers = render_specs(build_specs(data, days, include_collage=False, pad_for_booklet=False))
-        writer = PdfWriter()
+        reading_writer = PdfWriter()
         for reader in readers:
-            writer.add_page(reader.pages[0])
-        writer.add_metadata(
+            reading_writer.add_page(reader.pages[0])
+        reading_writer.add_metadata(
             {
                 "/Title": "2026 UK & Ireland Honeymoon - Black and White Reading Guide",
                 "/Author": "KC & JUJU",
@@ -1097,8 +1098,19 @@ def create_black_white_reading_edition(data: dict, days: list[dict]) -> int:
             }
         )
         with BW_OUTPUT.open("wb") as destination:
-            writer.write(destination)
-        return len(writer.pages)
+            reading_writer.write(destination)
+
+        folded_writer = impose_booklet(readers.copy())
+        folded_writer.add_metadata(
+            {
+                "/Title": "2026 UK & Ireland Honeymoon - Black and White A4 Folded Booklet",
+                "/Author": "KC & JUJU",
+                "/Subject": "Image-free A4 duplex booklet. Print short-edge and fold to A5.",
+            }
+        )
+        with BW_BOOKLET_OUTPUT.open("wb") as destination:
+            folded_writer.write(destination)
+        return len(reading_writer.pages), len(folded_writer.pages)
     finally:
         INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME = original
 
@@ -1121,9 +1133,10 @@ def main() -> None:
     )
     with OUTPUT.open("wb") as destination:
         booklet.write(destination)
-    bw_page_count = create_black_white_reading_edition(data, days)
+    bw_page_count, bw_spread_count = create_black_white_editions(data, days)
     print(f"Created {OUTPUT} with {total_pages} A5 reading pages on {len(booklet.pages)} A4 spreads")
     print(f"Created {BW_OUTPUT} with {bw_page_count} A5 reading pages")
+    print(f"Created {BW_BOOKLET_OUTPUT} with {bw_spread_count} A4 print sides")
 
 
 if __name__ == "__main__":
