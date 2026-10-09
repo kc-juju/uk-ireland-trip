@@ -29,7 +29,6 @@ DATA_FILE = ROOT / "js" / "data" / "itinerary-data.js"
 OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-a4-folded-booklet.pdf"
 BW_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-black-white-reading-guide.pdf"
 BW_BOOKLET_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-black-white-a4-folded-booklet.pdf"
-MOBILE_OUTPUT = ROOT / "downloads" / "uk-ireland-honeymoon-mobile-reading-guide.pdf"
 
 A5_W, A5_H = 419.528, 595.276
 A4_W, A4_H = 841.89, 595.276
@@ -1116,24 +1115,6 @@ def create_black_white_editions(data: dict, days: list[dict]) -> tuple[int, int]
         INK, NAVY, GREEN, SAGE, GOLD, IVORY, PAPER, MIST, MUTED, ROSE, MONOCHROME = original
 
 
-def create_mobile_edition(data: dict, days: list[dict]) -> int:
-    """Produce a color A5 reading edition in normal order for phone viewing."""
-    readers = render_specs(build_specs(data, days, include_collage=True, pad_for_booklet=False))
-    writer = PdfWriter()
-    for reader in readers:
-        writer.add_page(reader.pages[0])
-    writer.add_metadata(
-        {
-            "/Title": "2026 UK & Ireland Honeymoon - Mobile Reading Guide",
-            "/Author": "KC & JUJU",
-            "/Subject": "Color A5 digital reading edition for mobile viewing.",
-        }
-    )
-    with MOBILE_OUTPUT.open("wb") as destination:
-        writer.write(destination)
-    return len(writer.pages)
-
-
 def main() -> None:
     data = load_trip_data()
     days = build_days(data)
@@ -1152,10 +1133,8 @@ def main() -> None:
     )
     with OUTPUT.open("wb") as destination:
         booklet.write(destination)
-    mobile_page_count = create_mobile_edition(data, days)
     bw_page_count, bw_spread_count = create_black_white_editions(data, days)
     print(f"Created {OUTPUT} with {total_pages} A5 reading pages on {len(booklet.pages)} A4 spreads")
-    print(f"Created {MOBILE_OUTPUT} with {mobile_page_count} A5 reading pages")
     print(f"Created {BW_OUTPUT} with {bw_page_count} A5 reading pages")
     print(f"Created {BW_BOOKLET_OUTPUT} with {bw_spread_count} A4 print sides")
 
