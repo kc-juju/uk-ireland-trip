@@ -354,9 +354,11 @@ document.querySelectorAll('[data-open-day]').forEach(button => {
         const id = button.dataset.openDay;
         const tab = document.querySelector(`.tab[onclick*="${id}"]`);
         if (tab) {
+            // A dashboard action starts from the home hub. Move to the itinerary
+            // hub before selecting the requested day so the selected panel is
+            // not left hidden by the home-only layout.
+            showHub('itinerary');
             showTab(id, tab);
-            document.body.classList.add('app-itinerary');
-            setActiveHub('itinerary');
         }
     });
 });

@@ -43,11 +43,6 @@ window.TripData = {
         "id": "guide",
         "label": "Guide",
         "icon": "⌁"
-      },
-      {
-        "id": "journal",
-        "label": "Journal",
-        "icon": "◌"
       }
     ],
     "footer": "2026 UK & Ireland Honeymoon · Current itinerary",
