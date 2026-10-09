@@ -101,7 +101,10 @@ function syncTripDashboard() {
     if (meter) meter.setAttribute('aria-label', `Trip progress: day ${clock.dayNumber} of 18`);
     if (meterFill) meterFill.style.width = `${(clock.dayNumber / 18) * 100}%`;
     if (journeyLabel) journeyLabel.textContent = "TODAY'S JOURNEY";
-    const route = document.querySelector(`#${clock.day} .day-header .route`)?.textContent.trim() || `Day ${clock.dayNumber} itinerary`;
+    // Day IDs are numeric (for example, "1009"), which are not valid CSS ID
+    // selectors unless escaped. Resolve the panel directly so the dashboard
+    // continues to update on the first travel day instead of aborting here.
+    const route = document.getElementById(clock.day)?.querySelector('.day-header .route')?.textContent.trim() || `Day ${clock.dayNumber} itinerary`;
     if (journeyHeading) journeyHeading.textContent = route;
     if (locations[0]) locations[0].textContent = `Day ${String(clock.dayNumber).padStart(2, '0')}`;
     if (locations[1]) locations[1].textContent = 'Open today’s timeline';
